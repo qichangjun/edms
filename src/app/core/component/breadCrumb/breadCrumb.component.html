@@ -1,0 +1,24 @@
+<div class="doc-breadcrumb-container clearfix">
+  <ol class="doc-breadcrumb pull-left list-unstyled">
+    <li class="doc-breadcrumb__li" *ngIf="breadCrumbLists.length == 0">
+      <span >{{rootName}}</span>
+
+    </li>
+    <li class="doc-breadcrumb__li" *ngIf="breadCrumbLists.length > 0">
+      <a (click)="gotoRoot()" class="doc-breadcrumb__li__click"  >
+        <span class="doc-breadcrumb__li__click__title">{{rootName}}</span></a>
+      <span class="fa fa-angle-right" ></span>
+    </li>
+    <li class="doc-breadcrumb__li" *ngFor="let breadNode of breadCrumbLists; let i = index">
+            <span *ngIf="i < breadCrumbLists.length-1">
+                <a (click)="onSelect(breadNode)" class="doc-breadcrumb__li__click"  >
+                  <span class="doc-breadcrumb__li__click__title">{{breadNode.object_name}}</span></a>
+                    <span class="fa fa-angle-right" ></span>
+            </span>
+            <span *ngIf="i == breadCrumbLists.length-1">
+                  <span >{{breadNode.object_name}}</span>
+            </span>
+    </li>
+  </ol>
+
+</div>

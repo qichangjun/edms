@@ -1,0 +1,88 @@
+ul {
+  list-style: none;
+  padding-left: 0; }
+
+.example-container {
+  width: 200px;
+  height: 1000px;
+  border-right: 1px solid #f2f2f2;
+  float: left; }
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center; }
+
+.example-sidenav {
+  padding: 20px; }
+
+.sidenav--one--level--wrap {
+  width: 50px;
+  border-right: none;
+  height: 100%; }
+  @media (max-width: 1366px) {
+    .sidenav--one--level--wrap {
+      width: 50px; } }
+  .sidenav--one--level--wrap .sidenav--one--level--box {
+    padding: 0;
+    background: #505d6c;
+    box-shadow: -5px 0 10px rgba(0, 0, 0, 0.1) inset;
+    color: #797979;
+    width: 100%;
+    overflow-x: hidden;
+    min-width: auto; }
+    .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap {
+      height: calc(100% - 10px);
+      width: 100%; }
+      .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column {
+        padding: 0;
+        margin: 0;
+        text-align: center;
+        border: 1px solid transparent;
+        width: 100%; }
+        .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column.active {
+          background: transparent;
+          position: relative; }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column.active .single--column_link {
+            background: inherit; }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column.active .triangle--icon {
+            width: 0;
+            height: 0;
+            font-size: 0;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent #f3f3f3 transparent transparent;
+            overflow: hidden;
+            position: absolute;
+            right: -2px;
+            bottom: 27px; }
+        .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column .single--column_link {
+          height: 70px;
+          line-height: 70px;
+          display: inline-block;
+          vertical-align: middle;
+          text-decoration: none;
+          color: #ffffff;
+          font-size: 22px; }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column .single--column_link:hover {
+            color: #ffffff; }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column .single--column_link .university--icon {
+            display: inline-block;
+            width: 22px;
+            height: 24px;
+            background: url(../../../../assets/images/university--small.png); }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column .single--column_link .company--icon {
+            display: inline-block;
+            width: 25px;
+            height: 31px;
+            background: url(../../../../assets/images/company--small.png);
+            position: relative;
+            top: 8px; }
+          .sidenav--one--level--wrap .sidenav--one--level--box .menu--wrap .single--column .single--column_link .user--icon {
+            display: inline-block;
+            width: 33px;
+            height: 20px;
+            background: url(../../../../assets/images/user--small.png); }
+
+/*# sourceMappingURL=nav.component.css.map */

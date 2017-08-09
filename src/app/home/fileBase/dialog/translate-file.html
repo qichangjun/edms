@@ -1,0 +1,15 @@
+<h2 md-dialog-title>{{title}}</h2>
+<md-dialog-content>
+  <ztree
+    [docbase]="data.docbase"
+    [treeId]="'translateFile'"
+    [currentNode]="currentNode"
+    [idLists]="ids"
+    [treeData]="treeData"
+    (clickTree)="clickTreeOrBreadCrumb($event)"></ztree>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button [disabled]="loading" (click)="translateTo()" class="btn btn-sure">确定</button>
+  <button md-button [disabled]="loading" (click)="cancel()">取消</button>
+</md-dialog-actions>
+

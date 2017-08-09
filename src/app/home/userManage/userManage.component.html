@@ -1,0 +1,30 @@
+<div class="user--manage--home--right--content">
+  <div class="user--manage--home--right--content__sidebar" #sideBar [@enterAnimation]="showSide">
+    <div class="user--sidebar--content--wrap">
+      <md-select  class="select--input--box"   [(ngModel)]="parameter.docbase" (change)="changeBase()">
+        <md-option  [value]="companyBase">
+          企业文档库
+        </md-option>
+        <md-option  [value]="projectBase">
+          项目文档库
+        </md-option>
+      </md-select>
+      <ul class="user--sidebar--column--wrap">
+        <li routerLinkActive="active" class="single--column">
+          <a class="single--column__link" routerLink="/userManage/user" [queryParams]="{docbase: parameter.docbase}">用户</a>
+        </li>
+        <li routerLinkActive="active" class="single--column">
+          <a class="single--column__link" routerLink="/userManage/group" [queryParams]="{docbase: parameter.docbase}">组</a>
+        </li>
+        <li routerLinkActive="active" class="single--column">
+          <a class="single--column__link" routerLink="/userManage/role" [queryParams]="{docbase: parameter.docbase}">角色</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div #childComponent style="height:100%">
+    <router-outlet ></router-outlet>
+  </div>
+
+</div>
+

@@ -1,0 +1,71 @@
+<div class="modal-group-add-membe-body clearfix">
+  <div class="modal-group-add-member pull-left">
+    <div class="modal-group-add-member__content">
+      <input #searchBox class="form-control modal-group-add-member__content__search--input" id="search-box"  [formControl]="searchControl" placeholder="搜索"/>
+      <ul class="modal-group-add-member__list--box ">
+        <span class="modal-group-add-member__content__head">群组：</span>
+        <li *ngFor="let list of groupList; let i = index"
+            class="modal-group-add-member__content__everyuser"
+          >
+          <span class="everyuser-username">{{list.groupName}}</span>
+          <i  (click)="selectRow(list);$event.stopPropagation()"
+              [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
+
+        </li>
+        <span class="modal-group-add-member__content__head">用户：</span>
+        <li *ngFor="let list of userList; let i = index"
+            class="modal-group-add-member__content__everyuser"
+          >
+          <span class="everyuser-username">{{list.userName}}</span>
+          <i  (click)="selectRow(list);$event.stopPropagation()"
+              [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="modal-group-add-member-result pull-right">
+    <ul class="modal-group-add-member-result__content ">
+      <li *ngFor="let list of selectedList; let i = index"
+          class="modal-group-add-member-result__content__everyuser"
+      >
+        <span class="everyuser-username" *ngIf="list.groupName">{{list.groupName}}</span>
+        <span class="everyuser-username" *ngIf="list.loginName">{{list.loginName}}</span>
+        <i (click)="selectedList.splice(i,1);cancelRow(list);$event.stopPropagation()"
+           class="fa fa-times-circle pull-right modal-group-add-member-result__content__everyuser-icon"></i>
+        <md-select  class=""  [(ngModel)]="list.permitCode" >
+          <md-option  [value]="1">
+            无
+          </md-option>
+          <md-option  [value]="2">
+            浏览
+          </md-option>
+          <md-option  [value]="3">
+            读取
+          </md-option>
+          <md-option  [value]="4">
+            建立关系
+          </md-option>
+          <md-option  [value]="5">
+            版本控制
+          </md-option>
+          <md-option  [value]="6">
+            写入
+          </md-option>
+          <md-option  [value]="7">
+            删除
+          </md-option>
+        </md-select>
+        <md-select  class=""  [(ngModel)]="list.extendsPermitNames" >
+          <md-option  [value]="'CHANGE_PERMIT'">
+            更改权限
+          </md-option>
+          <md-option  [value]="''">
+            无
+          </md-option>
+        </md-select>
+      </li>
+    </ul>
+  </div>
+</div>
+

@@ -1,0 +1,91 @@
+<div [@routeAnimation]="routeAnimation"  *ngIf="dragTotal + selectTotal > 0" class="uploadMessage">
+  <div class="home--upload--wrap">
+    <div class="home--upload--head--box">
+        <span>
+          正在上传( {{dragSuccessTotal + selectSuccessTotal}} / {{selectTotal + dragTotal}} )
+        </span>
+      <div class="option--btn--box">
+          <span [hidden]="showUploadContainer" (click)="showUploadContainer = !showUploadContainer" >
+            <span class="fa fa-minus"></span>
+          </span>
+          <span [hidden]="!showUploadContainer" (click)="showUploadContainer = !showUploadContainer" >
+             <span class="fa fa-window-maximize"></span>
+          </span>
+          <span (click)="removeAllFiles();closePopup()">
+            <span class="glyphicon glyphicon-remove"></span>
+          </span>
+      </div>
+    </div>
+    <table class="table table-hover home--upload--table--box" [ngClass]="{showUploadContainer:showUploadContainer}">
+      <thead>
+      <tr class="table__th--tr">
+        <th >文件名</th>
+        <th >大小</th>
+        <th >上传目录</th>
+        <th >状态</th>
+        <th >操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let file of uploader.queue; let i = index">
+        <td>{{file._file.name}}</td>
+        <td>{{file.file.size | sizefilter}}</td>
+        <td>{{file.parentFolder}}</td>
+        <td>
+          <span *ngIf="file.isError" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c"></span>
+          <span *ngIf="file.isSuccess" class="fa fa-check-circle status--prompt--icon" style="color: #56DA90"></span>
+            <span *ngIf="file.isUploading">
+              {{file.progress}}%
+            </span>
+            <span *ngIf="file.isReady && !file.isUploading">
+              排队中...
+            </span>
+        </td>
+        <td >
+          <div [hidden]="file.isSuccess">
+            <button type="button" class="btn btn-success btn-xs"
+                    (click)="file.upload()" [disabled]="file.isReady || file.isUploading || file.isSuccess">
+              <span class="glyphicon glyphicon-upload"></span> 上传
+            </button>
+            <button type="button" class="btn btn-warning btn-xs"
+                    (click)="file.cancel()" [disabled]="!file.isUploading">
+              <span class="glyphicon glyphicon-ban-circle"></span> 取消
+            </button>
+            <button type="button" class="btn btn-danger btn-xs"
+                    (click)="file.remove()">
+              <span class="glyphicon glyphicon-trash"></span> 删除
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr *ngFor="let file of dragUploader.files; let i = index">
+        <td>{{file.name}}</td>
+        <td>{{file.size | sizefilter}}</td>
+        <td>{{file.parentFolder}}</td>
+        <td>
+          <span *ngIf="file.status == 'success'"  class="fa fa-check-circle status--prompt--icon" style="color: #56DA90"></span>
+          <span *ngIf="file.status == 'queued'">排队中...</span>
+          <span *ngIf="file.status == 'error'" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c;"></span>
+            <span *ngIf="file.status == 'uploading'">
+              {{file.upload.progress.toFixed(0)}}%
+            </span>
+        </td>
+        <td [hidden]="file.status == 'success'">
+          <button type="button" class="btn btn-success btn-xs"
+                  (click)="uploadFile(file)" [disabled]="file.status == 'success' || file.status == 'uploading' || file.status == 'queued'">
+            <span class="glyphicon glyphicon-upload"></span> 上传
+          </button>
+          <button type="button" class="btn btn-warning btn-xs"
+                  (click)="removeFile(file)" [disabled]="file.status != 'uploading'">
+            <span class="glyphicon glyphicon-ban-circle"></span> 取消
+          </button>
+          <button type="button" class="btn btn-danger btn-xs"
+                  (click)="removeFile(file)">
+            <span class="glyphicon glyphicon-trash"></span> 删除
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

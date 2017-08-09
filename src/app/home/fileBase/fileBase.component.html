@@ -1,0 +1,188 @@
+<md-sidenav-container
+  class="example-container" style="height: 100%;width: 100%;background: #ffffff;">
+    <ztree
+          [treeId]="'fileTree'"
+          [docbase]="parameter.docbase"
+          class="ztree--box"
+           [ngStyle]="{'float': 'left',height:'100%','width':zTreeWidth,background:'#f3f3f3',color:'#333',overflow:'hidden'}"
+           [@enterAnimation]="showTree"
+           mwlResizable
+           [resizeCursorPrecision] = "'20'"
+           [ghostElementPositioning]="'absolute'"
+           [enableGhostResize]="true"
+           [resizeEdges]="{ right: true}"
+           (resizeEnd)="onResizeEnd($event)"
+           [currentNode]="currentNode"
+           [idLists]="parameter.ids"
+           [treeData]="treeData"
+           (clickTree)="clickTreeOrBreadCrumb($event)">
+    </ztree>
+  <div class="bread--crumb--wrap">
+    <bread-crumb
+      [rootName]="rootName"
+      [breadCrumbLists]="breadCrumbLists" [idLists]="parameter.ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
+  </div>
+  <div class="toolbar--option--btn--wrap">
+    <div class="toolbar--option--btn--box" >
+      <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
+        <button  [mdMenuTriggerFor]="fileUpload" class="btn btn-success"><span class="fa fa-upload"></span></button>
+        <md-menu #fileUpload="mdMenu">
+          <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload">
+            <input  class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple webkitdirectory />
+            {{ 'upload_folder' | translate}}
+          </a>
+          <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload" >
+            <input class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple />
+            {{'upload_file' | translate}}
+          </a>
+        </md-menu>
+      </div>
+      <div class="same--type--btn--group">
+        <button [disabled]="selected.length == 0" (click)="downloadFile(false)" class="btn btn-default"><span class="fa fa-download"></span></button>
+        <button *ngIf="parameter.ids.length == 1" (click)="newFileCabinet()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
+        <button *ngIf="parameter.ids.length > 1" (click)="newFolder()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
+        <button [disabled]="selected.length == 0" (click)="removeFile(false)" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
+      </div>
+      <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
+        <button  [mdMenuTriggerFor]="moreOperation" class="btn btn-default new--folder"><span class="fa fa-ellipsis-h"></span></button>
+        <md-menu #moreOperation="mdMenu">
+          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('move')">移动到</button>
+          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('copy')">复制到</button>
+          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('link')">链接到</button>
+          <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">版本管理</button>
+          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">批量修改权限</button>
+          <button class="mat-menu-item__button" md-menu-item  (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
+          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">批量修改属性</button>
+          <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">查看位置</button>
+        </md-menu>
+      </div>
+    </div>
+    <div class="filter--condition--box" >
+      <div class="select--input--box" *ngIf="parameter.ids.length == 1">
+        <ss-multiselect-dropdown [settings]="mySettings" [options]="myOptions" [texts]="statusTexts" [(ngModel)]="parameter.a_status" (ngModelChange)="search()"></ss-multiselect-dropdown>
+      </div>
+      <div *ngIf="parameter.ids.length > 1" class="search--wrap">
+        <div class="search--box">
+          <input placeholder="以此开头" type="text" class="form-control search--box__input" [(ngModel)]="parameter.object_name" />
+          <span class="fa fa-search search--btn" (click)="search()"></span>
+        </div>
+        <md-select  class="select--input--box"   [(ngModel)]="parameter.type" (change)="search()">
+          <md-option  [value]="0">
+            只显示文件夹
+          </md-option>
+          <md-option  [value]="1">
+            只显示文档
+          </md-option>
+          <md-option  [value]="2">
+            显示文件夹和文档
+          </md-option>
+          <md-option  [value]="3">
+            显示所有版本
+          </md-option>
+        </md-select>
+      </div>
+      <span class="load--quantity">已加载{{rows.length}}个，共{{parameter.totalElements}}个</span>
+    </div>
+  </div>
+  <div
+    #myupload
+    id="myupload"
+    style="height: calc(100% - 86px);width:calc(100% - 250px);float: left;transition:0.1s;position: relative;">
+    <div [hidden]="rows.length != 0" class="list--no--data">
+      <div class="no--data__prompt--box">
+        <span class="prompt--img">
+          <img class="prompt--img" src="assets/images/list--no--data-img.png" alt=""/>
+        </span>
+        <h3 class="prompt--head">没有数据</h3>
+      </div>
+    </div>
+    <grid-list
+            [hidden]="rows.length == 0"
+             #gridList
+             [selected]="selected"
+             [rows]="rows"
+             [columns]="columns"
+             [localColumns]="localColumns"
+             [parameter]="parameter"
+             [isLoading]="isLoading"
+             [storageName]="storageName"
+             (uploadGrid)="uploadGrid($event)"
+    ></grid-list>
+  </div>
+  <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
+    <!--<span (click)="sidenav.toggle()">关闭</span>-->
+    <file-info
+      *ngIf="currentFileId"
+      [selectedLength]="selected.length"
+      [sidenav]="sidenav"
+      [parameter]="parameter"
+      [row]="currentFileId"></file-info>
+  </md-sidenav>
+</md-sidenav-container>
+<ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+  <div class="checkbox">
+    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"  id="checkbox_al" class="input_check">
+    <label for="checkbox_al"></label>
+  </div>
+  <!--<input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>-->
+</ng-template>
+<ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+  <div class="checkbox">
+    <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
+    <label for="checkbox_one"></label>
+  </div>
+  <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
+</ng-template>
+<ng-template #objectNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
+  <div *ngIf="!row.isEditalbe" style="width: 100%;" >
+    <div class="data--list--doc--icon--box">
+      <img class="data--list--doc--icon" *ngIf="row.r_object_type != 'wison_prj_document'  && row.r_object_type != 'wison_document' && !row.a_content_type" src="assets/images/icon/{{row.r_object_type}}.png" alt="">
+      <img class="data--list--doc--icon" *ngIf="row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document'" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
+    </div>
+    <a (click)="enterFile(row,$event)" title="{{value}}" class="object_name">{{value}}</a>
+    <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="查看属性"><span class="fa fa-info-circle"></span></a>
+    <a class="hidd list--option--btn" (click)="downloadFile(row);currentFileId=row;$event.stopPropagation()" title="下载"><span class="fa fa-download"></span></a>
+    <a class="hidd list--option--btn" (click)="row.isEditalbe = true;currentFileId=row;$event.stopPropagation()" title="重命名"><span class="fa fa-pencil"></span></a>
+    <a class="hidd list--option--btn" (click)="removeFile(row);currentFileId=row;$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
+  </div>
+  <div *ngIf="row.isEditalbe">
+    <input
+      autofocus
+      type="text"
+      (click)="$event.stopPropagation()"
+      (dblclick)="$event.stopPropagation()"
+      [value]="row.object_name"
+      (blur)="changeName($event)"
+    />
+    <span (click)="renameFile(row);$event.stopPropagation()">确定</span>
+    <span (click)="this.editName='';row.isEditalbe=false;$event.stopPropagation()">取消</span>
+  </div>
+</ng-template>
+<ng-template #dateTmpl let-row="row" let-value="value">
+  <span >{{value | date: 'yyyy/MM/dd'}}</span>
+</ng-template>
+<ng-template #operaHeadTmpl ngx-datatable-header-template let-column="column" >
+  <span >{{column.name}}</span>
+</ng-template>
+<ng-template #configGridHeadTmpl let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+  <button md-button  [mdMenuTriggerFor]="gridOperation" class="fa fa-bars"></button>
+  <md-menu #gridOperation="mdMenu">
+    <ul class="custom--column--configuration--box">
+      <li class="single--custom"  *ngFor='let col of allColumns; let i = index'>
+        <div class="checkbox">
+          <input
+            *ngIf="col.name"
+            type='checkbox'
+            class="input_check"
+            [id]="col.name"
+            (click)='toggle(col,i);$event.stopPropagation()'
+            [checked]='isChecked(col)'
+            />
+          <label for="{{col.name}}"></label>
+        </div>
+        <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name}}</label>
+      </li>
+    </ul>
+  </md-menu>
+</ng-template>
+<ng-template #configGridTmpl  let-row="row" let-value="value"></ng-template>

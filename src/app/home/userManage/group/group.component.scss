@@ -1,0 +1,15 @@
+@charset "utf-8";
+.toolbar--option--btn--wrap{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+  padding: 0 14px;
+  .toolbar--option--btn--box{
+    //padding: 8px 0;
+  }
+  .load--quantity{
+    color: #337ab7;
+    font-size: 14px;
+  }
+}

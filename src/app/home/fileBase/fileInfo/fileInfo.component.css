@@ -1,0 +1,76 @@
+.fileinfo--sidebar--info--head {
+  background: #5e5e5e;
+  color: #ffffff;
+  line-height: normal; }
+  .fileinfo--sidebar--info--head .head--bg-icon {
+    font-size: 50px;
+    position: relative;
+    left: -16px;
+    bottom: 0; }
+  .fileinfo--sidebar--info--head .head--box {
+    margin-left: 15px; }
+    .fileinfo--sidebar--info--head .head--box .head {
+      font-size: 16px; }
+    .fileinfo--sidebar--info--head .head--box .file--count {
+      font-size: 12px; }
+
+.fileinfo--right--sidebar--info--content .attr--type--box {
+  margin: 20px 10px;
+  padding-top: 20px;
+  border-top: 1px solid #cccccc; }
+  .fileinfo--right--sidebar--info--content .attr--type--box:first-child {
+    margin-top: 0;
+    border-top: none; }
+  .fileinfo--right--sidebar--info--content .attr--type--box:last-child {
+    border-bottom: none; }
+  .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row {
+    padding: 5px 0; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .title {
+      display: inline-block;
+      vertical-align: middle;
+      width: 85px;
+      text-align: left;
+      color: #797979;
+      padding: 0 5px;
+      font-weight: normal;
+      margin: 0;
+      margin-left: 10px; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value {
+      display: inline-block;
+      vertical-align: middle;
+      max-width: 245px;
+      min-width: 55px;
+      margin-right: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value .progress-striped {
+        display: inline-block;
+        height: 11px;
+        width: 100px;
+        margin: 0 5px 0 0; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row a {
+      display: inline-block;
+      vertical-align: middle; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .sidebar--progress--time {
+      font-size: 12px;
+      color: #797979;
+      padding-top: 5px; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt {
+      font-size: 12px;
+      color: #797979; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt .fa {
+        color: #ff9900;
+        font-size: 15px;
+        margin-right: 5px; }
+  .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title {
+    width: 80px;
+    padding-right: 0; }
+    .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title.left {
+      width: 130px;
+      padding-right: 0; }
+  .fileinfo--right--sidebar--info--content .attr--type--box.two--col .value {
+    width: 80px;
+    margin-right: 0; }
+
+/*# sourceMappingURL=fileInfo.component.css.map */

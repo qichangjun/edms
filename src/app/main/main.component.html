@@ -1,0 +1,365 @@
+<div class="main--wrap">
+  <div class="main--navbar--wrap">
+    <div class="main--navbar--box">
+    <span class="pull-right">
+      <span class="cloud"></span>
+      <a class="login--out--btn"   [routerLink]="['/login']">登出</a>
+    </span>
+    </div>
+  </div>
+  <div class="main--content--wrap">
+    <div class="search--wrap">
+      <div class="search--box clearfix">
+
+        <div class="search-input--box">
+          <input [(ngModel)]="keywords" type="text" class="form-control" placeholder="全文检索"/>
+          <label (click)="fullSearch()" for="search-input" class="search--input"><span id="search-input" class="fa fa-search"></span></label>
+        </div>
+        <span class="logo"></span>
+      </div>
+    </div>
+    <div class="card--wrap clearfix">
+      <div class="left--content">
+        <div [routerLink]="['/']" class="normalContainer single--card--box " style="background:  #53beac ;">
+          <div class="head">
+            <i class="decorate--icon company--doc"></i>
+            <div class="title">企业文档</div>
+            <div class="zn--title">ENTERPRISE<br>DOCUMENTS</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </div>
+        <div [routerLink]="['/projectFile']" class="normalContainer single--card--box " style="background:  #f2ac28 ;">
+          <div class="head">
+            <i class="decorate--icon object--doc"></i>
+            <div class="title object--doc--title">项目文档</div>
+            <div class="zn--title">PROJECT<br> DOCUMENTATION</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </div>
+        <a href="{{hrefList.kmsDoc}}" target="_blank"  class="normalContainer single--card--box small--card" style="background: #d5503f;">
+          <div class="head">
+            <i class="fa fa-address-card  decorate--icon"></i>
+            <div class="title">专家库</div>
+            <div class="zn--title">CNKI</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </a>
+        <a href="{{hrefList.dcOnline}}" target="_blank"  class="normalContainer single--card--box small--card" style="background: #7266ba ;">
+          <div class="head">
+            <i class="fa fa-cube decorate--icon"></i>
+            <div class="title">DC_ONLINE</div>
+            <div class="zn--title">CNKI</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </a>
+        <a href="{{hrefList.share}}" target="_blank"  class="normalContainer single--card--box small--card" style="background: #f06292;">
+          <div class="head">
+            <i class="fa fa-cloud decorate--icon"></i>
+            <div class="title">文档云</div>
+            <div class="zn--title">SUPERSTAR<br> BOOK</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </a>
+      </div><div class="container middle--content " >
+        <div class="flip">
+          <div class="front single--card--box big--card" style="background: #008efa ;">
+            <div class="head">
+              <i class="fa fa-bandcamp decorate--icon"></i>
+              <div class="title">公共导航</div>
+              <div class="zn--title">PUBLIC<br>NAVIGATION</div>
+              <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+            </div>
+          </div>
+          <div class="back" >
+            <div class="public--nav--box">
+              <a class="public--nav__a" href="{{hrefList.InternationalItem}}" target="_blank" ><i class="fa fa-folder"></i>国际项目管理</a>
+              <a class="public--nav__a" href="{{hrefList.domesticItem}}" target="_blank" ><i class="fa fa-folder"></i>国内项目管理</a>
+              <a class="public--nav__a" href="{{hrefList.caseBase}}" target="_blank" ><i class="fa fa-folder"></i>案例库</a>
+              <a class="public--nav__a" href="{{hrefList.thesisBase}}" target="_blank" ><i class="fa fa-folder"></i>论文库</a>
+              <a class="public--nav__a" href="{{hrefList.archivesList}}" target="_blank" ><i class="fa fa-folder"></i>档案清单</a>
+              <a class="public--nav__a" href="{{hrefList.EnterpriseTemplate}}" target="_blank" ><i class="fa fa-folder"></i>企业标准记录模板</a>
+              <a class="public--nav__a" href="{{hrefList.EnterpriseBase}}" target="_blank" ><i class="fa fa-folder"></i>企业标准库</a>
+              <a class="public--nav__a" href="{{hrefList.completeCertificate}}" target="_blank" ><i class="fa fa-folder"></i>项目完成证书</a>
+              <a class="public--nav__a" href="{{hrefList.exchangeShare}}" target="_blank" ><i class="fa fa-folder"></i>技术交流材料分享</a>
+              <a class="public--nav__a" href="{{hrefList.intelligenceInfo}}" target="_blank" ><i class="fa fa-folder"></i>技术及市场情报信息</a>
+              <a class="public--nav__a" href="{{hrefList.companyProfile}}" target="_blank" ><i class="fa fa-folder"></i>公司概况</a>
+              <a class="public--nav__a" href="{{hrefList.businessConstruction}}" target="_blank" ><i class="fa fa-folder"></i>业务建设</a>
+            </div>
+          </div>
+        </div>
+      </div><div class="container right--content">
+        <a href="{{hrefList.bz}}" target="_blank"  class="normalContainer single--card--box right--card" style="background: #00bcd4;">
+          <div class="head">
+            <i class="fa fa-list-alt decorate--icon" ></i>
+            <div class="title">外部标准</div>
+            <div class="zn--title">SUPERSTAR<br> BOOK</div>
+            <i class="fa fa-laptop more--btn"></i>
+          </div>
+        </a>
+        <a href="{{hrefList.zhiWang}}" target="_blank"   class="normalContainer single--card--box right--card" style="background: #7cad43;">
+          <div class="head">
+            <i class="fa fa-link decorate--icon" ></i>
+            <div class="title">中国知星</div>
+            <div class="zn--title">SUPERSTAR<br> BOOK</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </a>
+        <a href="{{hrefList.markBook}}" target="_blank"  class="normalContainer single--card--box right--card" style="background: #6880b4;">
+          <div class="head">
+            <i class="decorate--icon superstar"></i>
+            <div class="title">超星图书</div>
+            <div class="zn--title">SUPERSTAR<br> BOOK</div>
+            <i class="glyphicon glyphicon-option-vertical more--btn"></i>
+          </div>
+        </a>
+      </div>
+
+
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #f1d33f;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">咨询专家</div>-->
+      <!--<div class="zn&#45;&#45;title">CONSULTING<br> EXPERT</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-address-card decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #b5a8ba;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">标准查询</div>-->
+      <!--<div class="zn&#45;&#45;title">STANDARD<br> QUERY</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-laptop decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:  #95a2b3;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">化工信息网</div>-->
+      <!--<div class="zn&#45;&#45;title">CHEMICAL<br> INFORMATION</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-map decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:#95a2b3 ;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">化工信息周刊</div>-->
+      <!--<div class="zn&#45;&#45;title">CHEMICAL<br> INFORMATION WEEKLY</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-sticky-note decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #8bc34a;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">石化经济分析</div>-->
+      <!--<div class="zn&#45;&#45;title">PETROCHEMICAL<br> ECONOMIC ANALYSIS</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-bar-chart decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #00bcd4;">-->
+      <!--<div class="head">-->
+      <!--<div class="title">工程经济信息网</div>-->
+      <!--<div class="zn&#45;&#45;title">ENGINEERING<br> ECONOMIC INFORMATION</div>-->
+      <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+      <!--<i class="fa fa-university decorate&#45;&#45;icon"></i>-->
+      <!--</div>-->
+      <!--</div>-->
+
+
+
+      <!--<div class="container single&#45;&#45;card&#45;&#45;box">-->
+      <!--<div class="flip">-->
+      <!--<div class="front">-->
+      <!--<span class="head">常用链接</span>-->
+      <!--</div>-->
+      <!--<div class="back">-->
+      <!--<a [routerLink]="['/']">中国知网</a>-->
+      <!--<a [routerLink]="['/']">超星图书</a>-->
+      <!--<a [routerLink]="['/']">咨询专家</a>-->
+      <!--<a [routerLink]="['/']">标准查询</a>-->
+      <!--</div>-->
+      <!--</div>-->
+      <!--</div>-->
+
+    </div>
+    <div class="main--footer">
+      惠生工程（中国）有限公司版权所有 © 2017
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<div class="main&#45;&#45;wrap">-->
+  <!--<div class="main&#45;&#45;navbar&#45;&#45;wrap">-->
+    <!--<div class="main&#45;&#45;navbar&#45;&#45;box">-->
+      <!--<span class="logo"></span>-->
+      <!--&lt;!&ndash;<ul class="link">&ndash;&gt;-->
+        <!--&lt;!&ndash;<li>企业文档</li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li>项目文档</li>&ndash;&gt;-->
+        <!--&lt;!&ndash;<li>公司文档</li>&ndash;&gt;-->
+      <!--&lt;!&ndash;</ul>&ndash;&gt;-->
+    <!--<span class="pull-right">-->
+      <!--<a class="login&#45;&#45;out&#45;&#45;btn"   [routerLink]="['/login']">登出</a>-->
+    <!--</span>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="main&#45;&#45;content&#45;&#45;wrap">-->
+    <!--<div class="search&#45;&#45;wrap">-->
+      <!--<div class="search&#45;&#45;title">全文检索</div>-->
+      <!--<div class="search&#45;&#45;box">-->
+        <!--<label for="search-input" class="search&#45;&#45;input"><span id="search-input" class="fa fa-search"></span></label>-->
+        <!--<input type="text" class="form-control"/>-->
+      <!--</div>-->
+    <!--</div>-->
+    <!--<div class="card&#45;&#45;wrap clearfix">-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:  #eb3822 ;">-->
+        <!--<div class="head">-->
+          <!--<i class="fa fa-envelope-open decorate&#45;&#45;icon"></i>-->
+          <!--<div class="title">企业文档</div>-->
+          <!--<div class="zn&#45;&#45;title">ENTERPRISE<br>DOCUMENTS</div>-->
+          <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:  #ffa605 ;">-->
+        <!--<div class="head">-->
+          <!--<i class="fa fa-file-text-o decorate&#45;&#45;icon"></i>-->
+          <!--<div class="title">项目文档</div>-->
+          <!--<div class="zn&#45;&#45;title">PROJECT<br> DOCUMENTATION</div>-->
+          <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="container " >-->
+        <!--<div class="flip">-->
+          <!--<div class="front single&#45;&#45;card&#45;&#45;box" style="background: #749d22;">-->
+            <!--<div class="head ">-->
+              <!--<i class="fa fa-bandcamp decorate&#45;&#45;icon"></i>-->
+              <!--<div class="title">公共导航</div>-->
+              <!--<div class="zn&#45;&#45;title">PUBLIC<br>NAVIGATION</div>-->
+              <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+            <!--</div>-->
+          <!--</div>-->
+          <!--<div class="back">-->
+            <!--<div class="public&#45;&#45;nav&#45;&#45;box">-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>国际项目管理</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>国内项目管理</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>案例库</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>论文库</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>档案清单</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>企业标准记录模板</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>企业标准库</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>项目完成证书</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>技术交流材料分享</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>技术及市场情报信息</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>公司概况</a>-->
+              <!--<a class="public&#45;&#45;nav__a" [routerLink]="['/']"><i class="fa fa-folder"></i>业务建设</a>-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #0da3e7  ;">-->
+        <!--<div class="head">-->
+          <!--<i class="fa fa-laptop  decorate&#45;&#45;icon"></i>-->
+          <!--<div class="title">外部标准</div>-->
+          <!--<div class="zn&#45;&#45;title">CNKI</div>-->
+          <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #00c192 ;">-->
+        <!--<div class="head">-->
+          <!--<i class="fa fa-link decorate&#45;&#45;icon"></i>-->
+          <!--<div class="title">中国知网</div>-->
+          <!--<div class="zn&#45;&#45;title">CNKI</div>-->
+          <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #f75b36;">-->
+        <!--<div class="head">-->
+          <!--<i class="fa fa-th-large decorate&#45;&#45;icon"></i>-->
+          <!--<div class="title">超星图书</div>-->
+          <!--<div class="zn&#45;&#45;title">SUPERSTAR<br> BOOK</div>-->
+          <!--<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #f1d33f;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">咨询专家</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">CONSULTING<br> EXPERT</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-address-card decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #b5a8ba;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">标准查询</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">STANDARD<br> QUERY</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-laptop decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:  #95a2b3;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">化工信息网</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">CHEMICAL<br> INFORMATION</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-map decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background:#95a2b3 ;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">化工信息周刊</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">CHEMICAL<br> INFORMATION WEEKLY</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-sticky-note decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #8bc34a;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">石化经济分析</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">PETROCHEMICAL<br> ECONOMIC ANALYSIS</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-bar-chart decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="normalContainer single&#45;&#45;card&#45;&#45;box" style="background: #00bcd4;">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="head">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="title">工程经济信息网</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="zn&#45;&#45;title">ENGINEERING<br> ECONOMIC INFORMATION</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="glyphicon glyphicon-option-vertical more&#45;&#45;btn"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;<i class="fa fa-university decorate&#45;&#45;icon"></i>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+
+
+      <!--&lt;!&ndash;<div class="container single&#45;&#45;card&#45;&#45;box">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="flip">&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="front">&ndash;&gt;-->
+      <!--&lt;!&ndash;<span class="head">常用链接</span>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;<div class="back">&ndash;&gt;-->
+      <!--&lt;!&ndash;<a [routerLink]="['/']">中国知网</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a [routerLink]="['/']">超星图书</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a [routerLink]="['/']">咨询专家</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;<a [routerLink]="['/']">标准查询</a>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+      <!--&lt;!&ndash;</div>&ndash;&gt;-->
+
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

@@ -1,0 +1,64 @@
+:host { position: absolute; bottom: 0px;right:0px; }
+.example-container{
+  width: 200px;
+  height: 1000px;
+  border-right: 1px solid black;
+  float: left
+}
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  padding: 20px;
+}
+.active{
+  background-color: gray;
+}
+
+.uploadMessage{
+  width: 500px;
+  max-height: 300px;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 100;
+  background: white;
+  overflow: scroll;
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 20px 10px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+  border-radius: 4px 4px 0 0;
+}
+.home--upload--wrap{
+  //border: 1px solid #ccc;
+  //border-radius: 4px 4px 0 0;
+  padding: 15px;
+  .home--upload--head--box{
+    display: flex;
+    justify-content: space-between;
+    height: 30px;
+    border-bottom: 1px solid #dddddd;
+    .option--btn--box{
+      font-size: 14px;
+      color: #585858;
+      .fa, .glyphicon{
+        margin-left: 7px;
+        cursor: pointer;
+        &:hover{
+          opacity: .8;
+        }
+      }
+    }
+  }
+  .status--prompt--icon{
+    padding-left: 6px;
+    font-size: 15px;
+  }
+}
+.home--upload--table--box{
+  &.showUploadContainer{
+    display: none;
+  }
+}

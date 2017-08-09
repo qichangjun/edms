@@ -6,10 +6,11 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "dist",
+      "outDir": "edms",
       "assets": [
         "assets",
-        "favicon.ico"
+        "favicon.ico",
+        "images"
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -19,9 +20,21 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.scss",
+        "../node_modules/font-awesome/css/font-awesome.min.css",
+        "../node_modules/primeng/resources/primeng.min.css",
+        "../node_modules/primeng/resources/themes/omega/theme.css",
+        "../src/assets/zTree/main.scss",
+        "../node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
+        "../node_modules/dropzone/dist/dropzone.css",
+        "../node_modules/font-awesome/css/font-awesome.css"
       ],
-      "scripts": [],
+      "scripts": [
+        "../node_modules/dropzone/dist/dropzone.js",
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../src/assets/zTree/zTree_v3/js/jquery.ztree.core-3.5.js",
+        "../src/assets/zTree/zTree_v3/js/jquery.ztree.exedit-3.5.js"
+      ],
       "environmentSource": "environments/environment.ts",
       "environments": {
         "dev": "environments/environment.ts",
@@ -51,7 +64,7 @@
     }
   },
   "defaults": {
-    "styleExt": "css",
+    "styleExt": "scss",
     "component": {}
   }
 }

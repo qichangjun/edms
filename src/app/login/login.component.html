@@ -1,0 +1,78 @@
+<div class="normal--user--login">
+  <div class="normal--user--login__content--box">
+    <div class="login--location">
+      <!--<img class="logon&#45;&#45;location__logo" width="40" src="../app/images/logo&#45;&#45;white.png" alt=""/>-->
+      电子文件管理系统
+    </div>
+    <form name="form" (ngSubmit)="f.form.valid && login()" #f="ngForm" novalidate class="user--login--box">
+      <h3 class="caption" translate="">登录</h3>
+      <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
+        <label class="title" for="username">用户名</label>
+        <div class="value--input">
+          <span class="fa fa-user icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focuseUserName}"></span>
+          <input
+            type="text"
+            class="form-control form--input"
+            [ngClass]="{error: showErrorMessage}"
+            (focus)="showErrorMessage=false;focuseUserName = true"
+            (blur)="focuseUserName = false"
+            (change)="showErrorMessage=false"
+            placeholder="Account"
+            name="username"
+            [(ngModel)]="model.username"
+            #username="ngModel"
+            required />
+          <span class="fa fa-times-circle clear--data--btn" [hidden]="!model.username" (mouseup)="model.username=''"></span>
+          <div *ngIf="f.submitted && !username.valid" class="help-block">用户名不能为空</div>
+        </div>
+      </div>
+      <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+        <label class="title" for="password">密码</label>
+        <div class="value--input">
+          <span class="fa fa-key icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focusePssword}"></span>
+          <input
+            type="password"
+            class="form-control form--input"
+            [ngClass]="{error: showErrorMessage}"
+            (focus)="showErrorMessage=false;focusePssword = true"
+            (blur)="focusePssword = false"
+            (change)="showErrorMessage=false"
+            placeholder="Password"
+            name="password"
+            [(ngModel)]="model.password"
+            #password="ngModel"
+            required />
+          <span class="fa fa-times-circle clear--data--btn" [hidden]="!model.password" (mouseup)="model.password=''"></span>
+          <div *ngIf="f.submitted && !password.valid" class="help-block">密码不能为空</div>
+        </div>
+      </div>
+      <div class="form-group input-content-box select" >
+        <label class="title" for="language">{{ 'select_langueage' | translate}}</label>
+        <md-select name="language" (change)="translate.use($event.value)" [(ngModel)]="model.language" class="value--input">
+          <md-option  [value]="'cn'">
+            中文
+          </md-option>
+          <md-option  [value]="'en'">
+            英文
+          </md-option>
+        </md-select>
+      </div>
+      <div class="checkbox--box">
+        <div class="checkbox">
+          <input type="checkbox" name="remember" [(ngModel)]="remember" id="checkbox_al" class="input_check">
+          <label for="checkbox_al"></label><span translate="">记住我</span>
+        </div>
+      </div>
+
+      <button id="goLogin" [disabled]="loading" class="btn btn-primary submit-btn">登录</button>
+
+      <div [hidden]="!showErrorMessage" class="login--warning--prompt">
+        <span class="fa fa-exclamation-triangle"></span>
+        <!--{{vm.errorMessage}}-->
+      </div>
+    </form>
+  </div>
+
+</div>
+
+

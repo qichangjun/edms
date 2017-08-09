@@ -1,0 +1,119 @@
+<md-toolbar class="fileinfo--sidebar--info--head">
+  <span class="glyphicon glyphicon-folder-open head--bg-icon"></span>
+  <div class="head--box">
+      <div class="head" translate="">{{row.object_name}}</div>
+      <!--<span (click)="sidenav.close()">关闭</span>-->
+  </div>
+</md-toolbar>
+<div class="fileinfo--right--sidebar--info--content">
+  <md-tab-group md-dynamic-height md-border-bottom>
+    <md-tab label="元数据信息">
+      <div class="attr--type--box" *ngIf="editStatus == false">
+        <div class="single--attr--row" *ngFor="let attr of attrList;let i = index">
+          <label class="title">{{attr.displayName}}： </label>
+          <span class="value">{{attr.attrValue}}</span>
+        </div>
+        <span *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)">
+          显示更多
+        </span>
+        <div>
+          <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+        </div>
+      </div>
+
+      <div class="attr--type--box" *ngIf="editStatus == true">
+        <form name="form" (ngSubmit)="f.form.valid && updateInfo()" #f="ngForm" novalidate class="new--folder--modal">
+            <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !attr.attrName.valid && attr.required }" *ngFor="let attr of attrList;let i = index">
+              <label class="attr--name" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+              <div style="position: relative;display:inline-block;">
+                <div *ngIf="attr.inputMode == 1">
+                  <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+                </div>
+                <div *ngIf="attr.inputMode == 2">
+                  <md-input-container id="{{attr.attrName}}"  class="attr--value date--input--box">
+                    <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+                    <button mdSuffix [mdDatepickerToggle]="startPicker"></button>
+                  </md-input-container>
+                  <md-datepicker #startPicker></md-datepicker>
+                </div>
+                <div *ngIf="attr.inputMode == 3">
+                  <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                    <md-radio-button value="true">是</md-radio-button>
+                    <md-radio-button value="false" >否</md-radio-button>
+                  </md-radio-group>
+                </div>
+                <div  *ngIf="attr.inputMode == 4">
+                  <md-select id="{{attr.attrName}}" class="attr--value select--input--box"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+                    <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+                      {{selectValue.name}}
+                    </md-option>
+                  </md-select>
+                </div>
+                <div *ngIf="attr.inputMode == 5" class="attr--value">
+                  <a  (click)="editMultiple(attr)">编辑</a>
+          <span *ngFor="let value of attr.attrValue;let x = index">
+            {{value}}
+          </span>
+                </div>
+                <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                  <div class="form-messages">
+                    <div class="msg-tri-outside"></div>
+                    <div class="msg-tri-inside"></div>
+                    <div  class="form-messages__icon fa fa-exclamation-circle">
+                      <div >{{attr.displayName}}不能为空</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <span *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)">
+            显示更多
+          </span>
+            <div>
+              <button md-button (click)="editStatus = false;getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
+              <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+            </div>
+        </form>
+
+      </div>
+
+    </md-tab>
+    <md-tab label="权限信息">
+      <div class="attr--type--box">
+        <div class="single--attr--row">
+          <label class="title">档号： </label>
+          <span class="value">J001-A01001-WS2016</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">案卷编号：</label>
+          <span class="value">2016</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">立档单位： </label>
+          <span class="value">滨州市档案局</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">保管期限：</label>
+          <span class="value">30年</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">处置策略：</label>
+          <span class="value">保存5年，到期后移交</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">归档年度：</label>
+          <span class="value">2016年</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">案卷状态：</label>
+          <span class="value">正常</span>
+        </div>
+        <div class="single--attr--row">
+          <label class="title">备注说明：</label>
+          <span class="value">无</span>
+        </div>
+      </div>
+    </md-tab>
+  </md-tab-group>
+</div>
+

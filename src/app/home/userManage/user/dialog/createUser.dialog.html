@@ -1,0 +1,70 @@
+<form name="form" (ngSubmit)="f.form.valid && createUser()" #f="ngForm" novalidate>
+  <h2 md-dialog-title>新建用户</h2>
+  <md-dialog-content>
+    <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !userName.valid && userName.required }">
+      <label class="attr--name">用户名</label>
+      <div style="position: relative;display:inline-block;">
+        <input id="userName" type="text" class="form-control attr--value"
+               name="userName" [(ngModel)]="entity.userName"
+               #userName="ngModel" [required]="true" />
+        <div  messageVerify [elementName]="'userName'" *ngIf="f.submitted && !userName.value" class="FormMessage-container">
+          <div class="form-messages">
+            <div class="msg-tri-outside"></div>
+            <div class="msg-tri-inside"></div>
+            <div  class="form-messages__icon fa fa-exclamation-circle">
+              <div >用户名不能为空</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !loginName.valid && loginName.required }">
+      <label class="attr--name">登录名</label>
+      <div style="position: relative;display:inline-block;">
+        <input id="loginName" type="text" class="form-control attr--value"
+               name="loginName" [(ngModel)]="entity.loginName"
+               #loginName="ngModel" [required]="true" />
+        <div  messageVerify [elementName]="'loginName'" *ngIf="f.submitted && !loginName.value" class="FormMessage-container">
+          <div class="form-messages">
+            <div class="msg-tri-outside"></div>
+            <div class="msg-tri-inside"></div>
+            <div  class="form-messages__icon fa fa-exclamation-circle">
+              <div >登录名不能为空</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
+      <label class="attr--name">密码</label>
+      <div style="position: relative;display:inline-block;">
+        <input id="password" type="password" class="form-control attr--value"
+               name="password" [(ngModel)]="entity.password"
+               #password="ngModel" [required]="true" />
+        <div  messageVerify [elementName]="'password'" *ngIf="f.submitted && !password.value" class="FormMessage-container">
+          <div class="form-messages">
+            <div class="msg-tri-outside"></div>
+            <div class="msg-tri-inside"></div>
+            <div  class="form-messages__icon fa fa-exclamation-circle">
+              <div >密码不能为空</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">邮箱</label>
+      <div style="position: relative;display:inline-block;">
+        <input id="email" type="email" class="form-control attr--value"
+               name="email" [(ngModel)]="entity.email"
+               #email="ngModel" />
+      </div>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</form>

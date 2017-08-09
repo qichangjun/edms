@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,WAAW;EACT,gBAAgB,EAAE,IAAI",
+"sources": ["multiSelectBoard.component.scss"],
+"names": [],
+"file": "multiSelectBoard.component.css"
+}

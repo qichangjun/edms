@@ -1,0 +1,83 @@
+.ztree {
+  width: 100%; }
+
+.ztree li a:hover {
+  border-left: 5px solid transparent !important;
+  background: transparent !important; }
+
+.ztree li a.curSelectedNode {
+  border-color: transparent !important;
+  background: #EEEEEE !important; }
+
+.ztree li a.level0.curSelectedNode {
+  color: #C53928 !important; }
+
+.ztree--box {
+  border-right: 1px solid #cfbdb9; }
+
+.file--base--sidebar--ztree--wrap {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden; }
+
+.root_ico_open {
+  margin-right: 5px !important;
+  background-image: url("./img/folder-icon.png");
+  width: 18px;
+  vertical-align: sub !important; }
+
+.dm_cabinet_ico_docu {
+  margin-right: 5px !important;
+  background-image: url("./img/folder-icon.png");
+  width: 18px;
+  vertical-align: sub !important; }
+
+.dm_cabinet_ico_close {
+  margin-right: 5px !important;
+  background-image: url("./img/folder-icon.png");
+  width: 18px;
+  vertical-align: sub !important; }
+
+.dm_cabinet_ico_open {
+  margin-right: 5px !important;
+  background-image: url("./img/folder-icon.png");
+  width: 18px;
+  vertical-align: sub !important; }
+
+.wison_prj_folder_ico_docu {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+.wison_folder_ico_docu {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+.wison_prj_folder_ico_open {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+.wison_prj_folder_ico_close {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+.wison_folder_ico_close {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+.wison_folder_ico_open {
+  margin-right: 5px !important;
+  background-image: url("./img/file-icon.png");
+  width: 16px !important;
+  vertical-align: sub !important; }
+
+/*# sourceMappingURL=zTree.component.css.map */

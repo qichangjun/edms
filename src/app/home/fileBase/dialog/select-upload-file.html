@@ -1,0 +1,35 @@
+<h2 md-dialog-title>上传文件</h2>
+<md-dialog-content>
+  <md-tab-group md-dynamic-height md-border-bottom>
+    <md-tab label="上传文件夹">
+      <div *ngFor="let folder of folderLists;let i = index">
+        文件夹:{{folder.fileName}}
+        父文件:{{folder.parentFolder}}
+        路径:{{folder.path}}
+      </div>
+    </md-tab>
+    <md-tab label="上传文件">
+      <div *ngFor="let file of data.uploader.queue; let i = index">
+        {{file._file.name}}
+        <span *ngIf="file.isSuccess">成功</span>
+        <md-progress-bar
+          class="example-margin"
+          [color]="'primary'"
+          [mode]="'determinate'"
+          [value]="file.progress"
+          [bufferValue]="bufferValue">
+        </md-progress-bar>
+        <div>
+          {{file.progress}}
+        </div>
+        <button md-button  *ngIf="!file.isSuccess" (click)="setFile(file)">配置</button>
+        <!--<button md-button *ngIf="!file.isSuccess" (click)="uploadFile(file)">上传</button>-->
+      </div>
+    </md-tab>
+  </md-tab-group>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button (click)="uploadFiles()">确定</button>
+  <button md-button md-dialog-close>关闭</button>
+</md-dialog-actions>
+

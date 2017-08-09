@@ -1,0 +1,83 @@
+<div style="height:100%">
+  <md-sidenav-container style="height: 100%">
+  <div class="toolbar--option--btn--wrap">
+    <div class="toolbar--option--btn--box">
+      <button (click)="createUser()" class="btn btn-default"><span >新建用户</span></button>
+    </div>
+    <span class="load--quantity">已加载{{rows.length}}个</span>
+  </div>
+    <div style="height: calc(100% - 50px)">
+      <grid-list
+        #gridList
+        [selected]="selected"
+        [rows]="rows"
+        [columns]="columns"
+        [localColumns]="localColumns"
+        [parameter]="parameter"
+        [isLoading]="isLoading"
+        [storageName]="storageName"
+        (uploadGrid)="uploadGrid($event)"
+        ></grid-list>
+    </div>
+
+  <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
+    <user-info
+      [docbase]="parameter.docbase"
+      [currentUser]="currentUser"
+    ></user-info>
+  </md-sidenav>
+  </md-sidenav-container>
+</div>
+
+  <ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+    <div class="checkbox">
+      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"  id="checkbox_al" class="input_check">
+      <label for="checkbox_al"></label>
+    </div>
+    <!--<input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>-->
+  </ng-template>
+  <ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+    <div class="checkbox">
+      <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
+      <label for="checkbox_one"></label>
+    </div>
+    <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
+  </ng-template>
+  <ng-template #userNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
+    <div>
+      <a >{{value}}</a>
+      <a class="hidd list--option--btn" (click)="sidenav.open();currentUser=row;$event.stopPropagation()" title="查看属性"><span class="fa fa-info-circle"></span></a>
+      <a class="hidd list--option--btn" (click)="removeUser(row);currentUser=row;$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
+    </div>
+  </ng-template>
+  <ng-template #stateTmpl let-row="row" let-value="value">
+    <span *ngIf="value == 0">激活</span>
+    <span *ngIf="value == 1">冻结</span>
+  </ng-template>
+  <ng-template #operaHeadTmpl ngx-datatable-header-template let-column="column" >
+    <span >{{column.name}}</span>
+  </ng-template>
+  <ng-template #configGridHeadTmpl let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+    <button md-button  [mdMenuTriggerFor]="gridOperation" class="fa fa-bars"></button>
+    <md-menu #gridOperation="mdMenu">
+      <ul>
+        <li  *ngFor='let col of allColumns; let i = index'>
+          <!--<div class="prettify&#45;&#45;checkbox">-->
+          <input
+            *ngIf="col.name"
+            type='checkbox'
+            class="input--check"
+            [id]="col.name"
+            (click)='toggle(col,i);$event.stopPropagation()'
+            [checked]='isChecked(col)'
+            />
+          <!--</div>-->
+
+          <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name}}</label>
+        </li>
+      </ul>
+    </md-menu>
+  </ng-template>
+  <ng-template #configGridTmpl  let-row="row" let-value="value"></ng-template>
+
+

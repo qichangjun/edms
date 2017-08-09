@@ -1,0 +1,50 @@
+.user--manage--home--right--content{
+  height: 100%;
+  width: calc(100% - 50px);
+  display: inline-block;
+  float: right;
+  //@media (max-width: 1366px) {
+  //  width:calc(100% - 50px);
+  //}
+  &__sidebar{
+    float: left;
+    height: 100%;
+    width: 250px;
+    background: rgb(243, 243, 243);
+    color: rgb(51, 51, 51);
+    overflow: hidden;
+    border-right: 1px solid #cccccc;
+    @media (max-width: 1366px) {
+      //width: 150px;
+    }
+    .user--sidebar--content--wrap{
+      width: 100%;
+      //padding-left: 60px;
+      //padding-top: 8px;
+      .select--input--box{
+        //box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 13px 5px -12px rgba(0, 0, 0, 0.2);
+        border: none;
+        background: transparent;
+        width: 100%;
+        margin-top: 10px;
+        padding: 0 30px;
+      }
+      .user--sidebar--column--wrap{
+        padding-left: 30px;
+        padding-top: 15px;
+        .single--column{
+          padding: 4px 0;
+          &.active{
+            .single--column__link{
+              color: #333333;
+            }
+          }
+          &__link{
+            text-decoration: none;
+          }
+        }
+      }
+    }
+  }
+}

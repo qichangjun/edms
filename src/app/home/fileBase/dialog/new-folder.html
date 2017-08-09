@@ -1,0 +1,62 @@
+<form name="form" (ngSubmit)="f.form.valid && newFolder()" #f="ngForm" novalidate class="new--folder--modal">
+  <h2 md-dialog-title>新建文件夹</h2>
+  <md-dialog-content  class="new--folder--dialog--content">
+    <div class="select--folder--type">
+      <div class="head">请选择文件夹类型：</div>
+      <md-radio-group name="typeName" [(ngModel)]="entity.typeName" (change)="checkAttrList(1)">
+        <md-radio-button value="wison_folder">惠生通用文件夹</md-radio-button>
+        <md-radio-button value="wison_prj_folder" >惠生项目文件夹</md-radio-button>
+      </md-radio-group>
+    </div>
+    <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !attr.attrName.valid && attr.required }" *ngFor="let attr of attrLists;let i = index">
+      <label class="attr--name" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+      <div style="position: relative;display:inline-block;">
+        <div *ngIf="attr.inputMode == 1">
+          <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+        </div>
+        <div *ngIf="attr.inputMode == 2">
+          <md-input-container id="{{attr.attrName}}"  class="attr--value date--input--box">
+            <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+            <button mdSuffix [mdDatepickerToggle]="startPicker"></button>
+          </md-input-container>
+          <md-datepicker #startPicker></md-datepicker>
+        </div>
+        <div *ngIf="attr.inputMode == 3">
+          <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+            <md-radio-button value="true">是</md-radio-button>
+            <md-radio-button value="false" >否</md-radio-button>
+          </md-radio-group>
+        </div>
+        <div  *ngIf="attr.inputMode == 4">
+          <md-select id="{{attr.attrName}}" class="attr--value select--input--box"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+            <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+              {{selectValue.name}}
+            </md-option>
+          </md-select>
+        </div>
+        <div *ngIf="attr.inputMode == 5" class="attr--value">
+          <a  (click)="editMultiple(attr)">编辑</a>
+          <span *ngFor="let value of attr.attrValue;let x = index">
+            {{value}}
+          </span>
+        </div>
+        <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+          <div class="form-messages">
+            <div class="msg-tri-outside"></div>
+            <div class="msg-tri-inside"></div>
+            <div  class="form-messages__icon fa fa-exclamation-circle">
+              <div >{{attr.displayName}}不能为空</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;checkAttrList(2)">
+      显示更多
+    </span>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</form>

@@ -1,0 +1,53 @@
+
+<ngx-datatable
+  #datatable
+  style="overflow-x: auto;height: 100%;width:auto;box-shadow: none;"
+  class="material selection-cell"
+  [rows]="rows"
+  [limit]="50"
+  [columns]="columns"
+  [columnMode]="'force'"
+  [headerHeight]="headerHeight"
+  [footerHeight]="0"
+  [rowHeight]="rowHeight"
+  [loadingIndicator]="isLoading"
+  (scroll)="onScroll($event.offsetY)"
+  [scrollbarV]="true"
+  [scrollbarH]="'false'"
+  [selected]="selected"
+  [sorts]="[{prop: 'name', dir: 'desc'}]"
+  [selectionType]="'multiClick'"
+  [selectionType]="'checkbox'"
+  (select)='onSelect($event)'
+  (reorder)="reOrder($event)"
+  (resize)="reSize($event)"
+  (sort)="onSort($event)"
+>
+</ngx-datatable>
+
+<ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+  <div class="checkbox">
+    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"  id="checkbox_al" class="input_check">
+    <label for="checkbox_al"></label>
+  </div>
+  <!--<input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>-->
+</ng-template>
+
+<ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+  <div class="checkbox">
+    <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
+    <label for="checkbox_one"></label>
+  </div>
+  <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
+</ng-template>
+
+<ng-template #objectNameTmpl let-row="row" let-value="value">
+  <a (click)="sidenav.open();currentFileId=row">{{value}}</a>
+</ng-template>
+<ng-template #dateTmpl let-row="row" let-value="value">
+  <span >{{value | date: 'yyyy/MM/dd'}}</span>
+</ng-template>
+<ng-template #operaHeadTmpl ngx-datatable-header-template let-column="column" >
+  <span >{{column.name}}</span>
+
+</ng-template>

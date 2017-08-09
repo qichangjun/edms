@@ -1,0 +1,32 @@
+<div >
+  <h2 md-dialog-title>删除 : 目录"{{data.rows[index].object_name}}"(第{{index+1}}个,共{{data.rows.length}}个)</h2>
+  <md-dialog-content>
+   <div>
+     <div *ngIf="loading">
+       正在加载...
+     </div>
+     <div *ngIf="!loading">
+       <div *ngIf="data.rows[index].info && data.rows[index].info.isMultiLinks">
+         <span>链接:</span>
+         <md-radio-group [(ngModel)]="data.rows[index].info.type">
+           <md-radio-button value="1">删除当前链接</md-radio-button>
+         </md-radio-group>
+
+       </div>
+       <div *ngIf="data.rows[index].info && data.rows[index].info.isMultiVersions">
+         <span>版本:</span>
+         <md-radio-group [(ngModel)]="data.rows[index].info.type">
+           <md-radio-button value="2">删除当前版本</md-radio-button>
+           <md-radio-button value="3">删除所有版本</md-radio-button>
+         </md-radio-group>
+       </div>
+     </div>
+   </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading || index == data.rows.length - 1" class="btn btn-sure" (click)="index=index+1;getDeleteInfo(index)">下一步</button>
+    <button md-button [disabled]="loading || index == 0" class="btn btn-sure" (click)="index=index-1;getDeleteInfo(index)">上一步</button>
+    <button md-button [disabled]="loading" class="btn btn-sure" (click)="deleteFile()">完成</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</div>

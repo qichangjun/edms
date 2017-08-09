@@ -1,0 +1,16 @@
+<form name="form" (ngSubmit)="f.form.valid && setJurisdiction()" #f="ngForm" novalidate>
+  <h2 md-dialog-title>批量修改权限</h2>
+  <md-dialog-content >
+    <multi-jurisdiction
+      [selectType]="'multiple'"
+      [type]="'all'"
+      [selectedList]="selectedList"
+      [groupList]="groupList"
+      [userList]="userList"
+    ></multi-jurisdiction>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</form>

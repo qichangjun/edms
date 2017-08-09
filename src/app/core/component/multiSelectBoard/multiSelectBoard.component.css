@@ -1,0 +1,97 @@
+.isSelected {
+  background-color: #F1F8FF; }
+
+.modal-group-add-membe-body {
+  width: 100%;
+  height: 350px;
+  margin-top: 10px; }
+  .modal-group-add-membe-body .modal-group-add-member {
+    width: 49%;
+    height: 350px; }
+    .modal-group-add-membe-body .modal-group-add-member__title {
+      padding: 0 0 10px; }
+    .modal-group-add-membe-body .modal-group-add-member__content {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #EEEEEE;
+      padding-top: 10px;
+      overflow-y: auto; }
+      .modal-group-add-membe-body .modal-group-add-member__content .choose-caret {
+        padding-left: 10px; }
+        .modal-group-add-membe-body .modal-group-add-member__content .choose-caret .fa {
+          width: 8px; }
+      .modal-group-add-membe-body .modal-group-add-member__content__everyuser {
+        line-height: 34px;
+        padding-left: 21px;
+        clear: both;
+        margin-bottom: 0px; }
+        .modal-group-add-membe-body .modal-group-add-member__content__everyuser:hover {
+          background-color: #f0f8fc; }
+        .modal-group-add-membe-body .modal-group-add-member__content__everyuser .dropdown-icon {
+          cursor: default;
+          vertical-align: middle; }
+        .modal-group-add-membe-body .modal-group-add-member__content__everyuser .everyuser-username {
+          width: 170px;
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: middle; }
+        .modal-group-add-membe-body .modal-group-add-member__content__everyuser-icon {
+          line-height: 34px;
+          font-size: 18px;
+          color: #cecdcd;
+          margin-right: 10px; }
+          .modal-group-add-membe-body .modal-group-add-member__content__everyuser-icon.selected {
+            color: #5CB85C; }
+        .modal-group-add-membe-body .modal-group-add-member__content__everyuser-child {
+          padding-left: 15px; }
+          .modal-group-add-membe-body .modal-group-add-member__content__everyuser-child:hover {
+            background-color: #f0f8fc; }
+  .modal-group-add-membe-body .modal-group-add-member-result {
+    width: 49%;
+    height: 350px; }
+    .modal-group-add-membe-body .modal-group-add-member-result__selected {
+      padding: 0 0 10px; }
+    .modal-group-add-membe-body .modal-group-add-member-result__content {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #EEEEEE;
+      padding-top: 10px;
+      overflow-y: auto; }
+      .modal-group-add-membe-body .modal-group-add-member-result__content__everyuser {
+        height: 34px;
+        line-height: 34px;
+        padding-left: 10px;
+        clear: both; }
+        .modal-group-add-membe-body .modal-group-add-member-result__content__everyuser:hover {
+          background-color: #f0f8fc; }
+        .modal-group-add-membe-body .modal-group-add-member-result__content__everyuser .everyuser-username {
+          width: 147px;
+          display: inline-block;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          vertical-align: middle; }
+        .modal-group-add-membe-body .modal-group-add-member-result__content__everyuser--dropdown {
+          line-height: 30px; }
+        .modal-group-add-membe-body .modal-group-add-member-result__content__everyuser .access--token--select {
+          display: inline-block;
+          width: 50px;
+          border: none;
+          box-shadow: none;
+          padding: 0px !important;
+          background: transparent;
+          float: right;
+          cursor: pointer; }
+    .modal-group-add-membe-body .modal-group-add-member-result .modal-group-add-member-result__content__everyuser-icon {
+      font-size: 18px;
+      color: #FB4A4A;
+      margin-left: 5px;
+      margin-right: 10px;
+      line-height: 34px; }
+
+.multi--select--board--option {
+  padding-top: 10px; }
+
+/*# sourceMappingURL=multiSelectBoard.component.css.map */
