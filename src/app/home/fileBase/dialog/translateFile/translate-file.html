@@ -7,6 +7,7 @@
     [idLists]="ids"
     [treeData]="treeData"
     (clickTree)="clickTreeOrBreadCrumb($event)"></ztree>
+  <loading-message *ngIf="loading" ></loading-message>
 </md-dialog-content>
 <md-dialog-actions>
   <button md-button [disabled]="loading" (click)="translateTo()" class="btn btn-sure">确定</button>

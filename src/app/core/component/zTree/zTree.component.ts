@@ -19,7 +19,7 @@ export class ZTreeComponent implements OnInit{
   @Input() treeId : any;
   @Input() idLists : any;
   @Input() treeData : any;
-  @Input() currentNode : any;
+  @Input() currentNode : any = '0';
   constructor(
     private _constantService  : ConstantService,
     private  _apiUrlService : ApiUrlService,
@@ -78,7 +78,6 @@ export class ZTreeComponent implements OnInit{
       treeNodeIds.shift();
       return treeNodeIds
     };
-    console.log(generateTreeNodeIds(treeNode))
     this.clickTree.emit({ids:generateTreeNodeIds(treeNode),node:treeNode});
   };
   ajaxDataFilter = (treeId, parentNode, res) => {
@@ -119,13 +118,12 @@ export class ZTreeComponent implements OnInit{
           if (treeNode) {
             this.zTreeObj.expandNode(treeNode, true, false, true);
             this.zTreeObj.selectNode(treeNode);
-        }
+          }
         }
       }
-
     }
     if (changes['currentNode']) {
-      if (this.currentNode) {
+      if (this.currentNode || this.currentNode == 0) {
         this.zTreeObj = $.fn.zTree.getZTreeObj(this.treeId);
         let _expandId = this.currentNode;
         if (this.zTreeObj){

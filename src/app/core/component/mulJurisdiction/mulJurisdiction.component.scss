@@ -7,9 +7,9 @@
   //max-height: 400px;
   height: 400px;
   margin-top: 10px;
-  min-width: 762px;
+  min-width: 680px;
   .modal-group-add-member{
-    width: 45%;
+    width: 46%;
     height: 100%;
     &__title{
       padding: 0 0 10px;
@@ -82,7 +82,8 @@
         }
       }
       &__search--input{
-        width: 320px;
+        //width: 320px;
+        width: 96%;
         position: absolute;
         margin-left: 7px;
         margin-top: -41px;

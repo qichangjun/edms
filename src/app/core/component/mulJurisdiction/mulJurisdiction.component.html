@@ -4,26 +4,16 @@
       <input #searchBox class="form-control modal-group-add-member__content__search--input" id="search-box"  [formControl]="searchControl" placeholder="搜索"/>
       <ul class="modal-group-add-member__list--box ">
         <span class="modal-group-add-member__content__head">群组：</span>
-        <li *ngFor="let list of groupList; let i = index"
+        <li *ngFor="let list of groupList"
             class="modal-group-add-member__content__everyuser"
           >
           <span class="everyuser-username">{{list.groupName}}</span>
-          <i  (click)="selectRow(list);$event.stopPropagation()"
-              [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
-
-        </li>
-        <span class="modal-group-add-member__content__head">用户：</span>
-        <li *ngFor="let list of userList; let i = index"
-            class="modal-group-add-member__content__everyuser"
-          >
-          <span class="everyuser-username">{{list.userName}}</span>
           <i  (click)="selectRow(list);$event.stopPropagation()"
               [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
         </li>
       </ul>
     </div>
   </div>
-
   <div class="modal-group-add-member-result pull-right">
     <ul class="modal-group-add-member-result__content ">
       <li *ngFor="let list of selectedList; let i = index"
@@ -68,4 +58,5 @@
     </ul>
   </div>
 </div>
+<ngb-pagination (pageChange)="searchList()" [collectionSize]="totalElement" [(page)]="currentPage" [maxSize]="4" [rotate]="true" [boundaryLinks]="false"></ngb-pagination>
 

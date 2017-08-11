@@ -7,70 +7,143 @@
     position: relative;
     left: -16px;
     bottom: 0; }
+  .fileinfo--sidebar--info--head .head--wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; }
   .fileinfo--sidebar--info--head .head--box {
     margin-left: 15px; }
     .fileinfo--sidebar--info--head .head--box .head {
       font-size: 16px; }
     .fileinfo--sidebar--info--head .head--box .file--count {
       font-size: 12px; }
+  .fileinfo--sidebar--info--head .sidebar--closed--btn {
+    cursor: pointer;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #ffffff;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .8;
+    margin-top: -2px; }
+    .fileinfo--sidebar--info--head .sidebar--closed--btn:hover {
+      opacity: 1; }
 
-.fileinfo--right--sidebar--info--content .attr--type--box {
-  margin: 20px 10px;
-  padding-top: 20px;
-  border-top: 1px solid #cccccc; }
-  .fileinfo--right--sidebar--info--content .attr--type--box:first-child {
-    margin-top: 0;
-    border-top: none; }
-  .fileinfo--right--sidebar--info--content .attr--type--box:last-child {
-    border-bottom: none; }
-  .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row {
-    padding: 5px 0; }
-    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .title {
-      display: inline-block;
-      vertical-align: middle;
-      width: 85px;
-      text-align: left;
-      color: #797979;
-      padding: 0 5px;
-      font-weight: normal;
-      margin: 0;
-      margin-left: 10px; }
-    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value {
-      display: inline-block;
-      vertical-align: middle;
-      max-width: 245px;
-      min-width: 55px;
-      margin-right: 5px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis; }
-      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value .progress-striped {
+.fileinfo--right--sidebar--info--content {
+  height: calc(100% - 50px); }
+  .fileinfo--right--sidebar--info--content .sidebar--info--content--box {
+    height: 100%; }
+    .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper {
+      height: calc(100% - 80px); }
+  .fileinfo--right--sidebar--info--content .attr--type--box {
+    margin: 20px 10px;
+    padding-top: 20px;
+    border-top: 1px solid #cccccc; }
+    .fileinfo--right--sidebar--info--content .attr--type--box:first-child {
+      margin-top: 0;
+      border-top: none; }
+    .fileinfo--right--sidebar--info--content .attr--type--box:last-child {
+      border-bottom: none; }
+    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row {
+      margin-bottom: 10px;
+      height: 24px;
+      line-height: 24px; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row.input--row {
+        height: 34px;
+        line-height: 34px; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .title {
         display: inline-block;
-        height: 11px;
-        width: 100px;
-        margin: 0 5px 0 0; }
-    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row a {
-      display: inline-block;
-      vertical-align: middle; }
-    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .sidebar--progress--time {
-      font-size: 12px;
-      color: #797979;
-      padding-top: 5px; }
-    .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt {
-      font-size: 12px;
-      color: #797979; }
-      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt .fa {
-        color: #ff9900;
-        font-size: 15px;
-        margin-right: 5px; }
-  .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title {
-    width: 80px;
-    padding-right: 0; }
-    .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title.left {
-      width: 130px;
+        vertical-align: middle;
+        width: 138px;
+        text-align: left;
+        color: #797979;
+        padding: 0 0 0 5px;
+        font-weight: normal;
+        margin: 0;
+        margin-left: 10px; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .more {
+        display: inline-block;
+        vertical-align: middle;
+        width: 138px;
+        text-align: left;
+        color: #337ab7;
+        padding: 0 5px;
+        font-weight: normal;
+        margin: 0;
+        margin-left: 10px;
+        cursor: pointer; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .more:hover {
+          color: #23527c; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value {
+        display: inline-block;
+        vertical-align: middle;
+        max-width: 220px;
+        min-width: 55px;
+        margin-right: 5px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value .progress-striped {
+          display: inline-block;
+          height: 11px;
+          width: 100px;
+          margin: 0 5px 0 0; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input {
+        display: inline-block;
+        vertical-align: middle;
+        width: 220px; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input .date--input {
+          width: 100%;
+          height: 34px;
+          line-height: normal;
+          padding: 0 6px;
+          color: #555;
+          background-color: #fff;
+          background-image: none;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input md-select {
+          width: 100%; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input .progress-striped {
+          display: inline-block;
+          height: 11px;
+          width: 100px;
+          margin: 0 5px 0 0; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row a {
+        display: inline-block;
+        vertical-align: middle; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .sidebar--progress--time {
+        font-size: 12px;
+        color: #797979;
+        padding-top: 5px; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt {
+        font-size: 12px;
+        color: #797979; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .data-volume-info-prompt .fa {
+          color: #ff9900;
+          font-size: 15px;
+          margin-right: 5px; }
+    .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title {
+      width: 80px;
       padding-right: 0; }
-  .fileinfo--right--sidebar--info--content .attr--type--box.two--col .value {
-    width: 80px;
-    margin-right: 0; }
+      .fileinfo--right--sidebar--info--content .attr--type--box.two--col .title.left {
+        width: 130px;
+        padding-right: 0; }
+    .fileinfo--right--sidebar--info--content .attr--type--box.two--col .value {
+      width: 80px;
+      margin-right: 0; }
+  .fileinfo--right--sidebar--info--content .option--btn--box {
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    bottom: 10px; }
+    .fileinfo--right--sidebar--info--content .option--btn--box .one--btn {
+      width: 94%;
+      margin-left: 0 !important; }
+    .fileinfo--right--sidebar--info--content .option--btn--box .two--btn {
+      width: 45%; }
 
 /*# sourceMappingURL=fileInfo.component.css.map */

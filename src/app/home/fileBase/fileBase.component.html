@@ -38,7 +38,7 @@
         </md-menu>
       </div>
       <div class="same--type--btn--group">
-        <button [disabled]="selected.length == 0" (click)="downloadFile(false)" class="btn btn-default"><span class="fa fa-download"></span></button>
+        <button [disabled]="selected.length == 0" (click)="downloadFile()" class="btn btn-default"><span class="fa fa-download"></span></button>
         <button *ngIf="parameter.ids.length == 1" (click)="newFileCabinet()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
         <button *ngIf="parameter.ids.length > 1" (click)="newFolder()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
         <button [disabled]="selected.length == 0" (click)="removeFile(false)" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
@@ -51,7 +51,7 @@
           <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('link')">链接到</button>
           <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">版本管理</button>
           <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">批量修改权限</button>
-          <button class="mat-menu-item__button" md-menu-item  (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
+          <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_folder' || selected[0].r_object_type == 'wison_folder')" (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
           <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">批量修改属性</button>
           <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">查看位置</button>
         </md-menu>
@@ -94,6 +94,10 @@
           <img class="prompt--img" src="assets/images/list--no--data-img.png" alt=""/>
         </span>
         <h3 class="prompt--head">没有数据</h3>
+        <!--<span class="prompt&#45;&#45;content">-->
+          <!--请检查与业务系统的网络连接是否通畅或者数据库连接的情况-->
+        <!--</span>-->
+
       </div>
     </div>
     <grid-list
@@ -137,7 +141,8 @@
   <div *ngIf="!row.isEditalbe" style="width: 100%;" >
     <div class="data--list--doc--icon--box">
       <img class="data--list--doc--icon" *ngIf="row.r_object_type != 'wison_prj_document'  && row.r_object_type != 'wison_document' && !row.a_content_type" src="assets/images/icon/{{row.r_object_type}}.png" alt="">
-      <img class="data--list--doc--icon" *ngIf="row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document'" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
+      <img class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && row.a_content_type" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
+      <img class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && !row.a_content_type" src="assets/images/icon/unknown.png" alt="">
     </div>
     <a (click)="enterFile(row,$event)" title="{{value}}" class="object_name">{{value}}</a>
     <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="查看属性"><span class="fa fa-info-circle"></span></a>
@@ -154,8 +159,8 @@
       [value]="row.object_name"
       (blur)="changeName($event)"
     />
-    <span (click)="renameFile(row);$event.stopPropagation()">确定</span>
-    <span (click)="this.editName='';row.isEditalbe=false;$event.stopPropagation()">取消</span>
+    <a (click)="renameFile(row);$event.stopPropagation()">确定</a>
+    <a (click)="this.editName='';row.isEditalbe=false;$event.stopPropagation()">取消</a>
   </div>
 </ng-template>
 <ng-template #dateTmpl let-row="row" let-value="value">

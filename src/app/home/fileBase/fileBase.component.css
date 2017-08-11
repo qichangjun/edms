@@ -4,6 +4,9 @@
   display: inline-block;
   float: right; }
 
+.mat-sidenav-transition .mat-sidenav {
+  transition: width 0.4s, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+
 .toolbar--option--btn--wrap {
   display: flex;
   justify-content: space-between;

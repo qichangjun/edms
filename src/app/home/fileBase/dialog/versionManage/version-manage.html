@@ -1,0 +1,106 @@
+<h2 md-dialog-title>版本管理</h2>
+<md-dialog-content>
+  <div class="version--upload--box">
+    <a  href="javascript:;" class="mat-menu-item__button a-upload">
+      <input  class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader"  />
+      上传新版本
+    </a>
+    <a  href="javascript:;" class="mat-menu-item__button a-upload">
+      <input  class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploaderNewest"  />
+      替换
+    </a>
+  </div>
+
+  <div *ngFor = "let version of versionList; let i = index" class="version--manage--list--single clearfix">
+    <div class="data--list--doc--icon--box">
+      <img class="data--list--doc--icon"src="/assets/images/icon/{{version.a_content_type}}.png" alt="">
+    </div>
+    <span class="title--name">{{version.r_version_label}}:{{version.object_name}}</span>
+    <button  [mdMenuTriggerFor]="moreOperation" class="btn btn-default pull-right"><span class="fa fa-ellipsis-h"></span></button>
+    <md-menu #moreOperation="mdMenu">
+      <button class="mat-menu-item__button" md-menu-item (click)="remove(version.r_object_id)">删除</button>
+      <button class="mat-menu-item__button" md-menu-item (click)="download(version.r_object_id)">下载</button>
+    </md-menu>
+  </div>
+  <div  *ngIf="uploader.queue.length + uploaderNewest.queue.length > 0" class="uploadMessage">
+    <div class="home--upload--wrap">
+      <table class="table table-hover home--upload--table--box">
+        <thead>
+        <tr class="table__th--tr">
+          <th >文件名</th>
+          <th >大小</th>
+          <th >状态</th>
+          <th >操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let file of uploader.queue; let i = index">
+          <td>{{file._file.name}}</td>
+          <td>{{file.file.size | sizefilter}}</td>
+          <td>
+            <span *ngIf="file.isError" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c"></span>
+            <span *ngIf="file.isSuccess" class="fa fa-check-circle status--prompt--icon" style="color: #56DA90"></span>
+            <span *ngIf="file.isUploading">
+              {{file.progress}}%
+            </span>
+            <span *ngIf="file.isReady && !file.isUploading">
+              排队中...
+            </span>
+          </td>
+          <td >
+            <div [hidden]="file.isSuccess">
+              <button type="button" class="btn btn-success btn-xs"
+                      (click)="file.upload()" [disabled]="file.isReady || file.isUploading || file.isSuccess">
+                <span class="glyphicon glyphicon-upload"></span> 上传
+              </button>
+              <button type="button" class="btn btn-warning btn-xs"
+                      (click)="file.cancel()" [disabled]="!file.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span> 取消
+              </button>
+              <button type="button" class="btn btn-danger btn-xs"
+                      (click)="file.remove()">
+                <span class="glyphicon glyphicon-trash"></span> 删除
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngFor="let file of uploaderNewest.queue; let i = index">
+          <td>{{file._file.name}}</td>
+          <td>{{file.file.size | sizefilter}}</td>
+          <td>
+            <span *ngIf="file.isError" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c"></span>
+            <span *ngIf="file.isSuccess" class="fa fa-check-circle status--prompt--icon" style="color: #56DA90"></span>
+            <span *ngIf="file.isUploading">
+              {{file.progress}}%
+            </span>
+            <span *ngIf="file.isReady && !file.isUploading">
+              排队中...
+            </span>
+          </td>
+          <td >
+            <div [hidden]="file.isSuccess">
+              <button type="button" class="btn btn-success btn-xs"
+                      (click)="file.upload()" [disabled]="file.isReady || file.isUploading || file.isSuccess">
+                <span class="glyphicon glyphicon-upload"></span> 上传
+              </button>
+              <button type="button" class="btn btn-warning btn-xs"
+                      (click)="file.cancel()" [disabled]="!file.isUploading">
+                <span class="glyphicon glyphicon-ban-circle"></span> 取消
+              </button>
+              <button type="button" class="btn btn-danger btn-xs"
+                      (click)="file.remove()">
+                <span class="glyphicon glyphicon-trash"></span> 删除
+              </button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button md-dialog-close >关闭</button>
+</md-dialog-actions>
+

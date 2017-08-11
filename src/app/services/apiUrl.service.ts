@@ -18,12 +18,15 @@ export class ApiUrlService {
   changeShowObJ = '/user/update_hidden';
   checkAttrList = '/attribute/list';
   getInfo = '/attribute/get_attributes';
+  updateInfo = '/attribute/update_single';
+  exportLimits = '/permit/export';
+  getLimit = '/permit/list'
 
   move = '/resource/move';
   copy = '/resource/copy';
   link = '/resource/link';
 
-  newFolder = '/folder/create';
+  newFolder = '/resource/create_folder';
   newFileCabinet = '/resource/create_cabinet';
 
   getPosition = '/resource/list_locations';

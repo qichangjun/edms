@@ -84,15 +84,25 @@ export class FileBaseService {
     return this.http.post(this._constantService.baseUrl() + this._apiUrlService['getFileList'] + queryUrl,JSON.stringify(params),{headers:headers});
   }
 
-  newFolder(parameters:any) {
-    let info = Object.assign({}, parameters)
-    let params: URLSearchParams = new URLSearchParams();
-    for(let key in info){
-      params.set(key.toString(), info[key]);
-    };
-    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
-    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
-    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['newFolder'],{search: params})
+  newFolder(entity,docbase,params:any) {
+    let info = Object.assign([], params)
+    info.forEach((item)=>{
+      if(item['inputMode'] == 2){
+        if (item.attrValue){
+          item['attrValue'] = new Date(item['attrValue']).toLocaleDateString().replace(/\//g,   "-")
+        }
+      }
+    })
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&typeName=' + entity.typeName +
+      '&id=' + entity.parentId;
+    let para = {attributeList : info};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['newFolder'] + queryUrl,JSON.stringify(para),{headers:headers});
   }
 
   newFileCabinet(parameters:any) {
@@ -214,6 +224,16 @@ export class FileBaseService {
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getInfo'] + queryUrl);
   }
 
+  getLimit(info,params){
+    let queryUrl =
+      '?docbase=' + params.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&id=' + info.r_object_id;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getLimit'] + queryUrl);
+  }
+
   checkAttrList(params,docbase,option) {
     let queryUrl =
       '?docbase=' + docbase +
@@ -225,6 +245,43 @@ export class FileBaseService {
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['checkAttrList'] + queryUrl);
   }
 
+  updateInfo(id,params,docbase){
+    let info = Object.assign([], params)
+    info.forEach((item)=>{
+      if(item['inputMode'] == 2){
+        if (item.attrValue){
+          item['attrValue'] = new Date(item['attrValue']).toLocaleDateString().replace(/\//g,   "-")
+        }
+      }
+    })
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&id=' + id;
+    let para = {attributeList : info};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['updateInfo'] + queryUrl,JSON.stringify(para),{headers:headers});
+  }
+
+  updateName(id,name,docbase){
+    let info = []
+    info.push({
+      attrName : 'object_name',
+      attrValue : name
+    })
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&id=' + id;
+    let para = {attributeList : info};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['updateInfo'] + queryUrl,JSON.stringify(para),{headers:headers});
+  }
+
   download(id,params) {
     let queryUrl =
       '?docbase=' + params.docbase +
@@ -232,8 +289,23 @@ export class FileBaseService {
       '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
       '&locale=' + this._authenticationService.getCurrentLanguage() +
       '&ids=' + id;
-    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['download'] + queryUrl);
+    let url = this._constantService.baseUrl() + this._apiUrlService['download'] + queryUrl
+    window.open(url)
   }
+
+  exportLimits(params,cascade,exportToHtml) {
+    let queryUrl =
+      '?docbase=' + params.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&cascade=' + cascade +
+      '&exportToHtml=' + exportToHtml +
+      '&id=' + params.selected[0].r_object_id;
+    let url = this._constantService.baseUrl() + this._apiUrlService['exportLimits'] + queryUrl
+    window.open(url)
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

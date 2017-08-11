@@ -3,6 +3,7 @@
   #datatable
   style="overflow-x: auto;height: 100%;width:auto;box-shadow: none;"
   class="material selection-cell"
+  [externalSorting]="true"
   [rows]="rows"
   [limit]="50"
   [columns]="columns"
@@ -15,7 +16,6 @@
   [scrollbarV]="true"
   [scrollbarH]="'false'"
   [selected]="selected"
-  [sorts]="[{prop: 'name', dir: 'desc'}]"
   [selectionType]="'multiClick'"
   [selectionType]="'checkbox'"
   (select)='onSelect($event)'

@@ -6,9 +6,9 @@
 export const environment = {
   production: false,
   //baseUrl : 'http://mvn.docworks.cn:9092/mockjsdata/8',
-  //baseUrl : 'http://demo.docworks.cn/edmsapi',
+  baseUrl : 'http://demo.docworks.cn/edmsapi',
   //baseUrl : 'http://192.168.0.153:8080',
-  baseUrl : 'http://192.168.0.208:8080/edmsapi',
+  //baseUrl : 'http://192.168.0.208:8080/edmsapi',
   companyBase : 'wison_company',
   projectBase : 'wison_projects',
   mainHref : {

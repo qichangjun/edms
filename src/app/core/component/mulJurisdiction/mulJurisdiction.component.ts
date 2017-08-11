@@ -15,11 +15,13 @@ import {UserService} from "../../../home/userManage/user/user.service";
 })
 export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewInit{
   @Input() selectedList : any;
-  @Input() userList : any;
-  @Input() groupList : any;
+  userList : any;
+  groupList : any;
   @Input() type : string;
   @Input() selectType : string;
   searchControl = new FormControl();
+  currentPage : number = 1;
+  totalElement : number = 0;
   keywords : string;
   constructor(
     private _groupService : GroupService,
@@ -28,46 +30,30 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
   ngAfterViewInit(){}
   ngOnInit() {
     this.searchControl.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
+      //.debounceTime(500)
+      //.distinctUntilChanged()
       .subscribe(value => {
         this.searchList(value)
       });
+    this.searchList()
   }
-  searchList(keyword){
-    let params = {pageSize : 50,currentPage : 1,docbase : 'wison_projects',keywords : keyword}
-    if (this.type == 'all' || this.type == 'group') {
-      this._groupService.getGroupList(params,true).subscribe(
-        data => {
-          let info = data.json();
-          if (info.code == 1) {
-            this.groupList = info.data.groupList;
-            this.selectedList.forEach((row)=>{
-              if (row.groupId) {
-                this.groupList.filter((group)=>{
-                  return group['groupId'] == row.groupId
-                })[0].isChecked = true
-              }
-            })
-          }}
-      );
-    }
-    if (this.type == 'all' || this.type == 'user'){
-      this._userService.getUserList(params,true).subscribe(
-        data => {
-          let info = data.json();
-          if (info.code == 1) {
-            this.userList = info.data.userList
-            this.selectedList.forEach((row)=>{
-              if (row.userId){
-                this.userList.filter((user)=>{
-                  return user['userId'] == row.userId
-                })[0].isChecked = true
-              }
-            })
-          }}
-      );
-    }
+  searchList(keyword?){
+    let params = {pageSize : 50,currentPage : this.currentPage,docbase : 'wison_projects',keywords : keyword}
+    this._groupService.getGroupList(params,true).subscribe(
+      data => {
+        let info = data.json();
+        if (info.code == 1) {
+          this.groupList = info.data.groupList;
+          this.totalElement = info.data.page.totalCount;
+          this.selectedList.forEach((row)=>{
+            if (row.groupId) {
+              this.groupList.filter((group)=>{
+                return group['groupId'] == row.groupId
+              })[0].isChecked = true
+            }
+          })
+        }}
+    );
   }
   selectRow(list){
     list.isChecked = !list.isChecked;
@@ -107,7 +93,6 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
       }).isChecked = false
     }
   }
-
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
     for (let propName in changes) {
       let chng = changes[propName];

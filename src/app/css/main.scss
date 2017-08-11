@@ -333,7 +333,7 @@ ul{
 .mat-select-trigger{
   font-size: 13px;
   height: 34px !important;
-  min-width: 80px !important;
+  //min-width: 80px !important;
 }
 .mat-option{
   font-size: inherit !important;
@@ -513,18 +513,35 @@ label{
     .prompt--img{
       display: table-row;
       opacity: .8;
+      text-align: center;
+      text-align: -webkit-center;
     }
     .prompt--head{
       display: table-cell;
-      font-size: 16px;
-      //color: #999;
-      color: #ab0909;
+      font-size: 18px;
+      color: #c9c9c9;
+      //color: #ab0909;
       padding: 20px 25px 20px 0;
+      //&:before{
+      //  font: normal normal normal 14px/1 FontAwesome;
+      //  content: '\f06a';
+      //  //color: #ab0909;
+      //  color: #c9c9c9;
+      //  font-size: 16px;
+      //  margin-right: 5px;
+      //}
+    }
+    .prompt--content{
+      display: table-row;
+      white-space: nowrap;
+      font-size: 12px;
+      color: #999;
+      line-height: 2;
+      text-align: left;
       &:before{
         font: normal normal normal 14px/1 FontAwesome;
         content: '\f06a';
-        color: #ab0909;
-        font-size: 16px;
+        color: #f90;
         margin-right: 5px;
       }
     }
@@ -536,6 +553,7 @@ label{
 .mat-radio-container{
   width: 18px !important;
   height: 18px !important;
+  margin-bottom: 2px;
 }
 .mat-radio-outer-circle{
   width: 18px !important;
@@ -550,4 +568,40 @@ label{
 }
 .mat-radio-button.mat-accent .mat-radio-inner-circle{
   background: #199ed8;
+}
+
+
+.fileinfo--right--sidebar--info--content{
+  .sidebar--info--content--box{
+    .mat-tab-body-wrapper{
+      height: calc(100% - 50px);
+      .mat-tab-body{
+        height: 100%;
+        .attr--type--wrap{
+          height: 100%;
+          .attr--type--box{
+            height: calc(100% - 70px);
+            overflow-y: auto;
+          }
+        }
+      }
+    }
+  }
+}
+
+//mulJurisdiction.component.html
+.modal-group-add-member-result__content{
+  .mat-select-trigger{
+    min-width: 80px !important;
+  }
+}
+
+
+//file--info--version
+.file--info--version{
+  .modal-group-add-membe-body{
+    height: calc(100% - 88px) !important;
+    overflow: hidden;
+
+  }
 }

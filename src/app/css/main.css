@@ -249,8 +249,7 @@ ul {
 
 .mat-select-trigger {
   font-size: 13px;
-  height: 34px !important;
-  min-width: 80px !important; }
+  height: 34px !important; }
 
 .mat-option {
   font-size: inherit !important; }
@@ -393,22 +392,31 @@ label {
     margin: 0 auto; }
     .list--no--data .no--data__prompt--box .prompt--img {
       display: table-row;
-      opacity: .8; }
+      opacity: .8;
+      text-align: center;
+      text-align: -webkit-center; }
     .list--no--data .no--data__prompt--box .prompt--head {
       display: table-cell;
-      font-size: 16px;
-      color: #ab0909;
+      font-size: 18px;
+      color: #c9c9c9;
       padding: 20px 25px 20px 0; }
-      .list--no--data .no--data__prompt--box .prompt--head:before {
+    .list--no--data .no--data__prompt--box .prompt--content {
+      display: table-row;
+      white-space: nowrap;
+      font-size: 12px;
+      color: #999;
+      line-height: 2;
+      text-align: left; }
+      .list--no--data .no--data__prompt--box .prompt--content:before {
         font: normal normal normal 14px/1 FontAwesome;
         content: '\f06a';
-        color: #ab0909;
-        font-size: 16px;
+        color: #f90;
         margin-right: 5px; }
 
 .mat-radio-container {
   width: 18px !important;
-  height: 18px !important; }
+  height: 18px !important;
+  margin-bottom: 2px; }
 
 .mat-radio-outer-circle {
   width: 18px !important;
@@ -423,5 +431,22 @@ label {
 
 .mat-radio-button.mat-accent .mat-radio-inner-circle {
   background: #199ed8; }
+
+.fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper {
+  height: calc(100% - 50px); }
+  .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper .mat-tab-body {
+    height: 100%; }
+    .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper .mat-tab-body .attr--type--wrap {
+      height: 100%; }
+      .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper .mat-tab-body .attr--type--wrap .attr--type--box {
+        height: calc(100% - 70px);
+        overflow-y: auto; }
+
+.modal-group-add-member-result__content .mat-select-trigger {
+  min-width: 80px !important; }
+
+.file--info--version .modal-group-add-membe-body {
+  height: calc(100% - 88px) !important;
+  overflow: hidden; }
 
 /*# sourceMappingURL=main.css.map */

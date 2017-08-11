@@ -1,20 +1,20 @@
 @charset "UTF-8";
 .new--folder--modal--attr--box{
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   .attr--name{
     font-weight: normal;
     display: inline-block;
     vertical-align: middle;
     margin-bottom: 0;
     //width: 90px;
-    width: 130px;
+    width: 160px;
     height: 34px;
     line-height: 34px;
   }
   .attr--value{
     display: inline-block;
     vertical-align: middle;
-    width: 280px;
+    width: 290px;
     &.date--input--box{
       height: 34px;
       padding: 0 6px;
@@ -42,6 +42,21 @@
       transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     }
   }
+  .more{
+    display: inline-block;
+    vertical-align: middle;
+    width: 160px;
+    text-align: left;
+    color: #337ab7;
+    font-weight: normal;
+    margin: 0;
+    cursor: pointer;
+    height: 34px;
+    line-height: 34px;
+    &:hover{
+      color: #23527c;
+    }
+  }
 }
 
 //new-folder.html
@@ -57,3 +72,73 @@
   }
 }
 
+//version-manage.html
+.version--upload--box{
+  padding: 10px 0;
+}
+.version--manage--list--single{
+  margin-bottom: 5px;
+  .title--name{
+    display: inline-block;
+    vertical-align: middle;
+    width: calc(100% - 90px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+.data--list--doc--icon--box{
+  display: inline-block;
+  vertical-align: text-bottom;
+}
+.mat-menu-item__button{
+  height: 40px;
+  line-height: 40px;
+}
+.mat-menu-item__button{
+
+}
+.a-upload {
+  //padding: 4px 10px;
+  //height: 20px;
+  //line-height: 20px;
+  position: relative;
+  cursor: pointer;
+  //color: #888;
+  //background: #fafafa;
+  //border: 1px solid #ddd;
+  //border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  border: 1px solid #4cae4c;
+  padding: 6px 12px;
+  line-height: normal ;
+  height: auto !important;
+  border-radius: 3px;
+  background-color: #5cb85c;
+  color: #fff ;
+  text-decoration: none;
+  outline: none;
+  &:hover{
+    border-color: #adadad !important;
+    background: #449d44 !important;
+  }
+}
+.a-upload  input {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  cursor: pointer
+}
+
+.a-upload:hover {
+  //color: #444;
+  //background: #eee;
+  //border-color: #ccc;
+  //text-decoration: none
+}

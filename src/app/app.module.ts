@@ -15,7 +15,7 @@ import { ResizableModule } from 'angular-resizable-element';
 import { TranslateModule,TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component'
 import { MainComponent } from './main/main.component'
-import { FileBaseComponent,newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog } from './home/fileBase/fileBase.component'
+import { FileBaseComponent,newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog } from './home/fileBase/index'
 import { UserManageComponent } from './home/userManage/userManage.component'
 import { GroupComponent,createGroupDialog,removeGroupDialog } from './home/userManage/group/group.component'
 import { RoleComponent } from './home/userManage/role/role.component'
@@ -65,6 +65,8 @@ export function createTranslateLoader(http: Http) {
     removeFileDialog,
     versionManageDialog,
     setMulJurisdictionDialog,
+    exportCurrFolderLimitsDialog,
+    setMulProDialog,
     ProjectFileComponent,
     UserManageComponent,
     GroupComponent,
@@ -88,6 +90,7 @@ export function createTranslateLoader(http: Http) {
     CoreModule,
     AppRoutingModule,
     FileUploadModule,
+    NgbModule.forRoot(),
     ToastModule.forRoot(),
     DndModule.forRoot(),
     TranslateModule.forRoot({
@@ -100,7 +103,21 @@ export function createTranslateLoader(http: Http) {
     MultiselectDropdownModule,
     ResizableModule
   ],
-  entryComponents : [newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,createUserDialog,removeFileDialog,removeUserDialog,createGroupDialog,removeGroupDialog,setMulJurisdictionDialog,versionManageDialog],
+  entryComponents : [
+    newFolderDialog,
+    editMultipleDialog,
+    translateFileDialog,
+    newFileCabinetDialog,
+    checkPositionDialog,
+    createUserDialog,
+    removeFileDialog,
+    removeUserDialog,
+    createGroupDialog,
+    removeGroupDialog,
+    setMulJurisdictionDialog,
+    versionManageDialog,
+    setMulProDialog,
+    exportCurrFolderLimitsDialog],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
     AuthenticationService,
