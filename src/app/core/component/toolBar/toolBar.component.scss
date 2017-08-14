@@ -74,6 +74,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding-right: 14px;
   }
   .navbar--search--box{
     position: relative;
@@ -133,6 +134,20 @@
     right: 15px;
     font-size: 13px;
     color: #ffffff;
+    .head--user--info--box{
+      cursor: pointer;
+      &:hover{
+        .caret{
+          color: rgba(255, 255, 255, .8);
+        }
+      }
+      .navbar--admin--icon{
+        width: 33px;
+        height: 33px;
+        border-radius: 50%;
+        margin-right: 5px;
+      }
+    }
     .fa-search{
       font-size: 14px;
       margin-right: 15px;

@@ -9,7 +9,7 @@
       </md-radio-group>
     </div>
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !attr.attrName.valid && attr.required }" *ngFor="let attr of attrLists;let i = index">
-      <label class="attr--name" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+      <label *ngIf="!attr.readOnly" class="attr--name" for="{{attr.attrName}}">{{attr.displayName}}：</label>
       <div style="position: relative;display:inline-block;">
         <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
           <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />

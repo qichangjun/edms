@@ -63,6 +63,8 @@ export class FileBaseService {
     }
     if(parameters.dir && parameters.prop){
       orders.push({direction:parameters.dir,column:parameters.prop})
+    }else{
+      orders.push({direction:'asc',column:'object_name'})
     }
     params.orders = orders
     if(parameters.object_name){
@@ -105,16 +107,24 @@ export class FileBaseService {
     return this.http.post(this._constantService.baseUrl() + this._apiUrlService['newFolder'] + queryUrl,JSON.stringify(para),{headers:headers});
   }
 
-  newFileCabinet(parameters:any) {
-    let info = Object.assign({}, parameters)
-    let params: URLSearchParams = new URLSearchParams();
-    for(let key in info){
-      params.set(key.toString(), info[key]);
-    };
-    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
-    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
-    params.set('locale',this._authenticationService.getCurrentLanguage());
-    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['newFileCabinet'],{search: params})
+  newFileCabinet(parameters:any,params:Array<any>) {
+    let info = Object.assign([], params)
+    info.forEach((item)=>{
+      if(item['inputMode'] == 2){
+        if (item.attrValue){
+          item['attrValue'] = new Date(item['attrValue']).toLocaleDateString().replace(/\//g,   "-")
+        }
+      }
+    })
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + parameters.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&typeName=' + parameters.typeName;
+    let para = {attributeList : info};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['newFileCabinet'] + queryUrl,JSON.stringify(para),{headers:headers});
   }
 
   translateFile(id : string,params) {
@@ -263,6 +273,19 @@ export class FileBaseService {
       '&id=' + id;
     let para = {attributeList : info};
     return this.http.post(this._constantService.baseUrl() + this._apiUrlService['updateInfo'] + queryUrl,JSON.stringify(para),{headers:headers});
+  }
+
+  updateLimit(id,params,docbase){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&id=' + id +
+      '&cascade=' + 6;
+    let para = {permitVOs : params};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['updateLimit'] + queryUrl,JSON.stringify(para),{headers:headers});
   }
 
   updateName(id,name,docbase){

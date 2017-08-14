@@ -376,20 +376,20 @@ label {
     animation: fa-spin 1s infinite steps(8); }
 
 .list--no--data {
-  width: 50%;
-  height: 70%;
   min-height: 80px;
   position: absolute;
   text-align: center;
-  margin: auto;
+  margin: 10px 14px;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0; }
+  bottom: 0;
+  border: 1px solid #eee; }
   .list--no--data .no--data__prompt--box {
     display: table;
     width: 1px;
-    margin: 0 auto; }
+    margin: 0 auto;
+    padding-top: 70px; }
     .list--no--data .no--data__prompt--box .prompt--img {
       display: table-row;
       opacity: .8;

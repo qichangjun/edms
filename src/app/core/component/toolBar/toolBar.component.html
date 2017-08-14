@@ -40,7 +40,10 @@
     </div>
 
     <div class="toolbar--user--info--box" >
-      <button [mdMenuTriggerFor]="moreOperation" md-button>操作</button>
+      <div [mdMenuTriggerFor]="moreOperation" class="head--user--info--box">
+        <img class="navbar--admin--icon" src="/assets/images/head--photo.jpg" alt=""/>
+        <span class="caret"></span>
+      </div>
       <md-menu #moreOperation="mdMenu">
         <button *ngIf="translate.currentLang == 'en'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('cn')">切换至中文</button>
         <button *ngIf="translate.currentLang == 'cn'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en')">切换至英文</button>

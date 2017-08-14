@@ -78,6 +78,37 @@ export class GroupService {
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['removeGroup'],{search: params})
   }
 
+  getUserAndGroupList(parameters,docbase,groupId?){
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let info = Object.assign({}, parameters);
+    info.keywords = info.keywords || ''
+    let params = {orders:[],page:1,length:50}
+    if(parameters.dir && parameters.prop){
+      params.orders.push({direction:parameters.dir,column:parameters.prop})
+    }
+    params.page = info.currentPage;
+    params.length = info.pageSize;
+    let queryUrl =
+      '?docbase=' + parameters.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&keywords=' + info.keywords +
+      '&objectType=' + info.objectType;
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['getUserAndGroupList'] + queryUrl,JSON.stringify(params),{headers:headers});
+
+  }
+
+  searchGroupChild(docbase,groupId){
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&groupId=' + groupId;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getGroupsChildren'] + queryUrl);
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

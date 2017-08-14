@@ -21,7 +21,7 @@ import { ToolBarService } from './component/toolBar/toolBar.service'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { MessageVerifyDirective } from './directive/messageVerify/messageVerify.directive'
 import { CountWidthDirective } from './directive/countWidth/countWidth.directive'
-
+import { ShakingAnimationDirective } from './directive/shakingAnimation/shakingAnimation.directive'
 
 import { Sizefilter } from './filter/size.filter';
 
@@ -38,8 +38,8 @@ import { Sizefilter } from './filter/size.filter';
     NgbModule.forRoot(),
     CommonModule // we use ngFor
   ],
-  exports: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent],
-  declarations: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent],
+  exports: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent,ShakingAnimationDirective],
+  declarations: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent,ShakingAnimationDirective],
   providers: [MdDialogConfig,ToolBarService]
 })
 export class CoreModule { }

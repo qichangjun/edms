@@ -17,6 +17,8 @@ import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 })
 export class newFileCabinetDialog implements OnInit{
   loading : boolean = false;
+  showMoreAttr : boolean = false;
+  attrLists : Array<any> = [];
   constructor(
     public dialog: MdDialog,
     private fileBaseService : FileBaseService,
@@ -25,7 +27,6 @@ export class newFileCabinetDialog implements OnInit{
     vcr: ViewContainerRef,
     @Inject(MD_DIALOG_DATA) public data: any
   ) {
-    this.toastr.setRootViewContainerRef(vcr);
   }
   public entity : any = {};
   cancel(){
@@ -33,12 +34,13 @@ export class newFileCabinetDialog implements OnInit{
   }
   newFileCabinet(){
     this.loading = true;
-    this.fileBaseService.newFileCabinet(this.entity).subscribe(
+    this.fileBaseService.newFileCabinet(this.entity,this.attrLists).subscribe(
       data => {
         this.loading = false;
         let info = data.json();
         if (info.code==1) {
           this.dialogRef.close(true);
+          this.toastr.success(info.message);
         }else {
           this.toastr.error(info.message);
         }
@@ -48,6 +50,23 @@ export class newFileCabinetDialog implements OnInit{
   ngOnInit(){
     this.entity.parentId = this.data.parentId;
     this.entity.docbase = this.data.docbase;
-    this.entity.title = '在建'
+    this.entity.typeName = 'dm_cabinet';
+    this.checkAttrList(1);
+  }
+  checkAttrList(option){
+    this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).subscribe(
+      data => {
+        let info = data.json();
+        if (info.code==1) {
+          if (option == 1){
+            this.attrLists = info.data
+          }else {
+            this.attrLists = this.attrLists.concat(info.data)
+          }
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    );
   }
 }

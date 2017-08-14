@@ -106,6 +106,7 @@
         </div>
         <div class="attr--type--box file--info--version" *ngIf="editLimit">
           <multi-jurisdiction
+            [docbase]="parameter.docbase"
             [selectType]="'multiple'"
             [type]="'all'"
             [selectedList]="limitList"

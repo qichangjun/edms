@@ -2,6 +2,7 @@
   <h2 md-dialog-title>批量修改权限</h2>
   <md-dialog-content >
     <multi-jurisdiction
+      [docbase]="data.docbase"
       [selectType]="'multiple'"
       [type]="'all'"
       [selectedList]="selectedList"

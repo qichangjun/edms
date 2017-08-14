@@ -12,6 +12,7 @@ export class ApiUrlService {
   deleteFile = '/resource/delete';
   searchIdsByPosition = '/resource/location_detail';
   setMulJurisdiction = '/permit/update_batch';
+  updateLimit = '/permit/update_single';
   getVersionList = '/version/list';
   download = '/resource/download';
   getShowObJ = '/user/show_is_hidden';
@@ -21,6 +22,8 @@ export class ApiUrlService {
   updateInfo = '/attribute/update_single';
   exportLimits = '/permit/export';
   getLimit = '/permit/list'
+  getUserAndGroupList = '/user/list'
+  getGroupsChildren = '/group/listAllSubObjects'
 
   move = '/resource/move';
   copy = '/resource/copy';

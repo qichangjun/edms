@@ -97,7 +97,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     private _authenticationService : AuthenticationService,
     private _apiUrlService : ApiUrlService,
     vcr: ViewContainerRef
-  ) {}
+  ){}
   navigate() {
     let navigationExtras: any = {
       outlets: {uploadFile: 'uploadFile'}
@@ -200,9 +200,9 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
       defaultTitle: '项目状态'
     };
     this.myOptions = [
-      { id: '\'0\'', name: '在建' },
-      { id: '\'1\'', name: '待关闭' },
-      { id: '\'2\'', name: '已归档' }
+      { id: '在建', name: '在建' },
+      { id: '待关闭', name: '待关闭' },
+      { id: '已归档', name: '已归档' }
     ];
     this.initUpload();
     this.route.url.subscribe(
@@ -420,6 +420,11 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     this.router.navigate([], { queryParams: this.parameter });
     this.getList(true)
   }
+  clearSearch(){
+    this.parameter.object_name = ''
+    this.router.navigate([], { queryParams: this.parameter });
+    this.getList(true)
+  }
 
   toggle(col,index) {
     const isChecked = this.isChecked(col);
@@ -455,7 +460,6 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     let dialogRef = this.dialog.open(newFileCabinetDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true);
         this.getTreeData();
       }
     });
@@ -471,7 +475,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     let dialogRef = this.dialog.open(newFolderDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true)
+        this.getTreeData();
       }
     });
   }
@@ -524,7 +528,6 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
       let dialogRef = this.dialog.open(removeFileDialog,conifg);
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          this.getList(true);
           this.getTreeData();
         }
       });
@@ -560,7 +563,6 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     let dialogRef = this.dialog.open(translateFileDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true);
         this.getTreeData();
       }
     });
@@ -589,7 +591,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     conifg.width = '600px';
     let dialogRef = this.dialog.open(versionManageDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
-      return
+      this.getTreeData();
     });
   }
   setMulJurisdiction(){

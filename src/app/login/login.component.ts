@@ -3,10 +3,33 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { AuthenticationService } from '../services/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
+import {
+  trigger,
+  state,
+  style,
+  animate,
+  transition,
+  keyframes
+} from '@angular/animations';
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: [ './login.component.scss' ]
+  styleUrls: [ './login.component.scss' ],
+  animations: [
+    trigger('isInputError', [
+      state('0' , style({ opacity: 1})),
+      state('1', style({ opacity: 1,})),
+      transition('0 => 1', [
+        animate(300, keyframes([
+          style({transform: 'translateX(-10px)', offset: 0}),
+          style({transform: 'translateX(10px)',  offset: 0.3}),
+          style({transform: 'translateX(-5px)', offset: 0.6}),
+          style({transform: 'translateX(5px)', offset: 0.9}),
+          style({transform: 'translateX(0)',     offset: 1.0})
+        ]))
+      ])
+    ])
+  ]
 })
 
 export class LoginComponent implements OnInit {
@@ -15,6 +38,7 @@ export class LoginComponent implements OnInit {
   focuseUserName : boolean = false;
   focusePssword : boolean = false;
   remember : boolean = false;
+  errorMessage : string;
 
   model: any = {};
   returnUrl: string;
@@ -36,6 +60,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     this.loading = true;
+    this.showErrorMessage = false
     this.authenticationService.login(this.model.username, this.model.password,this.model.language)
       .subscribe(
         data => {
@@ -46,7 +71,9 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('currentLanguage', this.model.language);
             this.router.navigate([this.returnUrl]);
           }else{
-            this.toastr.error(user.message);
+            this.showErrorMessage = true
+            this.errorMessage = user.message
+            //this.toastr.error(user.message);
             this.loading = false;
           }
         },

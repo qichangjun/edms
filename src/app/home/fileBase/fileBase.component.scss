@@ -87,8 +87,20 @@
       .search--box{
         position: relative;
         margin-right: 7px;
+        .remove--btn{
+          position: absolute;
+          right: 25px;
+          top: 11px;
+          font-size: 14px;
+          color: #ccc;
+          &:hover{
+            color: #999999;
+            cursor: pointer;
+          }
+        }
         &__input{
-          padding-right: 20px;
+          //padding-right: 20px;
+          padding-right: 36px;
         }
       }
       .search--btn{

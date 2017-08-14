@@ -57,6 +57,9 @@
         position: relative;
         float: none;
         padding: 0;
+        &.focusInputBox{
+
+        }
         .icon-bar{
           display: inline-block;
           width: 42px;

@@ -8,11 +8,11 @@
       <h3 class="caption" translate="">登录</h3>
       <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
         <label class="title" for="username">用户名</label>
-        <div class="value--input">
+        <div class="value--input" [@isInputError]="(username.valid || showErrorMessage)">
           <span class="fa fa-user icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focuseUserName}"></span>
           <input
             type="text"
-            class="form-control form--input"
+            class="form-control form--input shake"
             [ngClass]="{error: showErrorMessage}"
             (focus)="showErrorMessage=false;focuseUserName = true"
             (blur)="focuseUserName = false"
@@ -23,12 +23,11 @@
             #username="ngModel"
             required />
           <span class="fa fa-times-circle clear--data--btn" [hidden]="!model.username" (mouseup)="model.username=''"></span>
-          <div *ngIf="f.submitted && !username.valid" class="help-block">用户名不能为空</div>
         </div>
       </div>
       <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
         <label class="title" for="password">密码</label>
-        <div class="value--input">
+        <div class="value--input" [@isInputError]="showErrorMessage">
           <span class="fa fa-key icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focusePssword}"></span>
           <input
             type="password"
@@ -43,7 +42,6 @@
             #password="ngModel"
             required />
           <span class="fa fa-times-circle clear--data--btn" [hidden]="!model.password" (mouseup)="model.password=''"></span>
-          <div *ngIf="f.submitted && !password.valid" class="help-block">密码不能为空</div>
         </div>
       </div>
       <div class="form-group input-content-box select" >
@@ -65,10 +63,11 @@
       </div>
 
       <button id="goLogin" [disabled]="loading" class="btn btn-primary submit-btn">登录</button>
-
+      <div *ngIf="f.submitted && !username.valid" class="login--warning--prompt">用户名不能为空</div>
+      <div *ngIf="f.submitted && !password.valid" class="login--warning--prompt">密码不能为空</div>
       <div [hidden]="!showErrorMessage" class="login--warning--prompt">
         <span class="fa fa-exclamation-triangle"></span>
-        <!--{{vm.errorMessage}}-->
+        {{errorMessage}}
       </div>
     </form>
   </div>

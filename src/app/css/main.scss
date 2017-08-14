@@ -496,20 +496,22 @@ label{
 }
 
 .list--no--data{
-  width: 50%;
-  height: 70%;
+  //width: 50%;
+  //height: 70%;
   min-height: 80px;
   position: absolute;
   text-align: center;
-  margin: auto;
+  margin: 10px 14px;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
+  border: 1px solid #eee;
   .no--data__prompt--box{
     display: table;
     width: 1px;
     margin: 0 auto;
+    padding-top: 70px;
     .prompt--img{
       display: table-row;
       opacity: .8;
@@ -605,3 +607,5 @@ label{
 
   }
 }
+
+

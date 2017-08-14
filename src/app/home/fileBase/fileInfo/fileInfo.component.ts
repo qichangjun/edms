@@ -20,7 +20,7 @@ export class FileInfoComponent implements OnInit {
   loading : boolean = false;
   showMoreAttr : boolean = false;
   editStatus : boolean = false;
-  editLimit : boolean = false
+  editLimit : boolean = false;
   constructor(
     public dialog: MdDialog,
     public MdDialogConfig : MdDialogConfig,
@@ -87,22 +87,35 @@ export class FileInfoComponent implements OnInit {
         this.loading = false
         let info = data.json();
         if (info.code == 1) {
+          this.toastr.success(info.message);
           this.editStatus=false
           return
         }
         else if (info.code ==0) {
           this.toastr.error(info.message);
         }
-        console.log(this.attrList)
       }
     )
   }
   updateLimit(){
-    console.log(this.limitList)
-    this.getLimit();
+    this.loading = true
+    this.fileBaseService.updateLimit(this.row.r_object_id,this.limitList,this.parameter.docbase).subscribe(
+      data => {
+        this.loading = false
+        let info = data.json();
+        if (info.code == 1) {
+          this.toastr.success(info.message);
+          this.getLimit();
+          return
+        }
+        else if (info.code ==0) {
+          this.toastr.error(info.message);
+        }
+      }
+    )
   }
   startEditLimit(){
-    this.sidenav._elementRef.nativeElement.style.width = 700 + 'px';
+    this.sidenav._elementRef.nativeElement.style.width = 800 + 'px';
     this.editLimit = true;
   }
 
