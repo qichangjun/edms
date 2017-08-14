@@ -38,6 +38,12 @@
           <a  (click)="editMultiple(attr)">编辑</a>
           <span>{{attr.attrValue}}</span>
         </div>
+        <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+          <a  (click)="selectUser(attr)">选择</a>
+          <span *ngFor="let value of attr.attrValue">
+            {{value.objectName}}
+          </span>
+        </div>
         <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
         <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
           <div class="form-messages">

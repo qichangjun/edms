@@ -24,7 +24,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component'
 import { MainComponent } from './main/main.component'
-import { FileBaseComponent,newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog } from './home/fileBase/index'
+import { FileBaseComponent,newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog,selectUserDialog } from './home/fileBase/index'
 import { UserManageComponent } from './home/userManage/userManage.component'
 import { GroupComponent,createGroupDialog,removeGroupDialog } from './home/userManage/group/group.component'
 import { RoleComponent } from './home/userManage/role/role.component'
@@ -67,6 +67,7 @@ export function createTranslateLoader(http: Http) {
     setMulJurisdictionDialog,
     exportCurrFolderLimitsDialog,
     setMulProDialog,
+    selectUserDialog,
     ProjectFileComponent,
     UserManageComponent,
     GroupComponent,
@@ -114,6 +115,7 @@ export function createTranslateLoader(http: Http) {
     removeUserDialog,
     createGroupDialog,
     removeGroupDialog,
+    selectUserDialog,
     setMulJurisdictionDialog,
     versionManageDialog,
     setMulProDialog,

@@ -1,5 +1,5 @@
 import { Component,Inject,OnInit,AfterViewInit,HostBinding,TemplateRef,ViewChild,ViewContainerRef,ElementRef, trigger, transition, style, animate,state } from '@angular/core';
-import { FileBaseService,editMultipleDialog } from '../../index';
+import { FileBaseService,editMultipleDialog,selectUserDialog } from '../../index';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
@@ -58,6 +58,21 @@ export class newFolderDialog implements OnInit{
     dialogRef.afterClosed().subscribe(result => {
       if (result){
         attr.attrValue = result.join(',')
+      }
+    });
+  }
+  selectUser(attr){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      attr : attr,
+      docbase : this.data.docbase
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        attr.attrValue = result
       }
     });
   }

@@ -16,6 +16,7 @@ import { GridListComponent } from './component/gridList/gridList.component';
 import { MultiSelectBoardComponent } from './component/multiSelectBoard/multiSelectBoard.component'
 import { MultiJurisdictionComponent } from './component/mulJurisdiction/mulJurisdiction.component'
 import { LoadingMessageComponent } from './component/loadingMessage/loadingMessage.component'
+import { SingleSelectUsernComponent } from './component/singeleSelectUser/singleSelectUser.component'
 
 import { ToolBarService } from './component/toolBar/toolBar.service'
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
@@ -38,8 +39,35 @@ import { Sizefilter } from './filter/size.filter';
     NgbModule.forRoot(),
     CommonModule // we use ngFor
   ],
-  exports: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent,ShakingAnimationDirective],
-  declarations: [Sizefilter,NavComponent,ToolBarComponent,ZTreeComponent,BreadCrumbComponent,GridListComponent,MultiSelectBoardComponent,MessageVerifyDirective,MultiJurisdictionComponent,CountWidthDirective,LoadingMessageComponent,ShakingAnimationDirective],
+  exports: [
+    Sizefilter,
+    NavComponent,
+    ToolBarComponent,
+    ZTreeComponent,
+    BreadCrumbComponent,
+    GridListComponent,
+    MultiSelectBoardComponent,
+    MessageVerifyDirective,
+    MultiJurisdictionComponent,
+    CountWidthDirective,
+    LoadingMessageComponent,
+    ShakingAnimationDirective,
+    SingleSelectUsernComponent
+  ],
+  declarations: [Sizefilter,
+    NavComponent,
+    ToolBarComponent,
+    ZTreeComponent,
+    BreadCrumbComponent,
+    GridListComponent,
+    MultiSelectBoardComponent,
+    MessageVerifyDirective,
+    MultiJurisdictionComponent,
+    CountWidthDirective,
+    LoadingMessageComponent,
+    ShakingAnimationDirective,
+    SingleSelectUsernComponent
+  ],
   providers: [MdDialogConfig,ToolBarService]
 })
 export class CoreModule { }

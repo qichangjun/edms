@@ -12,3 +12,4 @@ export * from './dialog/setMulJurisdiction/setMulJurisdiction.dialog';
 export * from './dialog/versionManage/versionManage.dialog';
 export * from './dialog/exportCurrFolderLimits/exportCurrFolderLimits.dialog';
 export * from './dialog/setMulPro/setMulPro.dialog'
+export * from './dialog/selectUser/selectUser.dialog'

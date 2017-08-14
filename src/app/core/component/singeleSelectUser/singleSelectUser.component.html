@@ -1,0 +1,42 @@
+<bread-crumb
+  [rootName]="rootName"
+  [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
+<div class="modal-group-add-membe-body clearfix">
+  <div class="modal-group-add-member pull-left">
+    <div class="modal-group-add-member__content">
+      <md-select style="right: 4px;
+        width: 40%;
+        position: absolute;
+        margin-left: 7px;
+        margin-top: -41px;"  class="select--input--box"   [(ngModel)]="objectType" (change)="changeType()">
+        <md-option  [value]="'all'">
+          所有
+        </md-option>
+        <md-option  [value]="'user'">
+          用户
+        </md-option>
+        <md-option  [value]="'group'">
+          组
+        </md-option>
+        <md-option  [value]="'role'">
+          角色
+        </md-option>
+      </md-select>
+      <input #searchBox class="form-control modal-group-add-member__content__search--input" id="search-box"  [formControl]="searchControl" placeholder="搜索"/>
+      <ul class="modal-group-add-member__list--box ">
+        <!--<span class="modal-group-add-member__content__head"></span>-->
+        <li *ngFor="let list of rows"
+            class="modal-group-add-member__content__everyuser"
+            (dblclick)="enterGroup(list)"
+            (click)="selectRow(list);$event.stopPropagation()"
+        >
+          <i [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
+          <span class="everyuser-username">{{list.objectName}}</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+{{selectedList}}
+<ngb-pagination (pageChange)="changePage($event)" [collectionSize]="totalElement" [(page)]="currentPage" [maxSize]="4" [rotate]="true" [boundaryLinks]="false"></ngb-pagination>
+

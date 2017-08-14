@@ -1,0 +1,15 @@
+<form name="form" (ngSubmit)="f.form.valid && setUser()" #f="ngForm" novalidate>
+  <h2 md-dialog-title>选择用户</h2>
+  <md-dialog-content >
+    <single-selectUser
+      [docbase]="data.docbase"
+      [selectType]="'multiple'"
+      [type]="'all'"
+      [selectedList]="selectedList"
+    ></single-selectUser>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</form>

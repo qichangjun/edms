@@ -10,12 +10,12 @@ import {UserService} from "../../../home/userManage/user/user.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
-  selector: 'multi-jurisdiction',
-  templateUrl: './mulJurisdiction.component.html',
-  styleUrls: ['./mulJurisdiction.component.scss'],
+  selector: 'single-selectUser',
+  templateUrl: './singleSelectUser.component.html',
+  styleUrls: ['./singleSelectUser.component.scss'],
 })
-export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewInit{
-  @Input() selectedList : any;
+export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewInit{
+  @Input() selectedList : Array<any>;
   @Input() type : string;
   @Input() selectType : string;
   @Input() docbase : string;
@@ -110,27 +110,16 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
   selectRow(list){
     list.isChecked = !list.isChecked;
     if (list.isChecked){
-      if (this.selectType != 'multiple') {
-        this.selectedList = []
-        this.rows.map((c)=>{
-          c['isChecked'] = false
-        })
-        list.isChecked = true
-      }
-      list.extendsPermitNames = 'CHANGE_PERMIT'
-      list.permitCode = 1
+      this.rows.map((c)=>{
+        c['isChecked'] = false
+      });
+      list.isChecked = true
+      this.selectedList.splice(0,this.selectedList.length)
       this.selectedList.push(list);
     } else{
       this.selectedList = this.selectedList.filter(c =>{
         return c.objectId != list.objectId
       })
-    }
-  }
-  cancelRow(list){
-    if (list.objectId){
-      this.rows.find((row)=>{
-        return row['objectId'] == list.objectId
-      }).isChecked = false
     }
   }
 

@@ -31,7 +31,7 @@
       opacity: 1; }
 
 .fileinfo--right--sidebar--info--content {
-  height: calc(100% - 50px); }
+  height: calc(100% - 60px); }
   .fileinfo--right--sidebar--info--content .sidebar--info--content--box {
     height: 100%; }
     .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper {
