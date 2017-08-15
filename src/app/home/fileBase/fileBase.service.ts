@@ -329,6 +329,45 @@ export class FileBaseService {
     window.open(url)
   }
 
+  getListTypes(params){
+    let ids = []
+    params.selected.forEach((item)=>{
+      ids.push(item['r_object_id'])
+    })
+    let queryUrl =
+      '?docbase=' + params.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&ids=' + ids;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getListTypes'] + queryUrl);
+  }
+
+  setMulPro(params,typeName,attrLists){
+    let info = Object.assign({}, attrLists)
+    let type = []
+    for (let key in info){
+      if (info[key].length > 0){
+        let _arr = info[key].filter((c)=>{
+          return c.isChecked
+        })
+        type.push({
+          attributeList : _arr,
+          typeName : key
+        })
+      }
+    }
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let queryUrl =
+      '?docbase=' + params.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&typeName=' + typeName;
+    let para = {type : type};
+    return this.http.post(this._constantService.baseUrl() + this._apiUrlService['setMulPro'] + queryUrl,JSON.stringify(para),{headers:headers});
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

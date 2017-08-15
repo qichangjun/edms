@@ -116,7 +116,7 @@ export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewIni
       list.isChecked = true
       this.selectedList.splice(0,this.selectedList.length)
       this.selectedList.push(list);
-    } else{
+    }else{
       this.selectedList = this.selectedList.filter(c =>{
         return c.objectId != list.objectId
       })

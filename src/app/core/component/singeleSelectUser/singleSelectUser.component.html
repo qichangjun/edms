@@ -28,15 +28,14 @@
         <li *ngFor="let list of rows"
             class="modal-group-add-member__content__everyuser"
             (dblclick)="enterGroup(list)"
-            (click)="selectRow(list);$event.stopPropagation()"
         >
-          <i [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
+          <i  (click)="selectRow(list);$event.stopPropagation()"
+            [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
           <span class="everyuser-username">{{list.objectName}}</span>
         </li>
       </ul>
     </div>
   </div>
 </div>
-{{selectedList}}
 <ngb-pagination (pageChange)="changePage($event)" [collectionSize]="totalElement" [(page)]="currentPage" [maxSize]="4" [rotate]="true" [boundaryLinks]="false"></ngb-pagination>
 

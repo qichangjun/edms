@@ -29,9 +29,10 @@
         <li *ngFor="let list of rows"
             class="modal-group-add-member__content__everyuser"
             (dblclick)="enterGroup(list)"
+
           >
           <span class="everyuser-username">{{list.objectName}}</span>
-          <i  (click)="selectRow(list);$event.stopPropagation()"
+          <i (click)="selectRow(list);$event.stopPropagation()"
               [ngClass]="{'fa-circle-o' : !list.isChecked,'fa-check-circle' : list.isChecked}" class="fa  modal-group-add-member__content__everyuser-icon pull-right"></i>
         </li>
       </ul>

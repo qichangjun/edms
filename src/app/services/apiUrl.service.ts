@@ -24,6 +24,8 @@ export class ApiUrlService {
   getLimit = '/permit/list'
   getUserAndGroupList = '/user/list'
   getGroupsChildren = '/group/listAllSubObjects'
+  getListTypes='/attribute/list_types'
+  setMulPro = '/attribute/update_batch'
 
   move = '/resource/move';
   copy = '/resource/copy';

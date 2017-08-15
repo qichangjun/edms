@@ -38,7 +38,7 @@ declare var Dropzone:any;
 export class FileBaseComponent implements OnInit,AfterViewInit{
   @ViewChild('myupload') myupload:any;
   @ViewChild('gridList') gridList:any;
-  @ViewChild('objectNameTmpl') objectNameTmpl: TemplateRef<any>;
+  @ViewChild('objectNameTmpl') object_nameTmpl: TemplateRef<any>;
   @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
   @ViewChild('operaHeadTmpl') operaHeadTmpl: TemplateRef<any>;
   @ViewChild('checkboxTmpl') checkboxTmpl: TemplateRef<any>;
@@ -95,8 +95,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     public MdDialogConfig : MdDialogConfig,
     public dialog: MdDialog,
     private _authenticationService : AuthenticationService,
-    private _apiUrlService : ApiUrlService,
-    vcr: ViewContainerRef
+    private _apiUrlService : ApiUrlService
   ){}
   navigate() {
     let navigationExtras: any = {
@@ -344,7 +343,6 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
      this.allColumns : 用于管理显示及隐藏的列配置
      */
     this.allColumns = [
-      //{name:'名称',prop:'object_name',cellTemplate:this.objectNameTmpl,minWidth:100},
       {name:'密级',prop:'w_secret_level',minWidth:100},
       {name:'是否加密',prop:'w_is_encrypted',minWidth:100},
       {name:'目录内文件数',prop:'docNum',minWidth:100},
@@ -353,7 +351,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     ]
     this.columns = [
       { name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
-      {name:'名称',prop:'object_name',cellTemplate:this.objectNameTmpl,minWidth:200},
+      {name:'名称',prop:'object_name',cellTemplate:this.object_nameTmpl,minWidth:200},
       {name:'密级',prop:'w_secret_level',minWidth:100},
       {name:'是否加密',prop:'w_is_encrypted',minWidth:100},
       {name:'目录内文件数',prop:'docNum',minWidth:100},
@@ -364,7 +362,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     this.localColumns = JSON.parse(localStorage.getItem('grid_columns'+'_'+this.storageName));
     if (!this.localColumns){
       this.localColumns = [
-        { prop:'object_name',minWidth:200,name:'名称'},
+        { prop:'object_name',minWidth:200,name:'名称',hasTempl:true},
         { prop:'w_secret_level',minWidth:100,name:'密级'},
         { prop:'w_is_encrypted',minWidth:100,name:'是否加密'},
         {name:'目录内文件数',prop:'docNum',minWidth:100},
@@ -380,8 +378,8 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
       ];
       for (let i = 0 ;i < this.localColumns.length; i ++) {
         this.columns[i + 1] = Object.assign({}, this.localColumns[i])
-        if (this.localColumns[i].prop == 'object_name'){
-          this.columns[i + 1].cellTemplate = this.objectNameTmpl
+        if (this.localColumns[i].hasTempl){
+          this.columns[i + 1].cellTemplate = this[this.localColumns[i].prop + 'Tmpl']
         }
       }
       this.columns.push(

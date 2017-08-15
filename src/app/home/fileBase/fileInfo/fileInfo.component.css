@@ -73,6 +73,10 @@
         margin: 0;
         margin-left: 10px;
         cursor: pointer; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .more:before {
+          font: normal normal normal 14px/1 FontAwesome;
+          content: "\f0da";
+          margin-right: 5px; }
         .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .more:hover {
           color: #23527c; }
       .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value {

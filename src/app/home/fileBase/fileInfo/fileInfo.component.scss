@@ -99,6 +99,11 @@
         margin: 0;
         margin-left: 10px;
         cursor: pointer;
+        &:before{
+          font: normal normal normal 14px/1 FontAwesome;
+          content: "\f0da";
+          margin-right: 5px;
+        }
         &:hover{
           color: #23527c;
         }

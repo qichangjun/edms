@@ -118,7 +118,7 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
         list.isChecked = true
       }
       list.extendsPermitNames = 'CHANGE_PERMIT'
-      list.permitCode = 1
+      list.permitCode = '1'
       this.selectedList.push(list);
     } else{
       this.selectedList = this.selectedList.filter(c =>{
@@ -150,10 +150,12 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
     }
   }
   enterGroup(list){
-    if (this.ids[this.ids.length - 1] != list.objectId) {
-      this.ids.push(list.objectId)
-      this.breadCrumbLists.push({object_name:list.objectName,r_object_id:list.objectId})
-      this.searchGroupChild(list)
+    if(list.type == 'group'){
+      if (this.ids[this.ids.length - 1] != list.objectId) {
+        this.ids.push(list.objectId)
+        this.breadCrumbLists.push({object_name:list.objectName,r_object_id:list.objectId})
+        this.searchGroupChild(list)
+      }
     }
   }
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
