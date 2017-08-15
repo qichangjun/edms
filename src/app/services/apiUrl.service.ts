@@ -45,4 +45,6 @@ export class ApiUrlService {
   createGroup = '/group/create';
   updateGroup = '/group/update';
   removeGroup = '/group/delete';
+  checkUsersGroup = '/user/list_groups';
+  reAssignUser = '/user/reassign'
 }

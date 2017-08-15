@@ -1,7 +1,11 @@
 @charset "utf-8";
+.group--sidebar--info--wrap{
+  height: 100%;
+  border-left: 1px solid #3e3e3e;
+}
 .group--sidebar--info--head{
   //background: #505d6c;
-  background: #5e5e5e;
+  background: #3e3e3e;
   color: #ffffff;
   line-height: normal;
   .head--bg-icon{
@@ -106,7 +110,7 @@
     }
   }
   .option--btn--box{
-    width: 100%;
+    width: calc(100% - 1px);
     text-align: center;
     position: absolute;
     bottom: 10px;

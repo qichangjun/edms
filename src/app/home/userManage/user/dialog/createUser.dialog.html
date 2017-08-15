@@ -35,8 +35,26 @@
         </div>
       </div>
     </div>
-
-    <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">用户来源</label>
+      <div style="position: relative;display:inline-block;">
+        <md-select name="userSource" class="form-control attr--value" id="userSource" #userSource="ngModel"   [(ngModel)]="entity.userSource" >
+          <md-option  [value]="'inline password'">
+            inline password
+          </md-option>
+          <md-option  [value]="'none'">
+            none
+          </md-option>
+          <md-option  [value]="'ldap'">
+            ldap
+          </md-option>
+          <md-option  [value]="'dm_krb'">
+            dm_krb
+          </md-option>
+        </md-select>
+      </div>
+    </div>
+    <div *ngIf="entity.userSource == 'inline password'" class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
       <label class="attr--name">密码</label>
       <div style="position: relative;display:inline-block;">
         <input id="password" type="password" class="form-control attr--value"
@@ -53,13 +71,128 @@
         </div>
       </div>
     </div>
-
     <div class="form-group new--folder--modal--attr--box">
       <label class="attr--name">邮箱</label>
       <div style="position: relative;display:inline-block;">
         <input id="email" type="email" class="form-control attr--value"
                name="email" [(ngModel)]="entity.email"
                #email="ngModel" />
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">描述</label>
+      <div style="position: relative;display:inline-block;">
+        <textarea id="description" type="text" class="form-control attr--value"
+                  name="description" [(ngModel)]="entity.description"
+                  #email="ngModel"  cols="30" rows="10">
+        </textarea>
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">客户端功能</label>
+      <div style="position: relative;display:inline-block;">
+        <md-select  class="form-control attr--value" name="clientFunction" id="clientFunction" #clientFunction="ngModel"   [(ngModel)]="entity.clientFunction" >
+          <md-option  [value]="1">
+            Consumer
+          </md-option>
+          <md-option  [value]="2">
+            Contributor
+          </md-option>
+          <md-option  [value]="4">
+            Coordinator
+          </md-option>
+          <md-option  [value]="8">
+            System Administrator
+          </md-option>
+        </md-select>
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">用户权限</label>
+      <div style="position: relative;display:inline-block;">
+        <md-select  name="userPermit" class="form-control attr--value" id="userPermit" #userPermit="ngModel"   [(ngModel)]="entity.userPermit" >
+          <md-option  [value]="0">
+            无
+          </md-option>
+          <md-option  [value]="1">
+            Create Type
+          </md-option>
+          <md-option  [value]="2">
+            Create Cabine
+          </md-option>
+          <md-option  [value]="3">
+            Create Cabinet and Type
+          </md-option>
+          <md-option  [value]="4">
+            Create Group
+          </md-option>
+          <md-option  [value]="5">
+            Create group and Type
+          </md-option>
+          <md-option  [value]="6">
+            Create group and Cabinet
+          </md-option>
+          <md-option  [value]="7">
+            Create Group,Cabinet and Type
+          </md-option>
+          <md-option  [value]="8">
+            System Administrator
+          </md-option>
+          <md-option  [value]="9">
+            Superuser
+          </md-option>
+        </md-select>
+      </div>
+    </div>
+
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">用户状态</label>
+      <div style="position: relative;display:inline-block;">
+        <md-select name="userState" class="form-control attr--value" id="userState" #userState="ngModel"   [(ngModel)]="entity.userState" >
+          <md-option  [value]="0">
+            激活
+          </md-option>
+          <md-option  [value]="1">
+            待用
+          </md-option>
+          <md-option  [value]="2">
+            锁定
+          </md-option>
+          <md-option  [value]="3">
+            锁定待用
+          </md-option>
+        </md-select>
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">用户扩展权限</label>
+      <div style="position: relative;display:inline-block;">
+        <md-select name="userXPermit" class="form-control attr--value" id="userXPermit" #userXPermit="ngModel"   [(ngModel)]="entity.userXPermit" >
+          <md-option  [value]="1">
+            none
+          </md-option>
+          <md-option  [value]="2">
+            Config Audit
+          </md-option>
+          <md-option  [value]="3">
+            Purge Audit
+          </md-option>
+          <md-option  [value]="4">
+            Config and Purge Audit
+          </md-option>
+          <md-option  [value]="5">
+            View Audit
+          </md-option>
+          <md-option  [value]="6">
+            Config and View Audit
+          </md-option>
+          <md-option  [value]="7">
+            View and Purge Audit
+          </md-option>
+          <md-option  [value]="8">
+            Config,View and Purge Audit
+          </md-option>
+        </md-select>
       </div>
     </div>
   </md-dialog-content>

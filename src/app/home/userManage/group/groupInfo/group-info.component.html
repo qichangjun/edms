@@ -1,67 +1,70 @@
-<md-toolbar class="group--sidebar--info--head">
-  <span class="fa fa-cogs head--bg-icon"></span>
-  <div class="head--box">
-    <div class="head">组信息</div>
-  </div>
-
-</md-toolbar>
-<div class="groupinfo--right--sidebar--info--content" *ngIf="!editStatus">
-  <div class="attr--type--box">
-    <div class="single--attr--row">
-      <span class="title">组名：</span>
-      <span class="value">{{entity.groupName}}</span>
+<div class="group--sidebar--info--wrap">
+  <md-toolbar class="group--sidebar--info--head">
+    <span class="fa fa-cogs head--bg-icon"></span>
+    <div class="head--box">
+      <div class="head">组信息</div>
     </div>
-    <div class="single--attr--row">
-      <span class="title">描述：</span>
-      <span class="value">{{entity.description}}</span>
-    </div>
-    <div class="single--attr--row">
-      <span class="title">拥有者：</span>
-      <span class="value">{{entity.owner}}</span>
-    </div>
-  </div>
-  <div class="option--btn--box">
-    <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
-  </div>
 
-</div>
-
-<div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
-  <form name="form" (ngSubmit)="f.form.valid && updateGroup()" #f="ngForm" novalidate>
+  </md-toolbar>
+  <div class="groupinfo--right--sidebar--info--content" *ngIf="!editStatus">
     <div class="attr--type--box">
-      <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !groupName.valid && groupName.required }">
-        <label class="title">组名</label>
-        <div class="value" style="position: relative;display:inline-block;">
+      <div class="single--attr--row">
+        <span class="title">组名：</span>
+        <span class="value">{{entity.groupName}}</span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">描述：</span>
+        <span class="value">{{entity.description}}</span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">拥有者：</span>
+        <span class="value">{{entity.owner}}</span>
+      </div>
+    </div>
+    <div class="option--btn--box">
+      <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+    </div>
+
+  </div>
+
+  <div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
+    <form name="form" (ngSubmit)="f.form.valid && updateGroup()" #f="ngForm" novalidate>
+      <div class="attr--type--box">
+        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !groupName.valid && groupName.required }">
+          <label class="title">组名</label>
+          <div class="value" style="position: relative;display:inline-block;">
         <span>
           {{formData.groupName}}
         </span>
+          </div>
         </div>
-      </div>
-      <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
-        <label class="title vertical--top">描述</label>
-        <div class="input--value" style="position: relative;display:inline-block;">
+        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
+          <label class="title vertical--top">描述</label>
+          <div class="input--value" style="position: relative;display:inline-block;">
         <textarea id="description" type="text" class="form-control"
                   name="description" [(ngModel)]="entity.description"
                   #description="ngModel" >
         </textarea>
+          </div>
+        </div>
+        <div class="form-group single--attr--row">
+          <label class="title">拥有者</label>
+          <div class="input--value" style="position: relative;display:inline-block;">
+            <input id="owner" type="text" class="form-control "
+                   name="owner" [(ngModel)]="formData.owner"
+                   #email="ngModel" />
+          </div>
         </div>
       </div>
-      <div class="form-group single--attr--row">
-        <label class="title">拥有者</label>
-        <div class="input--value" style="position: relative;display:inline-block;">
-          <input id="owner" type="text" class="form-control "
-                 name="owner" [(ngModel)]="formData.owner"
-                 #email="ngModel" />
-        </div>
-      </div>
-    </div>
 
-    <div class="option--btn--box">
-      <button md-button (click)="editStatus = false" [disabled]="loading" class="btn btn-default">取消</button>
-      <button md-button  [disabled]="loading" class="btn btn-sure">确定</button>
-    </div>
-  </form>
+      <div class="option--btn--box">
+        <button md-button (click)="editStatus = false" [disabled]="loading" class="btn btn-default">取消</button>
+        <button md-button  [disabled]="loading" class="btn btn-sure">确定</button>
+      </div>
+    </form>
+  </div>
 </div>
+
 
 
 

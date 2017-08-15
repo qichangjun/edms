@@ -6,6 +6,7 @@ import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { ConstantService } from '../../../services/constant.service';
 import { EventService } from '../../../services/behavior.service';
+import { FileBaseService,editMultipleDialog,selectUserDialog } from '../../fileBase/index';
 
 @Component({
   selector: 'user',
@@ -18,7 +19,8 @@ export class UserComponent implements OnInit,AfterViewInit{
     totalElements : 0,
     currentPage : 1,
     pageSize : 50,
-    keywords : null
+    keywords : null,
+    objectType : 'user'
   };
   @ViewChild('gridList') gridList:any;
   @ViewChild('userNameTmpl') userNameTmpl: TemplateRef<any>;
@@ -94,10 +96,10 @@ export class UserComponent implements OnInit,AfterViewInit{
         let info = data.json();
         if (info.code == 1) {
           this.loadColumns();
-          this.parameter.totalElements = info.data.page.totalCount;
-          this.parameter.currentPage = info.data.page.currentPage ;
+          this.parameter.totalElements = info.data.pageInfo.totalCount;
+          this.parameter.currentPage = info.data.pageInfo.currentPage ;
           if (init) {
-            this.rows = info.data.userList
+            this.rows = info.data.userGroupList
             setTimeout(() => {
               if (this.rows.length > this.pageLimit) {
                 this.gridList.datatable.offset = this.gridList.datatable.rowCount/this.gridList.datatable.pageSize;
@@ -105,7 +107,7 @@ export class UserComponent implements OnInit,AfterViewInit{
               }
             });
           }else {
-            this.rows = this.rows.concat(info.data.userList);
+            this.rows = this.rows.concat(info.data.userGroupList);
           }
         }
         else if (info.code ==0) {
@@ -123,25 +125,25 @@ export class UserComponent implements OnInit,AfterViewInit{
      this.allColumns : 用于管理显示及隐藏的列配置
      */
     this.allColumns = [
-      {name:'用户名',prop:'userName',cellTemplate:this.userNameTmpl,minWidth:100},
-      {name:'登录名',prop:'loginName',minWidth:100},
-      {name:'用户状态',prop:'state',cellTemplate:this.stateTmpl,minWidth:100},
+      {name:'用户名',prop:'objectName',cellTemplate:this.userNameTmpl,minWidth:100},
+      {name:'登录名',prop:'userLoginName',minWidth:100},
+      {name:'用户状态',prop:'userState',cellTemplate:this.stateTmpl,minWidth:100},
       {name:'邮箱',prop:'email',minWidth:100}
     ]
     this.columns = [
       { name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
-      {name:'用户名',prop:'userName',cellTemplate:this.userNameTmpl,minWidth:100},
-      {name:'登录名',prop:'loginName',minWidth:100},
-      {name:'用户状态',prop:'state',cellTemplate:this.stateTmpl,minWidth:100},
+      {name:'用户名',prop:'objectName',cellTemplate:this.userNameTmpl,minWidth:100},
+      {name:'登录名',prop:'userLoginName',minWidth:100},
+      {name:'用户状态',prop:'userState',cellTemplate:this.stateTmpl,minWidth:100},
       {name:'邮箱',prop:'email',minWidth:100},
       { name:'',prop:'',cellTemplate:this.configGridTmpl,headerTemplate:this.configGridHeadTmpl,minWidth:80,resizeable:false}
     ];
     this.localColumns = JSON.parse(localStorage.getItem('grid_columns'+'_'+this.storageName));
     if (!this.localColumns){
       this.localColumns = [
-        { prop:'userName',minWidth:100,name:'名称'},
-        { prop:'loginName',minWidth:100,name:'登录名'},
-        { prop:'state',minWidth:100,name:'用户状态'},
+        { prop:'objectName',minWidth:100,name:'名称'},
+        { prop:'userLoginName',minWidth:100,name:'登录名'},
+        { prop:'userState',minWidth:100,name:'用户状态'},
         {name:'邮箱',prop:'email',minWidth:100}
       ]
     }else{
@@ -153,10 +155,10 @@ export class UserComponent implements OnInit,AfterViewInit{
       ];
       for (let i = 0 ;i < this.localColumns.length; i ++) {
         this.columns[i + 1] = Object.assign({}, this.localColumns[i])
-        if (this.localColumns[i].prop == 'userName'){
+        if (this.localColumns[i].prop == 'objectName'){
           this.columns[i + 1].cellTemplate = this.userNameTmpl
         }
-        if (this.localColumns[i].prop == 'state'){
+        if (this.localColumns[i].prop == 'userState'){
           this.columns[i + 1].cellTemplate = this.stateTmpl
         }
       }
@@ -216,6 +218,37 @@ export class UserComponent implements OnInit,AfterViewInit{
       }
     });
   }
+
+  checkUsersGroup(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selected : this.selected
+    };
+    conifg.height = '400px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(checkUsersGroupDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getList(true)
+      }
+    });
+  }
+  reAssign(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selected : this.selected
+    };
+    conifg.height = '400px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(reAssignDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getList(true)
+      }
+    });
+  }
 }
 
 export class Parameter {
@@ -224,6 +257,7 @@ export class Parameter {
   currentPage : number;
   pageSize : number;
   keywords : string;
+  objectType : string;
 }
 
 /**
@@ -252,6 +286,11 @@ export class createUserDialog implements OnInit{
   }
   ngOnInit(){
     this.entity.docbase = this.data.docbase
+    this.entity.clientFunction = 1
+    this.entity.userPermit = 0
+    this.entity.userSource = 'none'
+    this.entity.userState = 0
+    this.entity.userXPermit = 1
   }
   createUser(){
     this.loading = true;
@@ -299,6 +338,90 @@ export class removeUserDialog implements OnInit{
         if (info.code==1) {
           this.dialogRef.close(true);
           this.toastr.success(info.message);
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+
+@Component({
+  selector: 'check-users-group',
+  templateUrl: './dialog/checkUsersGroup.dialog.html',
+  styleUrls: ['./dialog/css/removeUser.dialog.scss'],
+})
+export class checkUsersGroupDialog implements OnInit{
+  loading : boolean = false;
+  groupList : Array<any> = [];
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<createUserDialog>,
+    private _userService : UserService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){
+    this._userService.checkUsersGroup(this.data.selected[0],this.data.docbase).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.groupList = info.data.groupList
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+
+@Component({
+  selector: 're-assign',
+  templateUrl: './dialog/reAssign.dialog.html',
+  styleUrls: ['./dialog/css/removeUser.dialog.scss'],
+})
+export class reAssignDialog implements OnInit{
+  loading : boolean = false;
+  groupList : Array<any> = [];
+  newUser : any = {};
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<createUserDialog>,
+    private _userService : UserService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){}
+  selectUser(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      attr : this.newUser,
+      docbase : this.data.docbase
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.newUser = result[0]
+      }
+    });
+  }
+  reAssignUser(){
+    this._userService.reAssignUser(this.data.selected[0],this.data.docbase,this.newUser.objectId).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.toastr.success(info.message);
+          this.dialogRef.close(true);
         }else {
           this.toastr.error(info.message);
         }

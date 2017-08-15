@@ -147,9 +147,9 @@
     </div>
     <a (click)="enterFile(row,$event)" title="{{value}}" class="object_name">{{value}}</a>
     <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="查看属性"><span class="fa fa-info-circle"></span></a>
-    <a class="hidd list--option--btn" (click)="downloadFile(row);currentFileId=row;$event.stopPropagation()" title="下载"><span class="fa fa-download"></span></a>
-    <a class="hidd list--option--btn" (click)="row.isEditalbe = true;currentFileId=row;$event.stopPropagation()" title="重命名"><span class="fa fa-pencil"></span></a>
-    <a class="hidd list--option--btn" (click)="removeFile(row);currentFileId=row;$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
+    <a class="hidd list--option--btn" (click)="downloadFile(row);$event.stopPropagation()" title="下载"><span class="fa fa-download"></span></a>
+    <a class="hidd list--option--btn" (click)="row.isEditalbe = true;$event.stopPropagation()" title="重命名"><span class="fa fa-pencil"></span></a>
+    <a class="hidd list--option--btn" (click)="removeFile(row);$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
   </div>
   <div *ngIf="row.isEditalbe">
     <input

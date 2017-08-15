@@ -329,6 +329,8 @@ ul{
 .mat-select-placeholder.mat-floating-placeholder{
   top: 5px !important;
   left: -10px !important;
+  //text-align: right !important;
+  width: auto !important;
 }
 .mat-select-trigger{
   font-size: 13px;
@@ -584,6 +586,7 @@ label{
           .attr--type--box{
             height: calc(100% - 70px);
             overflow-y: auto;
+            padding-top: 5px;
           }
         }
       }
@@ -602,10 +605,29 @@ label{
 //file--info--version
 .file--info--version{
   .modal-group-add-membe-body{
-    height: calc(100% - 88px) !important;
+    height: calc(100% - 106px) !important;
     overflow: hidden;
 
   }
 }
 
+//翻页组件
+.pagination{
+  margin: 20px 0 0 0;
+}
 
+//侧滑栏
+.mat-tab-body-content{
+  transform: none !important;
+}
+
+
+//列表 配置
+.custom--column--configuration--box .single--custom {
+  padding: 0 16px;
+  height: 40px;
+  line-height: 40px;
+  .checkbox{
+    line-height: normal;
+  }
+}

@@ -49,11 +49,13 @@
         <button *ngIf="translate.currentLang == 'cn'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en')">切换至英文</button>
         <button class="mat-menu-item__button" md-menu-item  (click)="toggleTree()">隐藏/显示左侧栏</button>
         <div class="mat-menu-item__button">
-          显示/隐藏对象
-          <md-radio-group [(ngModel)]="isHidden" (change)="changeShowObj()">
-            <md-radio-button value="false"  (click)='$event.stopPropagation()'>隐藏</md-radio-button>
-            <md-radio-button value="true" (click)='$event.stopPropagation()'>显示</md-radio-button>
-          </md-radio-group>
+          <span>显示隐藏对象</span>
+          <input
+            type='checkbox'
+            class="input_check"
+            (click)='changeShowObj();$event.stopPropagation()'
+            [checked]='isHidden'
+          />
         </div>
         <button class="mat-menu-item__button" md-menu-item  [routerLink]="['/login']">登出</button>
       </md-menu>

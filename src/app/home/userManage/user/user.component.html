@@ -3,8 +3,10 @@
   <div class="toolbar--option--btn--wrap">
     <div class="toolbar--option--btn--box">
       <button (click)="createUser()" class="btn btn-default"><span >新建用户</span></button>
+      <button (click)="checkUsersGroup()" [disabled]="selected.length != 1" class="btn btn-default"><span >查看用户所在的组</span></button>
+      <button (click)="reAssign()" [disabled]="selected.length != 1" class="btn btn-default"><span >重新指派</span></button>
     </div>
-    <span class="load--quantity">已加载{{rows.length}}个</span>
+    <span class="load--quantity">已加载{{rows.length}}个,共{{parameter.totalElements}}个</span>
   </div>
     <div style="height: calc(100% - 50px)">
       <grid-list
@@ -19,7 +21,6 @@
         (uploadGrid)="uploadGrid($event)"
         ></grid-list>
     </div>
-
   <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
     <user-info
       [docbase]="parameter.docbase"
@@ -28,7 +29,6 @@
   </md-sidenav>
   </md-sidenav-container>
 </div>
-
   <ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
     <div class="checkbox">
       <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"  id="checkbox_al" class="input_check">
@@ -60,19 +60,19 @@
   <ng-template #configGridHeadTmpl let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
     <button md-button  [mdMenuTriggerFor]="gridOperation" class="fa fa-bars"></button>
     <md-menu #gridOperation="mdMenu">
-      <ul>
-        <li  *ngFor='let col of allColumns; let i = index'>
-          <!--<div class="prettify&#45;&#45;checkbox">-->
+      <ul class="custom--column--configuration--box">
+        <li class="single--custom"  *ngFor='let col of allColumns; let i = index'>
+          <div class="checkbox">
           <input
             *ngIf="col.name"
             type='checkbox'
-            class="input--check"
+            class="input_check"
             [id]="col.name"
             (click)='toggle(col,i);$event.stopPropagation()'
             [checked]='isChecked(col)'
             />
-          <!--</div>-->
-
+            <label for="{{col.name}}"></label>
+          </div>
           <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name}}</label>
         </li>
       </ul>

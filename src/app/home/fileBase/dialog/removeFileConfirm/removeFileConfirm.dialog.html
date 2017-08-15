@@ -1,0 +1,10 @@
+<form name="form" (ngSubmit)="f.form.valid && deleteCabinet()" #f="ngForm" novalidate class="new--folder--modal">
+  <h2 md-dialog-title>删除文件柜</h2>
+  <md-dialog-content  class="new--folder--dialog--content">
+    <span>确定要删除该文件柜吗?</span>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</form>

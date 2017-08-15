@@ -150,7 +150,7 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
     }
   }
   enterGroup(list){
-    if(list.type == 'group'){
+    if(list.objectType == 'group'){
       if (this.ids[this.ids.length - 1] != list.objectId) {
         this.ids.push(list.objectId)
         this.breadCrumbLists.push({object_name:list.objectName,r_object_id:list.objectId})

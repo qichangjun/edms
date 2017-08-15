@@ -10,12 +10,12 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { CoreModule } from './core/core.module';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
-import { ToastModule } from 'ng2-toastr/ng2-toastr'
+import { ToastModule,ToastOptions } from 'ng2-toastr/ng2-toastr'
 import { ResizableModule } from 'angular-resizable-element';
 import { TranslateModule,TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AuthGuard } from './guards/auth.guard';
@@ -24,11 +24,11 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component'
 import { MainComponent } from './main/main.component'
-import { FileBaseComponent,newFolderDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog,selectUserDialog } from './home/fileBase/index'
+import { FileBaseComponent,newFolderDialog,removeFileConfirmDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog,selectUserDialog } from './home/fileBase/index'
 import { UserManageComponent } from './home/userManage/userManage.component'
 import { GroupComponent,createGroupDialog,removeGroupDialog } from './home/userManage/group/group.component'
 import { RoleComponent } from './home/userManage/role/role.component'
-import { UserComponent,createUserDialog,removeUserDialog } from './home/userManage/user/user.component'
+import { UserComponent,createUserDialog,removeUserDialog,checkUsersGroupDialog,reAssignDialog } from './home/userManage/user/user.component'
 import { UserInfoComponent } from './home/userManage/user/userInfo/userInfo.component'
 import { GroupInfoComponent } from './home/userManage/group/groupInfo/groupInfo.component'
 import { UploadFileComponent } from './home/uploadFile/uploadFile.component'
@@ -46,6 +46,12 @@ import 'hammerjs';
 
 export function createTranslateLoader(http: Http) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export class CustomOption extends ToastOptions {
+  animate = 'flyRight'; // you can override any options available
+  newestOnTop = false;
+  positionClass = 'toast-top-center';
 }
 
 @NgModule({
@@ -66,8 +72,11 @@ export function createTranslateLoader(http: Http) {
     versionManageDialog,
     setMulJurisdictionDialog,
     exportCurrFolderLimitsDialog,
+    removeFileConfirmDialog,
     setMulProDialog,
     selectUserDialog,
+    checkUsersGroupDialog,
+    reAssignDialog,
     ProjectFileComponent,
     UserManageComponent,
     GroupComponent,
@@ -116,12 +125,16 @@ export function createTranslateLoader(http: Http) {
     createGroupDialog,
     removeGroupDialog,
     selectUserDialog,
+    checkUsersGroupDialog,
     setMulJurisdictionDialog,
     versionManageDialog,
     setMulProDialog,
+    reAssignDialog,
+    removeFileConfirmDialog,
     exportCurrFolderLimitsDialog],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},
+    {provide: ToastOptions, useClass: CustomOption},
     AuthenticationService,
     UserService,
     GroupService,

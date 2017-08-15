@@ -1,5 +1,5 @@
 import { Component,Inject,OnInit,AfterViewInit,HostBinding,TemplateRef,ViewChild,ViewContainerRef,ElementRef, trigger, transition, style, animate,state } from '@angular/core';
-import { FileBaseService,newFolderDialog,newFileCabinetDialog,editMultipleDialog,translateFileDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog } from './index';
+import { FileBaseService,newFolderDialog,newFileCabinetDialog,editMultipleDialog,translateFileDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog,removeFileConfirmDialog } from './index';
 import { FileSelectDirective, FileDropDirective, FileUploader,FileUploaderOptions } from 'ng2-file-upload/ng2-file-upload';
 import { IMultiSelectOption,IMultiSelectTexts,IMultiSelectSettings } from 'angular-2-dropdown-multiselect';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -193,7 +193,8 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
   initParameter(){
     this.mySettings = {
       checkedStyle: 'fontawesome',
-      buttonClasses: 'btn btn-default btn-block'
+      buttonClasses: 'btn btn-default btn-block',
+      itemClasses : 'custom-class'
     }
     this.statusTexts = {
       defaultTitle: '项目状态'
@@ -412,6 +413,10 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
       _width = event.rectangle.width
     }
     this.myupload.nativeElement.style.width = this.myupload.nativeElement.offsetParent.clientWidth - _width + 'px'
+    setTimeout(function(){
+      this.gridList.datatable.onWindowResize()
+    },500)
+
   }
 
   search(){
@@ -504,16 +509,21 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
         params.ids.push(item.r_object_id)
         params.types.push(3)
       })
-      this.fileBaseService.deleteFile(params,this.parameter.docbase,this.currentNode).subscribe(
-        data => {
-          let info = data.json();
-          if (info.code == 1) {
-            this.toastr.success(info.message);
-          }else {
-            this.toastr.error(info.message);
-          }
+      let conifg = new MdDialogConfig();
+      conifg.data = {
+        docbase : this.parameter.docbase,
+        parentId : this.currentNode,
+        params : params
+      };
+      conifg.height = 'auto';
+      conifg.width = '600px';
+      let dialogRef = this.dialog.open(removeFileConfirmDialog,conifg);
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.getTreeData();
+          return
         }
-      )
+      });
     }else {
       let conifg = new MdDialogConfig();
       conifg.data = {

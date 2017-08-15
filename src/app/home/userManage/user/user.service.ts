@@ -23,25 +23,20 @@ export class UserService {
       info.pageSize = parameters.currentPage * parameters.pageSize
       info.currentPage = 1
     }
-    let params = {orders:[],columns:[]}
+    let params = {orders:[],page:info.currentPage,length:info.pageSize}
     let orders = [];
     if(parameters.dir && parameters.prop){
       orders.push({direction:parameters.dir,column:parameters.prop})
       params.orders = orders
     }
-    let columns = [];
-    if (parameters.keywords){
-      columns.push({name : 'loginName',predicate : 'LIKE',type : 'string',value : parameters.keywords});
-      columns.push({name : 'userName',predicate : 'LIKE',type : 'string',value : parameters.keywords});
-      params.columns = columns
-    }
+    info.keywords = info.keywords || ''
     let queryUrl =
-      '?docbase=' + parameters.docbase +
+      '?docbase=' + info.docbase +
       '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
       '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
       '&locale=' + this._authenticationService.getCurrentLanguage() +
-      '&pageSize=' + info.pageSize +
-      '&currentPage=' + info.currentPage;
+      '&objectType=' + info.objectType +
+      '&keywords=' + info.keywords;
     return this.http.post(this._constantService.baseUrl() + this._apiUrlService['getUserList'] + queryUrl,JSON.stringify(params),{headers:headers});
   }
 
@@ -59,12 +54,34 @@ export class UserService {
   removeUser(parameters:any) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('docbase',parameters.docbase);
-    params.set('userId',parameters.row.userId);
+    params.set('userId',parameters.row.objectId);
     params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
     params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
     params.set('locale',this._authenticationService.getCurrentLanguage());
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['removeUser'],{search: params})
   }
+
+  checkUsersGroup(parameters,docbase : string) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('docbase',docbase);
+    params.set('userId',parameters.objectId);
+    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
+    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
+    params.set('locale',this._authenticationService.getCurrentLanguage());
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['checkUsersGroup'],{search: params})
+  }
+
+  reAssignUser(parameters,docbase : string,targetId) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('docbase',docbase);
+    params.set('userId',parameters.objectId);
+    params.set('targetUserId',targetId);
+    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
+    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
+    params.set('locale',this._authenticationService.getCurrentLanguage());
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['reAssignUser'],{search: params})
+  }
+
   updateUser(parameters:any,docbase : string) {
     let info = Object.assign({}, parameters)
     let params: URLSearchParams = new URLSearchParams();

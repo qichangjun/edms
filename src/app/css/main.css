@@ -245,7 +245,8 @@ ul {
 
 .mat-select-placeholder.mat-floating-placeholder {
   top: 5px !important;
-  left: -10px !important; }
+  left: -10px !important;
+  width: auto !important; }
 
 .mat-select-trigger {
   font-size: 13px;
@@ -440,13 +441,27 @@ label {
       height: 100%; }
       .fileinfo--right--sidebar--info--content .sidebar--info--content--box .mat-tab-body-wrapper .mat-tab-body .attr--type--wrap .attr--type--box {
         height: calc(100% - 70px);
-        overflow-y: auto; }
+        overflow-y: auto;
+        padding-top: 5px; }
 
 .modal-group-add-member-result__content .mat-select-trigger {
   min-width: 80px !important; }
 
 .file--info--version .modal-group-add-membe-body {
-  height: calc(100% - 88px) !important;
+  height: calc(100% - 106px) !important;
   overflow: hidden; }
+
+.pagination {
+  margin: 20px 0 0 0; }
+
+.mat-tab-body-content {
+  transform: none !important; }
+
+.custom--column--configuration--box .single--custom {
+  padding: 0 16px;
+  height: 40px;
+  line-height: 40px; }
+  .custom--column--configuration--box .single--custom .checkbox {
+    line-height: normal; }
 
 /*# sourceMappingURL=main.css.map */

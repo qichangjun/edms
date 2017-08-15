@@ -1,36 +1,37 @@
-<md-toolbar class="group--sidebar--info--head">
-  <span class="fa fa-cogs head--bg-icon"></span>
-  <div class="head--box">
-    <div class="head" >用户信息</div>
+<div class="group--sidebar--info--wrap">
+  <md-toolbar class="group--sidebar--info--head">
+    <span class="fa fa-cogs head--bg-icon"></span>
+    <div class="head--box">
+      <div class="head" >用户信息</div>
+    </div>
+
+  </md-toolbar>
+  <div class="groupinfo--right--sidebar--info--content" *ngIf="!editStatus">
+    <div class="attr--type--box">
+      <div class="single--attr--row">
+        <span class="title">用户名：</span>
+        <span class="value">{{entity.userName}}</span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">登录名：</span>
+        <span class="value">{{entity.loginName}}</span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">密码：</span>
+        <span class="value">{{entity.password}}</span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">邮箱地址：</span>
+        <span class="value">{{entity.email}}</span>
+      </div>
+    </div>
+    <div class="option--btn--box">
+      <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+    </div>
   </div>
 
-</md-toolbar>
-<div class="groupinfo--right--sidebar--info--content" *ngIf="!editStatus">
-  <div class="attr--type--box">
-    <div class="single--attr--row">
-      <span class="title">用户名：</span>
-      <span class="value">{{entity.userName}}</span>
-    </div>
-    <div class="single--attr--row">
-      <span class="title">登录名：</span>
-      <span class="value">{{entity.loginName}}</span>
-    </div>
-    <div class="single--attr--row">
-      <span class="title">密码：</span>
-      <span class="value">{{entity.password}}</span>
-    </div>
-    <div class="single--attr--row">
-      <span class="title">邮箱地址：</span>
-      <span class="value">{{entity.email}}</span>
-    </div>
-  </div>
-  <div class="option--btn--box">
-    <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
-  </div>
-</div>
-
-<div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
-  <form name="form" (ngSubmit)="f.form.valid && updateUser()" #f="ngForm" novalidate>
+  <div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
+    <form name="form" (ngSubmit)="f.form.valid && updateUser()" #f="ngForm" novalidate>
       <div class="attr--type--box">
         <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !userName.valid && userName.required }">
           <label class="title">用户名：</label>
@@ -92,11 +93,13 @@
           </div>
         </div>
       </div>
-     <div class="option--btn--box">
-       <button md-button (click)="editStatus = false" [disabled]="loading" class="two--btn">取消</button>
-       <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
-     </div>
-  </form>
+      <div class="option--btn--box">
+        <button md-button (click)="editStatus = false" [disabled]="loading" class="two--btn">取消</button>
+        <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+      </div>
+    </form>
+  </div>
+
 </div>
 
 

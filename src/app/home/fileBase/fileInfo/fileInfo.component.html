@@ -1,32 +1,33 @@
-<md-toolbar class="fileinfo--sidebar--info--head">
-  <span class="glyphicon glyphicon-folder-open head--bg-icon"></span>
-  <div class="head--wrap">
-    <div class="head--box">
-      <div class="head" translate="">{{row.object_name}}</div>
-      <!--<div class="file&#45;&#45;count">文件数量218件</div>-->
-    </div>
-    <span (click)="sidenav.close()" class="sidebar--closed--btn">×</span>
-  </div>
-</md-toolbar>
-<div class="fileinfo--right--sidebar--info--content">
-  <md-tab-group  [(selectedIndex)]="currentTab"  md-dynamic-height md-border-bottom class="sidebar--info--content--box">
-    <md-tab label="元数据信息" class="sidebar--info--content--box__page">
-      <div *ngIf="editStatus == false" class="attr--type--wrap">
-        <div class="attr--type--box" >
-          <div class="single--attr--row" *ngFor="let attr of attrList;let i = index">
-            <label class="title">{{attr.displayName}}： </label>
-            <span class="value">{{attr.attrValue}}</span>
-          </div>
-          <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)">
-            <span class="more">显示更多</span>
-          </div>
-        </div>
-        <div class="option--btn--box">
-          <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
-        </div>
+<div class="fileinfo--sidebar--info--wrap">
+  <md-toolbar class="fileinfo--sidebar--info--head">
+    <span class="glyphicon glyphicon-folder-open head--bg-icon"></span>
+    <div class="head--wrap">
+      <div class="head--box">
+        <div class="head" translate="">{{row.object_name}}</div>
+        <!--<div class="file&#45;&#45;count">文件数量218件</div>-->
       </div>
-      <div class="attr--type--wrap" *ngIf="editStatus == true">
-        <form name="form" (ngSubmit)="f.form.valid && updateInfo()" #f="ngForm" novalidate class="attr--type--box">
+      <span (click)="sidenav.close()" class="sidebar--closed--btn">×</span>
+    </div>
+  </md-toolbar>
+  <div class="fileinfo--right--sidebar--info--content">
+    <md-tab-group  [(selectedIndex)]="currentTab"  md-dynamic-height md-border-bottom class="sidebar--info--content--box">
+      <md-tab label="属性" class="sidebar--info--content--box__page">
+        <div *ngIf="editStatus == false" class="attr--type--wrap">
+          <div class="attr--type--box" >
+            <div class="single--attr--row" *ngFor="let attr of attrList;let i = index">
+              <label class="title">{{attr.displayName}}： </label>
+              <span class="value">{{attr.attrValue}}</span>
+            </div>
+            <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)">
+              <span class="more">显示更多</span>
+            </div>
+          </div>
+          <div class="option--btn--box">
+            <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+          </div>
+        </div>
+        <div class="attr--type--wrap" *ngIf="editStatus == true">
+          <form name="form" (ngSubmit)="f.form.valid && updateInfo()" #f="ngForm" novalidate class="attr--type--box">
             <div class="single--attr--row input--row" [ngClass]="{ 'has-error': f.submitted && !attr.attrValue && attr.required }" *ngFor="let attr of attrList;let i = index">
               <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
               <div style="position: relative;display:inline-block;" class="value--input">
@@ -78,47 +79,49 @@
               <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
               <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
             </div>
-        </form>
-      </div>
-    </md-tab>
-    <md-tab label="权限信息">
-      <div class="attr--type--wrap">
-        <div class="attr--type--box" *ngIf="!editLimit">
-          <table class="table table-hover home--upload--table--box" [ngClass]="{showUploadContainer:showUploadContainer}">
-            <thead>
-            <tr class="table__th--tr">
-              <th >用户/组</th>
-              <th >权限</th>
-              <th >扩展权限</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let limit of limitList; let i = index">
-              <td>{{limit.objectName}}</td>
-              <td>{{limit.permitName}}</td>
-              <td>{{limit.extendsPermitNames}}</td>
-            </tr>
-            </tbody>
-          </table>
-          <div class="option--btn--box">
-            <button md-button (click)="startEditLimit()" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+          </form>
+        </div>
+      </md-tab>
+      <md-tab label="权限信息">
+        <div class="attr--type--wrap">
+          <div class="attr--type--box" *ngIf="!editLimit">
+            <table class="table table-hover home--upload--table--box" [ngClass]="{showUploadContainer:showUploadContainer}">
+              <thead>
+              <tr class="table__th--tr">
+                <th >用户/组</th>
+                <th >权限</th>
+                <th >扩展权限</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let limit of limitList; let i = index">
+                <td>{{limit.objectName}}</td>
+                <td>{{limit.permitName}}</td>
+                <td>{{limit.extendsPermitNames}}</td>
+              </tr>
+              </tbody>
+            </table>
+            <div class="option--btn--box">
+              <button md-button (click)="startEditLimit()" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
+            </div>
+          </div>
+          <div class="attr--type--box file--info--version" *ngIf="editLimit">
+            <multi-jurisdiction
+              [docbase]="parameter.docbase"
+              [selectType]="'multiple'"
+              [type]="'all'"
+              [selectedList]="limitList"
+              ></multi-jurisdiction>
+            <div class="option--btn--box">
+              <button md-button (click)="getLimit()" [disabled]="loading" class="two--btn">取消</button>
+              <button md-button  (click)="updateLimit()" [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+            </div>
           </div>
         </div>
-        <div class="attr--type--box file--info--version" *ngIf="editLimit">
-          <multi-jurisdiction
-            [docbase]="parameter.docbase"
-            [selectType]="'multiple'"
-            [type]="'all'"
-            [selectedList]="limitList"
-            ></multi-jurisdiction>
-          <div class="option--btn--box">
-            <button md-button (click)="getLimit()" [disabled]="loading" class="two--btn">取消</button>
-            <button md-button  (click)="updateLimit()" [disabled]="loading" class="btn btn-sure two--btn">确定</button>
-          </div>
-        </div>
-      </div>
-    </md-tab>
-  </md-tab-group>
-  <loading-message *ngIf="loading" ></loading-message>
+      </md-tab>
+    </md-tab-group>
+    <loading-message *ngIf="loading" ></loading-message>
+  </div>
 </div>
+
 

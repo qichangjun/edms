@@ -344,6 +344,10 @@ export class FileBaseService {
   }
 
   setMulPro(params,typeName,attrLists){
+    let ids = []
+    params.selected.forEach((c)=>{
+      ids.push(c.r_object_id)
+    })
     let info = Object.assign({}, attrLists)
     let type = []
     for (let key in info){
@@ -363,6 +367,7 @@ export class FileBaseService {
       '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
       '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
       '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&ids=' + ids +
       '&typeName=' + typeName;
     let para = {type : type};
     return this.http.post(this._constantService.baseUrl() + this._apiUrlService['setMulPro'] + queryUrl,JSON.stringify(para),{headers:headers});

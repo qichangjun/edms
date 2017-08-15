@@ -1,0 +1,26 @@
+<div>
+  <h2 md-dialog-title>查看用户所在组</h2>
+  <md-dialog-content>
+    <table class="table table-hover home--upload--table--box" >
+    <thead>
+    <tr class="table__th--tr">
+      <th >名称</th>
+      <th >类型</th>
+      <th >管理员</th>
+      <th >说明</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let group of groupList; let i = index">
+      <td>{{group.groupName}}</td>
+      <td>{{group.permitName}}</td>
+      <td>{{group.groupAdmin}}</td>
+      <td>{{group.description}}</td>
+    </tr>
+    </tbody>
+    </table>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button md-dialog-close >关闭</button>
+  </md-dialog-actions>
+</div>

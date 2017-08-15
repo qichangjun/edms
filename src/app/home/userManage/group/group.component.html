@@ -56,19 +56,19 @@
 <ng-template #configGridHeadTmpl let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
   <button md-button  [mdMenuTriggerFor]="gridOperation" class="fa fa-bars"></button>
   <md-menu #gridOperation="mdMenu">
-    <ul>
-      <li  *ngFor='let col of allColumns; let i = index'>
-        <!--<div class="prettify&#45;&#45;checkbox">-->
+    <ul class="custom--column--configuration--box">
+      <li class="single--custom"  *ngFor='let col of allColumns; let i = index'>
+        <div class="checkbox">
         <input
           *ngIf="col.name"
           type='checkbox'
-          class="input--check"
+          class="input_check"
           [id]="col.name"
           (click)='toggle(col,i);$event.stopPropagation()'
           [checked]='isChecked(col)'
         />
-        <!--</div>-->
-
+          <label for="{{col.name}}"></label>
+        </div>
         <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name}}</label>
       </li>
     </ul>

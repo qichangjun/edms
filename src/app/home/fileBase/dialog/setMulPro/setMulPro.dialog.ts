@@ -55,7 +55,6 @@ export class setMulProDialog implements OnInit{
         let info = data.json();
         if (info.code==1) {
           if (this.attrList[attrList].length == 0){
-            console.log(1234)
             if (option == 1){
               this.attrList[attrList] = info.data
             }else {
