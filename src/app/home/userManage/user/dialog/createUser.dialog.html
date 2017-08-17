@@ -92,6 +92,9 @@
       <label class="attr--name">客户端功能</label>
       <div style="position: relative;display:inline-block;">
         <md-select  class="form-control attr--value" name="clientFunction" id="clientFunction" #clientFunction="ngModel"   [(ngModel)]="entity.clientFunction" >
+          <md-option  [value]="0">
+            默认
+          </md-option>
           <md-option  [value]="1">
             Consumer
           </md-option>
@@ -138,7 +141,7 @@
           <md-option  [value]="8">
             System Administrator
           </md-option>
-          <md-option  [value]="9">
+          <md-option  [value]="16">
             Superuser
           </md-option>
         </md-select>
@@ -168,28 +171,28 @@
       <label class="attr--name">用户扩展权限</label>
       <div style="position: relative;display:inline-block;">
         <md-select name="userXPermit" class="form-control attr--value" id="userXPermit" #userXPermit="ngModel"   [(ngModel)]="entity.userXPermit" >
-          <md-option  [value]="1">
+          <md-option  [value]="0">
             none
           </md-option>
-          <md-option  [value]="2">
+          <md-option  [value]="8">
             Config Audit
           </md-option>
-          <md-option  [value]="3">
+          <md-option  [value]="16">
             Purge Audit
           </md-option>
-          <md-option  [value]="4">
+          <md-option  [value]="24">
             Config and Purge Audit
           </md-option>
-          <md-option  [value]="5">
+          <md-option  [value]="32">
             View Audit
           </md-option>
-          <md-option  [value]="6">
+          <md-option  [value]="40">
             Config and View Audit
           </md-option>
-          <md-option  [value]="7">
+          <md-option  [value]="48">
             View and Purge Audit
           </md-option>
-          <md-option  [value]="8">
+          <md-option  [value]="56">
             Config,View and Purge Audit
           </md-option>
         </md-select>

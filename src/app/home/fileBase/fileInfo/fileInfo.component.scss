@@ -1,14 +1,11 @@
 @charset "utf-8";
 .fileinfo--sidebar--info--wrap{
   height: 100%;
-  border-left: 1px solid #3e3e3e;
+  border-left: 1px solid #464646;
 }
 .fileinfo--sidebar--info--head{
   //background: #505d6c;
-  background: #3e3e3e;
-
-
-
+  background: #464646;
   color: #ffffff;
   line-height: normal;
   .head--bg-icon{
@@ -39,7 +36,7 @@
     line-height: 1;
     color: #ffffff;
     text-shadow: 0 1px 0 #fff;
-    opacity: .8;
+    opacity: .9;
     margin-top: -2px;
     &:hover{
       opacity: 1;
@@ -115,6 +112,26 @@
           color: #23527c;
         }
       }
+      .hide--content{
+        display: inline-block;
+        vertical-align: middle;
+        width: 138px;
+        text-align: left;
+        color: #337ab7;
+        padding: 0 5px;
+        font-weight: normal;
+        margin: 0;
+        margin-left: 10px;
+        cursor: pointer;
+        &:before{
+          font: normal normal normal 14px/1 FontAwesome;
+          content: "\f0d7";
+          margin-right: 5px;
+        }
+        &:hover{
+          color: #23527c;
+        }
+      }
       .value{
         display: inline-block;
         vertical-align: middle;
@@ -135,7 +152,7 @@
       .value--input{
         display: inline-block;
         vertical-align: middle;
-        width: 220px;
+        width: 214px;
         .date--input{
           width: 100%;
           height: 34px;
@@ -201,7 +218,7 @@
     position: absolute;
     bottom: 10px;
     .one--btn{
-      width: 94%;
+      width: calc(100% - 20px);
       margin-left: 0 !important;
     }
     .two--btn{

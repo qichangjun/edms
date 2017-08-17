@@ -35,7 +35,7 @@ export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewIni
   ) {}
   ngAfterViewInit(){}
   ngOnInit() {
-    this.objectType = 'all'
+    this.objectType = this.type
     this.searchControl.valueChanges
       //.debounceTime(500)
       //.distinctUntilChanged()
@@ -110,11 +110,13 @@ export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewIni
   selectRow(list){
     list.isChecked = !list.isChecked;
     if (list.isChecked){
-      this.rows.map((c)=>{
-        c['isChecked'] = false
-      });
+      if (this.selectType == 'single') {
+        this.rows.map((c)=>{
+          c['isChecked'] = false
+        });
+        this.selectedList.splice(0,this.selectedList.length)
+      }
       list.isChecked = true
-      this.selectedList.splice(0,this.selectedList.length)
       this.selectedList.push(list);
     }else{
       this.selectedList = this.selectedList.filter(c =>{
@@ -122,10 +124,18 @@ export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewIni
       })
     }
   }
+  cancelRow(list){
+    if (list.objectId){
+      this.rows.find((row)=>{
+        return row['objectId'] == list.objectId
+      }).isChecked = false
+    }
+  }
 
   clickTreeOrBreadCrumb(event){
     this.currentPage = 1;
     if(event.ids.length == 1){
+      this.ids = event.ids
       this.searchList(this.keywords)
     }else{
       for (let i = 0 ; i < this.ids.length;i++) {
@@ -140,9 +150,11 @@ export class SingleSelectUsernComponent implements OnInit,OnChanges,AfterViewIni
   }
   enterGroup(list){
     if (this.ids[this.ids.length - 1] != list.objectId) {
-      this.ids.push(list.objectId)
-      this.breadCrumbLists.push({object_name:list.objectName,r_object_id:list.objectId})
-      this.searchGroupChild(list)
+      if (list.obejctType == 'group'){
+        this.ids.push(list.objectId)
+        this.breadCrumbLists.push({object_name:list.objectName,r_object_id:list.objectId})
+        this.searchGroupChild(list)
+      }
     }
   }
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){

@@ -12,12 +12,22 @@
             <div class="msg-tri-outside"></div>
             <div class="msg-tri-inside"></div>
             <div  class="form-messages__icon fa fa-exclamation-circle">
-              <div >用户名不能为空</div>
+              <div >组名不能为空</div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">邮箱</label>
+      <div style="position: relative;display:inline-block;">
+        <input id="email" type="email" class="form-control attr--value"
+               name="email" [(ngModel)]="entity.email"
+               #email="ngModel" />
+      </div>
+    </div>
+
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
       <label class="attr--name">描述</label>
       <div style="position: relative;display:inline-block;">
@@ -30,9 +40,23 @@
     <div class="form-group new--folder--modal--attr--box">
       <label class="attr--name">拥有者</label>
       <div style="position: relative;display:inline-block;">
-        <input id="owner" type="text" class="form-control attr--value"
-               name="owner" [(ngModel)]="entity.owner"
-               #email="ngModel" />
+        <div class="attr--value">
+          <a  (click)="selectUser('owner','ownerName')">选择</a>
+          <span>
+            {{ownerName}}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="form-group new--folder--modal--attr--box">
+      <label class="attr--name">组管理员</label>
+      <div style="position: relative;display:inline-block;">
+        <div class="attr--value">
+          <a  (click)="selectUser('groupAdmin','groupAdminName')">选择</a>
+          <span>
+            {{groupAdminName}}
+          </span>
+        </div>
       </div>
     </div>
   </md-dialog-content>

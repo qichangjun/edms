@@ -316,15 +316,15 @@ export class FileBaseService {
     window.open(url)
   }
 
-  exportLimits(params,cascade,exportToHtml) {
+  exportLimits(docbase,selected,cascade,exportToHtml) {
     let queryUrl =
-      '?docbase=' + params.docbase +
+      '?docbase=' + docbase +
       '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
       '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
       '&locale=' + this._authenticationService.getCurrentLanguage() +
       '&cascade=' + cascade +
       '&exportToHtml=' + exportToHtml +
-      '&id=' + params.selected[0].r_object_id;
+      '&id=' + selected[0].r_object_id;
     let url = this._constantService.baseUrl() + this._apiUrlService['exportLimits'] + queryUrl
     window.open(url)
   }

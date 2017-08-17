@@ -1,9 +1,9 @@
 .fileinfo--sidebar--info--wrap {
   height: 100%;
-  border-left: 1px solid #3e3e3e; }
+  border-left: 1px solid #464646; }
 
 .fileinfo--sidebar--info--head {
-  background: #3e3e3e;
+  background: #464646;
   color: #ffffff;
   line-height: normal; }
   .fileinfo--sidebar--info--head .head--bg-icon {
@@ -29,7 +29,7 @@
     line-height: 1;
     color: #ffffff;
     text-shadow: 0 1px 0 #fff;
-    opacity: .8;
+    opacity: .9;
     margin-top: -2px; }
     .fileinfo--sidebar--info--head .sidebar--closed--btn:hover {
       opacity: 1; }
@@ -83,6 +83,23 @@
           margin-right: 5px; }
         .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .more:hover {
           color: #23527c; }
+      .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .hide--content {
+        display: inline-block;
+        vertical-align: middle;
+        width: 138px;
+        text-align: left;
+        color: #337ab7;
+        padding: 0 5px;
+        font-weight: normal;
+        margin: 0;
+        margin-left: 10px;
+        cursor: pointer; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .hide--content:before {
+          font: normal normal normal 14px/1 FontAwesome;
+          content: "\f0d7";
+          margin-right: 5px; }
+        .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .hide--content:hover {
+          color: #23527c; }
       .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value {
         display: inline-block;
         vertical-align: middle;
@@ -100,7 +117,7 @@
       .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input {
         display: inline-block;
         vertical-align: middle;
-        width: 220px; }
+        width: 214px; }
         .fileinfo--right--sidebar--info--content .attr--type--box .single--attr--row .value--input .date--input {
           width: 100%;
           height: 34px;
@@ -149,7 +166,7 @@
     position: absolute;
     bottom: 10px; }
     .fileinfo--right--sidebar--info--content .option--btn--box .one--btn {
-      width: 94%;
+      width: calc(100% - 20px);
       margin-left: 0 !important; }
     .fileinfo--right--sidebar--info--content .option--btn--box .two--btn {
       width: 45%; }

@@ -2,13 +2,13 @@
   [rootName]="rootName"
   [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
 <div class="modal-group-add-membe-body clearfix">
-  <div class="modal-group-add-member pull-left">
+  <div class="modal-group-add-member pull-left" [ngClass]="{isMulti:selectType == 'multiple'}">
     <div class="modal-group-add-member__content">
       <md-select style="right: 4px;
         width: 40%;
         position: absolute;
         margin-left: 7px;
-        margin-top: -41px;"  class="select--input--box"   [(ngModel)]="objectType" (change)="changeType()">
+        margin-top: -41px;"  class="select--input--box" *ngIf="type == 'all'"   [(ngModel)]="objectType" (change)="changeType()">
         <md-option  [value]="'all'">
           所有
         </md-option>
@@ -23,7 +23,7 @@
         </md-option>
       </md-select>
       <input #searchBox class="form-control modal-group-add-member__content__search--input" id="search-box"  [formControl]="searchControl" placeholder="搜索"/>
-      <ul class="modal-group-add-member__list--box ">
+      <ul class="modal-group-add-member__list--box " >
         <!--<span class="modal-group-add-member__content__head"></span>-->
         <li *ngFor="let list of rows"
             class="modal-group-add-member__content__everyuser"
@@ -36,6 +36,18 @@
       </ul>
     </div>
   </div>
+  <div class="modal-group-add-member-result pull-right" *ngIf="selectType == 'multiple'">
+    <ul class="modal-group-add-member-result__content ">
+      <li *ngFor="let list of selectedList; let i = index"
+          class="modal-group-add-member-result__content__everyuser"
+      >
+        <span class="everyuser-username" >{{list.objectName}}</span>
+        <i (click)="selectedList.splice(i,1);cancelRow(list);$event.stopPropagation()"
+           class="fa fa-times-circle pull-right modal-group-add-member-result__content__everyuser-icon"></i>
+      </li>
+    </ul>
+  </div>
 </div>
-<ngb-pagination (pageChange)="changePage($event)" [collectionSize]="totalElement" [(page)]="currentPage" [maxSize]="4" [rotate]="true" [boundaryLinks]="false"></ngb-pagination>
+<ngb-pagination (pageChange)="changePage($event)" [pageSize]="50" [collectionSize]="totalElement" [(page)]="currentPage"  [rotate]="true" [boundaryLinks]="false"></ngb-pagination>
+
 

@@ -26,7 +26,9 @@ export class BreadCrumbComponent implements OnInit,OnChanges{
     for (let i = 0 ; i < this.breadCrumbLists.length;i++) {
       treeNodeIds.push(this.breadCrumbLists[i].r_object_id)
     }
-    this.clickBreadCrumb.emit({ids:treeNodeIds,node:breadNode});
+    let ids = [0]
+    ids = ids.concat(treeNodeIds)
+    this.clickBreadCrumb.emit({ids:ids,node:breadNode});
   }
   ngOnInit(){}
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){

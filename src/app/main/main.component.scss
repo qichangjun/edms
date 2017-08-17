@@ -370,6 +370,10 @@
     &.big--card{
       height: 430px;
       margin-bottom: 0;
+      &:hover{
+        transform: none;
+        opacity: 1;
+      }
       @media (max-width: 1366px) {
         height: 373px;
         width: 200px;

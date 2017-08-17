@@ -137,6 +137,7 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
   clickTreeOrBreadCrumb(event){
     this.currentPage = 1;
     if(event.ids.length == 1){
+      this.ids = event.ids
       this.searchList(this.keywords)
     }else{
       for (let i = 0 ; i < this.ids.length;i++) {

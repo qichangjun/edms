@@ -32,7 +32,13 @@ export class ZTreeComponent implements OnInit{
       treeId: this.treeId,
       data: {simpleData: {enable: true,pIdKey:'parent_id',idKey:'r_object_id'},key: {name: 'object_name'}},
       view: {addDiyDom: this.addDiyDom, selectedMulti: false},
-      callback:{onClick : this.clickDom},
+      callback:{
+        onClick : this.clickDom
+        //zTreeBeforeAsync : function(treeId, treeNode){
+        //  console.log(treeNode)
+        //  return true
+        //}
+      },
       async:{
         enable: true,
         dataType:"json",
@@ -60,8 +66,17 @@ export class ZTreeComponent implements OnInit{
     switchObj.before(spaceStr);
   };
   clickDom  = (event, treeId, treeNode) => {
-    this.zTreeObj.expandNode(treeNode, true, false, true);
-    this.zTreeObj.selectNode(treeNode);
+    console.log(treeId,treeNode)
+    let self = this
+    setTimeout(function(){
+      self.zTreeObj.expandNode(treeNode, true, false, true);
+      self.zTreeObj.selectNode(treeNode);
+    },10)
+
+    var nodes = this.zTreeObj.getSelectedNodes();
+    if (nodes.length>0) {
+      this.zTreeObj.reAsyncChildNodes(nodes[0], "refresh");
+    }
     let generateTreeNodeIds = (treeNode)=> {
       let treeNodeIds=[];
       treeNodeIds.unshift(treeNode.r_object_id);

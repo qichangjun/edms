@@ -1,5 +1,5 @@
 <md-sidenav-container
-  class="example-container" style="height: 100%;width: 100%;background: #ffffff;">
+  class="example-container" style="height: 100%;width: 100%;background: #ffffff;min-width: 1050px;">
     <ztree
           [treeId]="'fileTree'"
           [docbase]="parameter.docbase"
@@ -17,112 +17,117 @@
            [treeData]="treeData"
            (clickTree)="clickTreeOrBreadCrumb($event)">
     </ztree>
-  <div class="bread--crumb--wrap">
-    <bread-crumb
-      [rootName]="rootName"
-      [breadCrumbLists]="breadCrumbLists" [idLists]="parameter.ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
-  </div>
-  <div class="toolbar--option--btn--wrap">
-    <div class="toolbar--option--btn--box" >
-      <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
-        <button  [mdMenuTriggerFor]="fileUpload" class="btn btn-success"><span class="fa fa-upload"></span></button>
-        <md-menu #fileUpload="mdMenu">
-          <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload">
-            <input  class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple webkitdirectory />
-            {{ 'upload_folder' | translate}}
-          </a>
-          <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload" >
-            <input class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple />
-            {{'upload_file' | translate}}
-          </a>
-        </md-menu>
-      </div>
-      <div class="same--type--btn--group">
-        <button [disabled]="selected.length == 0" (click)="downloadFile()" class="btn btn-default"><span class="fa fa-download"></span></button>
-        <button *ngIf="parameter.ids.length == 1" (click)="newFileCabinet()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
-        <button *ngIf="parameter.ids.length > 1" (click)="newFolder()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
-        <button [disabled]="selected.length == 0" (click)="removeFile(false)" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
-      </div>
-      <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
-        <button  [mdMenuTriggerFor]="moreOperation" class="btn btn-default new--folder"><span class="fa fa-ellipsis-h"></span></button>
-        <md-menu #moreOperation="mdMenu">
-          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('move')">移动到</button>
-          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('copy')">复制到</button>
-          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('link')">链接到</button>
-          <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">版本管理</button>
-          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">批量修改权限</button>
-          <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_folder' || selected[0].r_object_type == 'wison_folder')" (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
-          <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">批量修改属性</button>
-          <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">查看位置</button>
-        </md-menu>
-      </div>
+
+    <div class="bread--crumb--wrap">
+      <bread-crumb
+        [rootName]="rootName"
+        [breadCrumbLists]="breadCrumbLists" [idLists]="parameter.ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
     </div>
-    <div class="filter--condition--box" >
-      <div class="select--input--box" *ngIf="parameter.ids.length == 1">
-        <ss-multiselect-dropdown [settings]="mySettings" [options]="myOptions" [texts]="statusTexts" [(ngModel)]="parameter.a_status" (ngModelChange)="search()"></ss-multiselect-dropdown>
-      </div>
-      <div *ngIf="parameter.ids.length > 1" class="search--wrap">
-        <div class="search--box">
-          <input placeholder="以此开头" type="text" class="form-control search--box__input" [(ngModel)]="parameter.object_name" />
-          <span class="fa fa-times-circle remove--btn" (click)="clearSearch()"></span>
-          <span class="fa fa-search search--btn" (click)="search()"></span>
+    <div class="toolbar--option--btn--wrap">
+      <div class="toolbar--option--btn--box" >
+        <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
+          <button  [mdMenuTriggerFor]="fileUpload" class="btn btn-success"><span class="fa fa-upload"></span></button>
+          <md-menu #fileUpload="mdMenu">
+            <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload">
+              <input  class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple webkitdirectory />
+              {{ 'upload_folder' | translate}}
+            </a>
+            <a  href="javascript:;" style="height:30px;width:100%" class="mat-menu-item__button a-upload" >
+              <input class="mat-menu-item__button" type="file" ng2FileSelect [uploader]="uploader" multiple />
+              {{'upload_file' | translate}}
+            </a>
+          </md-menu>
         </div>
-        <md-select  class="select--input--box"   [(ngModel)]="parameter.type" (change)="search()">
-          <md-option  [value]="0">
-            只显示文件夹
-          </md-option>
-          <md-option  [value]="1">
-            只显示文档
-          </md-option>
-          <md-option  [value]="2">
-            显示文件夹和文档
-          </md-option>
-          <md-option  [value]="3">
-            显示所有版本
-          </md-option>
-        </md-select>
+        <div class="same--type--btn--group">
+          <button [disabled]="selected.length == 0" (click)="downloadFile()" class="btn btn-default"><span class="fa fa-download"></span></button>
+          <button *ngIf="parameter.ids.length == 1" (click)="newFileCabinet()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
+          <button *ngIf="parameter.ids.length > 1" (click)="newFolder()" class="btn btn-default "><span class="fa fa-folder-o"></span></button>
+          <button [disabled]="selected.length == 0" (click)="removeFile(false)" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
+        </div>
+        <div class="same--type--btn--group one--btn" *ngIf="parameter.ids.length > 1">
+          <button  [mdMenuTriggerFor]="moreOperation" class="btn btn-default new--folder"><span class="fa fa-ellipsis-h"></span></button>
+          <md-menu #moreOperation="mdMenu" class="same--type--btn--group__menu">
+            <button class="mat-menu-item__button drop--menu--copy--to" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('move')">{{ 'DROP_MENU_move' | translate}}</button>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('copy')">{{ 'DROP_MENU_copy' | translate}}</button>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('link')">{{ 'DROP_MENU_link' | translate}}</button>
+            <span class="divider--line"></span>
+            <button class="mat-menu-item__button drop--menu--version--manage" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">版本管理</button>
+            <span *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" class="divider--line"></span>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">批量修改权限</button>
+            <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_folder' || selected[0].r_object_type == 'wison_folder')" (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">批量修改属性</button>
+            <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">查看位置</button>
+          </md-menu>
+        </div>
       </div>
-      <span class="load--quantity">已加载{{rows.length}}个，共{{parameter.totalElements}}个</span>
+      <div class="filter--condition--box" >
+        <div class="select--input--box" *ngIf="parameter.ids.length == 1 && parameter.docbase != 'wison_company'">
+          <ss-multiselect-dropdown [settings]="mySettings" [options]="myOptions" [texts]="statusTexts" [(ngModel)]="parameter.a_status" (ngModelChange)="search()"></ss-multiselect-dropdown>
+        </div>
+        <div *ngIf="parameter.ids.length > 1" class="search--wrap">
+          <div class="search--box">
+            <input placeholder="以此开头" type="text" class="form-control search--box__input" [(ngModel)]="parameter.object_name" />
+            <span class="fa fa-times-circle remove--btn" (click)="clearSearch()"></span>
+            <span class="fa fa-search search--btn" (click)="search()"></span>
+          </div>
+          <md-select  class="select--input--box"   [(ngModel)]="parameter.type" (change)="search()">
+            <md-option  [value]="0">
+              只显示文件夹
+            </md-option>
+            <md-option  [value]="1">
+              只显示文档
+            </md-option>
+            <md-option  [value]="2">
+              显示文件夹和文档
+            </md-option>
+            <md-option  [value]="3">
+              显示所有版本
+            </md-option>
+          </md-select>
+        </div>
+        <span class="load--quantity">已加载{{rows.length}}个，共{{parameter.totalElements}}个</span>
+      </div>
     </div>
-  </div>
-  <div
-    #myupload
-    id="myupload"
-    style="height: calc(100% - 86px);width:calc(100% - 250px);float: left;transition:0.1s;position: relative;">
-    <div [hidden]="rows.length != 0" class="list--no--data">
-      <div class="no--data__prompt--box">
+    <div
+      #myupload
+      id="myupload"
+      style="height: calc(100% - 86px);width:calc(100% - 250px);float: left;transition:0.1s;position: relative;">
+      <div [hidden]="rows.length != 0" class="list--no--data">
+        <div class="no--data__prompt--box">
         <span class="prompt--img">
           <img class="prompt--img" src="assets/images/list--no--data-img.png" alt=""/>
         </span>
-        <h3 class="prompt--head">没有数据</h3>
-        <!--<span class="prompt&#45;&#45;content">-->
+          <h3 class="prompt--head">没有数据</h3>
+          <!--<span class="prompt&#45;&#45;content">-->
           <!--请检查与业务系统的网络连接是否通畅或者数据库连接的情况-->
-        <!--</span>-->
+          <!--</span>-->
 
+        </div>
       </div>
+      <grid-list
+        [hidden]="rows.length == 0"
+        #gridList
+        [selected]="selected"
+        [rows]="rows"
+        [columns]="columns"
+        [localColumns]="localColumns"
+        [parameter]="parameter"
+        [isLoading]="isLoading"
+        [storageName]="storageName"
+        (uploadGrid)="uploadGrid($event)"
+        ></grid-list>
     </div>
-    <grid-list
-            [hidden]="rows.length == 0"
-             #gridList
-             [selected]="selected"
-             [rows]="rows"
-             [columns]="columns"
-             [localColumns]="localColumns"
-             [parameter]="parameter"
-             [isLoading]="isLoading"
-             [storageName]="storageName"
-             (uploadGrid)="uploadGrid($event)"
-    ></grid-list>
-  </div>
-  <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
-    <!--<span (click)="sidenav.toggle()">关闭</span>-->
-    <file-info
-      *ngIf="currentFileId"
-      [selectedLength]="selected.length"
-      [sidenav]="sidenav"
-      [parameter]="parameter"
-      [row]="currentFileId"></file-info>
-  </md-sidenav>
+    <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
+      <!--<span (click)="sidenav.toggle()">关闭</span>-->
+      <file-info
+        *ngIf="currentFileId"
+        [selectedLength]="selected.length"
+        [sidenav]="sidenav"
+        [parameter]="parameter"
+        [row]="currentFileId"></file-info>
+    </md-sidenav>
+
+
 </md-sidenav-container>
 <ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
   <div class="checkbox">
@@ -133,8 +138,8 @@
 </ng-template>
 <ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
   <div class="checkbox">
-    <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
-    <label for="checkbox_one"></label>
+    <md-checkbox style="margin-left: -20px" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></md-checkbox>
+    <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)" style="margin-left:10px;">-->
   </div>
   <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
 </ng-template>

@@ -12,6 +12,9 @@
 .mat-sidenav-transition .mat-sidenav{
   transition:width .4s, transform .4s cubic-bezier(.25,.8,.25,1);
 }
+.main--right--content--wrap{
+  min-width: 850px;
+}
 .toolbar--option--btn--wrap{
   //padding-left: 16px;
   display: flex;
@@ -136,10 +139,7 @@
   justify-content: space-between;
   height: 30px;
 }
-.mat-menu-item__button{
-  height: 40px;
-  line-height: 40px;
-}
+
 
 .a-upload {
   padding: 4px 10px;

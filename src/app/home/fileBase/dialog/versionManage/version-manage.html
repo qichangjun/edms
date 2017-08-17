@@ -18,16 +18,16 @@
     <span class="title--name">{{version.r_version_label}}:{{version.object_name}}</span>
     <button  [mdMenuTriggerFor]="moreOperation" class="btn btn-default pull-right"><span class="fa fa-ellipsis-h"></span></button>
     <md-menu #moreOperation="mdMenu">
-      <button class="mat-menu-item__button" md-menu-item (click)="remove(version.r_object_id)">删除</button>
+      <button *ngIf="version.isCurrentVersion && versionList.length > 1" class="mat-menu-item__button" md-menu-item (click)="remove(version.r_object_id)">删除</button>
       <button class="mat-menu-item__button" md-menu-item (click)="download(version.r_object_id)">下载</button>
     </md-menu>
   </div>
   <div  *ngIf="uploader.queue.length + uploaderNewest.queue.length > 0" class="uploadMessage">
     <div class="home--upload--wrap">
-      <table class="table table-hover home--upload--table--box">
+      <table class="table table-hover attr--table--box">
         <thead>
         <tr class="table__th--tr">
-          <th >文件名</th>
+          <th class="version--manage--table--filename--td">文件名</th>
           <th >大小</th>
           <th >状态</th>
           <th >操作</th>
@@ -35,7 +35,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let file of uploader.queue; let i = index">
-          <td>{{file._file.name}}</td>
+          <td class="version--manage--table--filename--td">{{file._file.name}}</td>
           <td>{{file.file.size | sizefilter}}</td>
           <td>
             <span *ngIf="file.isError" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c"></span>

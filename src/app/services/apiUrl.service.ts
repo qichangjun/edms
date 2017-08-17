@@ -40,6 +40,8 @@ export class ApiUrlService {
   createUser = '/user/create';
   removeUser = '/user/delete';
   updateUser = '/user/update';
+  removeMember = '/group/remove_members';
+  addMember = '/group/add_members';
 
   getGroupList = '/group/list';
   createGroup = '/group/create';

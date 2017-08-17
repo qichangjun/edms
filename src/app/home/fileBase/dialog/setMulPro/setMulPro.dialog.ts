@@ -16,7 +16,12 @@ import { ConstantService } from '../../../../services/constant.service';
 })
 export class setMulProDialog implements OnInit{
   loading : boolean = false;
-  showMoreAttr : boolean = false;
+  showMoreAttr : any = {
+    wison_folder : false,
+    wison_prj_folder : false,
+    wison_document : false,
+    wison_prj_document : false
+  }
   attrList : any = {
     wison_folder : [],
     wison_prj_folder : [],
@@ -25,6 +30,12 @@ export class setMulProDialog implements OnInit{
   };
   typeLists : Array<any> = [];
   selectedIndex : number = 0;
+  firstInitMoreInfo : any = {
+    wison_folder : false,
+    wison_prj_folder : false,
+    wison_document : false,
+    wison_prj_document : false
+  };
   public entity : any = {};
   constructor(
     public dialog: MdDialog,
@@ -54,12 +65,14 @@ export class setMulProDialog implements OnInit{
       data => {
         let info = data.json();
         if (info.code==1) {
-          if (this.attrList[attrList].length == 0){
-            if (option == 1){
-              this.attrList[attrList] = info.data
-            }else {
-              this.attrList[attrList] = this.attrList[attrList].concat(info.data)
-            }
+          if (this.attrList[attrList].length == 0 && option == 1){
+            this.attrList[attrList] = info.data
+          }else if (option == 2){
+            this.firstInitMoreInfo[attrList] = true
+            info.data.forEach((c)=>{
+              c['isMore'] = true
+            })
+            this.attrList[attrList] = this.attrList[attrList].concat(info.data)
           }
         }else {
           this.toastr.error(info.message);
@@ -67,8 +80,13 @@ export class setMulProDialog implements OnInit{
       }
     );
   }
+  showMore(attrList){
+    this.showMoreAttr[attrList] = true;
+    if (!this.firstInitMoreInfo[attrList]){
+      this.checkAttrList(2,attrList)
+    }
+  }
   selectedIndexChange(){
-    this.showMoreAttr = false
     this.entity.typeName = this.typeLists[this.selectedIndex].typeName
     this.checkAttrList(1,this.entity.typeName)
   }

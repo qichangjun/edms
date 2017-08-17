@@ -25,7 +25,7 @@ export class exportCurrFolderLimitsDialog implements OnInit{
   }
   ngOnInit() {}
   exportLimits(){
-    this.fileBaseService.exportLimits(this.data,this.cascade,this.exportToHtml)
+    //this.fileBaseService.exportLimits(this.data,this.cascade,this.exportToHtml)
     this.dialogRef.close(false);
   }
 }

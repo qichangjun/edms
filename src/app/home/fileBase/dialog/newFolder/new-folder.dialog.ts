@@ -20,6 +20,7 @@ export class newFolderDialog implements OnInit{
   loading : boolean = false;
   showMoreAttr : boolean = false;
   attrLists : Array<any> = [];
+  firstInitMoreInfo : boolean = false;
   constructor(
     public dialog: MdDialog,
     private fileBaseService : FileBaseService,
@@ -64,15 +65,16 @@ export class newFolderDialog implements OnInit{
   selectUser(attr){
     let conifg = new MdDialogConfig();
     conifg.data = {
-      attr : attr,
-      docbase : this.data.docbase
+      //attrValue : attr.attrValue,
+      docbase : this.data.docbase,
+      type : "user"
     };
     conifg.height = '800px';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(selectUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        attr.attrValue = result
+        attr.attrValue = result[0]
       }
     });
   }
@@ -81,14 +83,27 @@ export class newFolderDialog implements OnInit{
     this.entity.typeName = 'wison_folder'
     this.checkAttrList(1)
   }
+
+  showMore(){
+    this.showMoreAttr = true;
+    if (!this.firstInitMoreInfo){
+      this.checkAttrList(2)
+    }
+  }
   checkAttrList(option){
     this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).subscribe(
       data => {
         let info = data.json();
         if (info.code==1) {
           if (option == 1){
+            this.showMoreAttr = false
+            this.firstInitMoreInfo = false
             this.attrLists = info.data
           }else {
+            this.firstInitMoreInfo = true
+            info.data.forEach((c)=>{
+              c['isMore'] = true
+            })
             this.attrLists = this.attrLists.concat(info.data)
           }
         }else {

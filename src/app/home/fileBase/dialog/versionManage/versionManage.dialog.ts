@@ -79,6 +79,7 @@ export class versionManageDialog implements OnInit{
           this.versionList.forEach((version)=>{
             if (version['r_version_label'].indexOf('CURRENT') != -1){
               this.currentVersion = version.r_object_id
+              version['isCurrentVersion'] = true
             }
           })
         }

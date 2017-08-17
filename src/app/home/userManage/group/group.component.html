@@ -1,10 +1,15 @@
 <div style="height:100%">
   <md-sidenav-container style="height: 100%">
     <div class="toolbar--option--btn--wrap">
+      <bread-crumb
+        [rootName]="rootName"
+        [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
       <div class="toolbar--option--btn--box">
         <button (click)="createGroup()" class="btn btn-default"><span >新建组</span></button>
+        <button  *ngIf="ids.length > 0" (click)="addMember()" class="btn btn-default"><span >添加成员</span></button>
+        <button *ngIf="selected.length > 0" (click)="removeMember()" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
       </div>
-      <span class="load--quantity">已加载{{rows.length}}个</span>
+      <span class="load--quantity">已加载{{rows.length}}个,共{{parameter.totalElements}}个</span>
     </div>
     <div style="height: calc(100% - 50px)">
       <grid-list
@@ -22,9 +27,15 @@
 
     <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
       <group-info
+        *ngIf="currentGroup.objectType == 'group'"
         [docbase]="parameter.docbase"
         [currentGroup]="currentGroup"
       ></group-info>
+      <user-info
+        *ngIf="currentGroup.objectType == 'user'"
+        [docbase]="parameter.docbase"
+        [currentUser]="currentGroup"
+      ></user-info>
     </md-sidenav>
   </md-sidenav-container>
 </div>
@@ -38,14 +49,14 @@
 </ng-template>
 <ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
   <div class="checkbox">
-    <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
-    <label for="checkbox_one"></label>
+    <md-checkbox style="margin-left: -20px" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></md-checkbox>
   </div>
   <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
 </ng-template>
 <ng-template #groupNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
   <div>
-    <a >{{value}}</a>
+    <a *ngIf="row.objectType == 'group'" (click)="enterGroup(row)">{{value}}</a>
+    <span *ngIf="row.objectType != 'group'">{{value}}</span>
     <a class="hidd list--option--btn" (click)="sidenav.open();currentGroup=row;$event.stopPropagation()" title="查看属性"><span class="fa fa-info-circle"></span></a>
     <a class="hidd list--option--btn" (click)="removeGroup(row);currentGroup=row;$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
   </div>

@@ -14,13 +14,25 @@
       <md-tab label="属性" class="sidebar--info--content--box__page">
         <div *ngIf="editStatus == false" class="attr--type--wrap">
           <div class="attr--type--box" >
-            <div class="single--attr--row" *ngFor="let attr of attrList;let i = index">
-              <label class="title">{{attr.displayName}}： </label>
-              <span class="value">{{attr.attrValue}}</span>
+            <div  *ngFor="let attr of attrList;let i = index">
+              <div class="single--attr--row" *ngIf="!attr.isMore">
+                <label class="title">{{attr.displayName}}：</label>
+                <span class="value">{{attr.attrValue}}</span>
+              </div>
             </div>
-            <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)">
+            <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMore()">
               <span class="more">显示更多</span>
             </div>
+            <div class="single--attr--row" *ngIf="showMoreAttr == true" (click)="showMoreAttr = false">
+              <span class="hide--content">隐藏更多</span>
+            </div>
+            <div [hidden]="!showMoreAttr"  *ngFor="let attr of attrList;let i = index">
+              <div class="single--attr--row" *ngIf="attr.isMore">
+                <label class="title">{{attr.displayName}}：</label>
+                <span class="value">{{attr.attrValue}}</span>
+              </div>
+            </div>
+
           </div>
           <div class="option--btn--box">
             <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
@@ -28,82 +40,145 @@
         </div>
         <div class="attr--type--wrap" *ngIf="editStatus == true">
           <form name="form" (ngSubmit)="f.form.valid && updateInfo()" #f="ngForm" novalidate class="attr--type--box">
-            <div class="single--attr--row input--row" [ngClass]="{ 'has-error': f.submitted && !attr.attrValue && attr.required }" *ngFor="let attr of attrList;let i = index">
-              <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
-              <div style="position: relative;display:inline-block;" class="value--input">
-                <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
-                  <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
-                </div>
-                <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
-                  <md-input-container id="{{attr.attrName}}"  class="date--input">
-                    <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
-                    <button mdSuffix [mdDatepickerToggle]="startPicker"></button>
-                  </md-input-container>
-                  <md-datepicker #startPicker></md-datepicker>
-                </div>
-                <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
-                  <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
-                    <md-radio-button value="1">是</md-radio-button>
-                    <md-radio-button value="0" >否</md-radio-button>
-                  </md-radio-group>
-                </div>
-                <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
-                  <md-select id="{{attr.attrName}}"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
-                    <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
-                      {{selectValue.name}}
-                    </md-option>
-                  </md-select>
-                </div>
-                <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
-                  <a  (click)="editMultiple(attr)">编辑</a>
+            <div  *ngFor="let attr of attrList;let i = index">
+              <div class="single--attr--row input--row" [ngClass]="{ 'has-error': f.submitted && !attr.attrValue && attr.required }" *ngIf="!attr.isMore">
+                <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+                <div style="position: relative;display:inline-block;" class="value--input">
+                  <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
+                    <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+                  </div>
+                  <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
+                    <md-input-container id="{{attr.attrName}}"  class="date--input">
+                      <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+                      <button mdSuffix [mdDatepickerToggle]="startPicker"></button>
+                    </md-input-container>
+                    <md-datepicker #startPicker></md-datepicker>
+                  </div>
+                  <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
+                    <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                      <md-radio-button value="1">是</md-radio-button>
+                      <md-radio-button value="0" >否</md-radio-button>
+                    </md-radio-group>
+                  </div>
+                  <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
+                    <md-select id="{{attr.attrName}}"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+                      <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+                        {{selectValue.name}}
+                      </md-option>
+                    </md-select>
+                  </div>
+                  <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                    <a  (click)="editMultiple(attr)">编辑</a>
                   <span>
                     {{attr.attrValue}}
                   </span>
-                </div>
-                <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
-                <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
-                  <div class="form-messages">
-                    <div class="msg-tri-outside"></div>
-                    <div class="msg-tri-inside"></div>
-                    <div  class="form-messages__icon fa fa-exclamation-circle">
-                      <div >{{attr.displayName}}不能为空</div>
+                  </div>
+                  <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+                    <a  (click)="selectUser(attr)">选择</a>
+                    <span >
+                      {{attr.attrValue.objectName}}
+                    </span>
+                  </div>
+                  <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
+                  <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                    <div class="form-messages">
+                      <div class="msg-tri-outside"></div>
+                      <div class="msg-tri-inside"></div>
+                      <div  class="form-messages__icon fa fa-exclamation-circle">
+                        <div >{{attr.displayName}}不能为空</div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div *ngIf="showMoreAttr == false" (click)="showMoreAttr = true;getInfo(2)" class="single--attr--row">
+            <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMore()">
               <span class="more">显示更多</span>
             </div>
-            <div class="option--btn--box">
-              <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
-              <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+            <div class="single--attr--row" *ngIf="showMoreAttr == true" (click)="showMoreAttr = false">
+              <span class="hide--content">隐藏更多</span>
+            </div>
+            <div [hidden]="!showMoreAttr" *ngFor="let attr of attrList;let i = index">
+              <div class="single--attr--row input--row" [ngClass]="{ 'has-error': f.submitted && !attr.attrValue && attr.required }"  *ngIf="attr.isMore">
+                <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+                <div style="position: relative;display:inline-block;" class="value--input">
+                  <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
+                    <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+                  </div>
+                  <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
+                    <md-input-container id="{{attr.attrName}}"  class="date--input">
+                      <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+                      <button mdSuffix [mdDatepickerToggle]="startPicker"></button>
+                    </md-input-container>
+                    <md-datepicker #startPicker></md-datepicker>
+                  </div>
+                  <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
+                    <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                      <md-radio-button value="1">是</md-radio-button>
+                      <md-radio-button value="0" >否</md-radio-button>
+                    </md-radio-group>
+                  </div>
+                  <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
+                    <md-select id="{{attr.attrName}}"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+                      <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+                        {{selectValue.name}}
+                      </md-option>
+                    </md-select>
+                  </div>
+                  <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                    <a  (click)="editMultiple(attr)">编辑</a>
+                  <span>
+                    {{attr.attrValue}}
+                  </span>
+                  </div>
+                  <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+                    <a  (click)="selectUser(attr)">选择</a>
+                    <span >
+                      {{attr.attrValue.objectName}}
+                    </span>
+                  </div>
+                  <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
+                  <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                    <div class="form-messages">
+                      <div class="msg-tri-outside"></div>
+                      <div class="msg-tri-inside"></div>
+                      <div  class="form-messages__icon fa fa-exclamation-circle">
+                        <div >{{attr.displayName}}不能为空</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </form>
+          <div class="option--btn--box">
+            <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
+            <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+          </div>
         </div>
       </md-tab>
       <md-tab label="权限信息">
-        <div class="attr--type--wrap">
+        <div class="attr--type--wrap permissions--info">
           <div class="attr--type--box" *ngIf="!editLimit">
-            <table class="table table-hover home--upload--table--box" [ngClass]="{showUploadContainer:showUploadContainer}">
+            <table class="table table-hover attr--table--box" [ngClass]="{showUploadContainer:showUploadContainer}">
               <thead>
               <tr class="table__th--tr">
-                <th >用户/组</th>
-                <th >权限</th>
-                <th >扩展权限</th>
+                <th>用户/组</th>
+                <th>权限</th>
+                <th width="150">扩展权限</th>
               </tr>
               </thead>
               <tbody>
               <tr *ngFor="let limit of limitList; let i = index">
                 <td>{{limit.objectName}}</td>
                 <td>{{limit.permitName}}</td>
-                <td>{{limit.extendsPermitNames}}</td>
+                <td width="150">{{limit.extendsPermitNames}}</td>
               </tr>
               </tbody>
             </table>
-            <div class="option--btn--box">
-              <button md-button (click)="startEditLimit()" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
-            </div>
+          </div>
+          <div class="option--btn--box" *ngIf="!editLimit">
+            <button md-button (click)="startEditLimit()" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
           </div>
           <div class="attr--type--box file--info--version" *ngIf="editLimit">
             <multi-jurisdiction

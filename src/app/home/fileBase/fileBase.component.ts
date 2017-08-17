@@ -61,7 +61,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     dir : null,
     prop : null,
     docbase : null,
-    type : 3,
+    type : 2,
     object_name : null,
     a_status : null,
     eee : null
@@ -618,17 +618,18 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     });
   }
   exportCurrFolderLimits(){
-    let conifg = new MdDialogConfig();
-    conifg.data = {
-      selected : this.selected,
-      docbase : this.parameter.docbase
-    };
-    conifg.height = 'auto';
-    conifg.width = '800px';
-    let dialogRef = this.dialog.open(exportCurrFolderLimitsDialog,conifg);
-    dialogRef.afterClosed().subscribe(result => {
-      return
-    });
+    this.fileBaseService.exportLimits(this.parameter.docbase,this.selected,1,1)
+    //let conifg = new MdDialogConfig();
+    //conifg.data = {
+    //  selected : this.selected,
+    //  docbase : this.parameter.docbase
+    //};
+    //conifg.height = 'auto';
+    //conifg.width = '600px';
+    //let dialogRef = this.dialog.open(exportCurrFolderLimitsDialog,conifg);
+    //dialogRef.afterClosed().subscribe(result => {
+    //  return
+    //});
   }
   setMulPro(){
     let conifg = new MdDialogConfig();
@@ -637,7 +638,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
       docbase : this.parameter.docbase
     };
     conifg.height = 'auto';
-    conifg.width = '800px';
+    conifg.width = '600px';
     let dialogRef = this.dialog.open(setMulProDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       this.getList(true)

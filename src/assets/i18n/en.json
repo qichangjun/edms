@@ -3,5 +3,13 @@
   "upload_folder":"upload folder",
   "upload_file":"upload file",
   "wison_company":"wison_company",
+  "DROP_MENU_copy":"Copy",
+  "DROP_MENU_move":"Move",
+  "DROP_MENU_link":"Link",
+
+
+
+
+
   "wison_projects":"wison_projects"
 }

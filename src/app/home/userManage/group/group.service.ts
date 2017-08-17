@@ -71,11 +71,41 @@ export class GroupService {
   removeGroup(parameters:any) {
     let params: URLSearchParams = new URLSearchParams();
     params.set('docbase',parameters.docbase);
-    params.set('groupId',parameters.row.groupId);
+    params.set('groupId',parameters.row.objectId);
     params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
     params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
     params.set('locale',this._authenticationService.getCurrentLanguage());
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['removeGroup'],{search: params})
+  }
+
+  removeMember(parameters:any) {
+    let ids = []
+    parameters.selected.forEach((c)=>{
+      ids.push(c.objectId)
+    })
+    let queryUrl =
+      '?docbase=' + parameters.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&memberIds=' + ids +
+      '&groupId=' + parameters.groupId;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['removeMember'] + queryUrl)
+  }
+
+  addMember(parameters:any,selectedList : Array<any>) {
+    let ids = []
+    selectedList.forEach((c)=>{
+      ids.push(c.objectId)
+    })
+    let queryUrl =
+      '?docbase=' + parameters.docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&memberIds=' + ids +
+      '&groupId=' + parameters.groupId;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['addMember'] + queryUrl)
   }
 
   getUserAndGroupList(parameters,docbase,groupId?){

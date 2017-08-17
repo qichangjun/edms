@@ -26,7 +26,7 @@ import { HomeComponent } from './home/home.component'
 import { MainComponent } from './main/main.component'
 import { FileBaseComponent,newFolderDialog,removeFileConfirmDialog,editMultipleDialog,translateFileDialog,newFileCabinetDialog,checkPositionDialog,removeFileDialog,setMulJurisdictionDialog,versionManageDialog,exportCurrFolderLimitsDialog,setMulProDialog,selectUserDialog } from './home/fileBase/index'
 import { UserManageComponent } from './home/userManage/userManage.component'
-import { GroupComponent,createGroupDialog,removeGroupDialog } from './home/userManage/group/group.component'
+import { GroupComponent,createGroupDialog,removeGroupDialog,removeMemberDialog,addMemberDialog } from './home/userManage/group/group.component'
 import { RoleComponent } from './home/userManage/role/role.component'
 import { UserComponent,createUserDialog,removeUserDialog,checkUsersGroupDialog,reAssignDialog } from './home/userManage/user/user.component'
 import { UserInfoComponent } from './home/userManage/user/userInfo/userInfo.component'
@@ -77,6 +77,7 @@ export class CustomOption extends ToastOptions {
     selectUserDialog,
     checkUsersGroupDialog,
     reAssignDialog,
+    addMemberDialog,
     ProjectFileComponent,
     UserManageComponent,
     GroupComponent,
@@ -87,6 +88,7 @@ export class CustomOption extends ToastOptions {
     removeGroupDialog,
     createGroupDialog,
     removeUserDialog,
+    removeMemberDialog,
     UploadFileComponent
   ],
   imports: [
@@ -130,7 +132,9 @@ export class CustomOption extends ToastOptions {
     versionManageDialog,
     setMulProDialog,
     reAssignDialog,
+    addMemberDialog,
     removeFileConfirmDialog,
+    removeMemberDialog,
     exportCurrFolderLimitsDialog],
   providers: [
     {provide: LocationStrategy, useClass: HashLocationStrategy},

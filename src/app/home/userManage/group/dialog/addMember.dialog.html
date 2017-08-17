@@ -1,9 +1,9 @@
-<form name="form" (ngSubmit)="f.form.valid && setUser()" #f="ngForm" novalidate>
-  <h2 md-dialog-title>选择用户</h2>
+<form name="form" (ngSubmit)="f.form.valid && addMember()" #f="ngForm" novalidate>
+  <h2 md-dialog-title>添加成员</h2>
   <md-dialog-content >
     <single-selectUser
       [docbase]="data.docbase"
-      [selectType]="'single'"
+      [selectType]="'multiple'"
       [type]="data.type"
       [selectedList]="selectedList"
     ></single-selectUser>

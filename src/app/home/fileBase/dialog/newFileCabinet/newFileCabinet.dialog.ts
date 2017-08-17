@@ -19,6 +19,7 @@ export class newFileCabinetDialog implements OnInit{
   loading : boolean = false;
   showMoreAttr : boolean = false;
   attrLists : Array<any> = [];
+  firstInitMoreInfo : boolean = false;
   constructor(
     public dialog: MdDialog,
     private fileBaseService : FileBaseService,
@@ -53,6 +54,13 @@ export class newFileCabinetDialog implements OnInit{
     this.entity.typeName = 'dm_cabinet';
     this.checkAttrList(1);
   }
+
+  showMore(){
+    this.showMoreAttr = true;
+    if (!this.firstInitMoreInfo){
+      this.checkAttrList(2)
+    }
+  }
   checkAttrList(option){
     this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).subscribe(
       data => {
@@ -61,6 +69,10 @@ export class newFileCabinetDialog implements OnInit{
           if (option == 1){
             this.attrLists = info.data
           }else {
+            this.firstInitMoreInfo = true
+            info.data.forEach((c)=>{
+              c['isMore'] = true
+            })
             this.attrLists = this.attrLists.concat(info.data)
           }
         }else {

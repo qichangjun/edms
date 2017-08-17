@@ -115,4 +115,8 @@
   border-radius: 50%;
   margin-right: 5px; }
 
+.toolbar--checkbox {
+  line-height: normal;
+  margin: 0 0 3px 5px; }
+
 /*# sourceMappingURL=toolBar.component.css.map */

@@ -38,8 +38,7 @@
   </ng-template>
   <ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
     <div class="checkbox">
-      <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"  id="checkbox_one" class="input_check">
-      <label for="checkbox_one"></label>
+      <md-checkbox style="margin-left: -20px" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></md-checkbox>
     </div>
     <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
   </ng-template>

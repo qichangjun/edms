@@ -7,6 +7,9 @@
 .mat-sidenav-transition .mat-sidenav {
   transition: width 0.4s, transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
 
+.main--right--content--wrap {
+  min-width: 850px; }
+
 .toolbar--option--btn--wrap {
   display: flex;
   justify-content: space-between;
@@ -95,10 +98,6 @@
   justify-content: space-between;
   height: 30px; }
 
-.mat-menu-item__button {
-  height: 40px;
-  line-height: 40px; }
-
 .a-upload {
   padding: 4px 10px;
   height: 20px;
@@ -183,7 +182,10 @@
   color: #333333;
   overflow: hidden; }
 
-
+.custom--column--configuration--box .single--custom {
+  padding: 0 16px;
+  height: 40px;
+  line-height: 40px; }
 
 .data--list--doc--icon--box {
   display: inline-block;

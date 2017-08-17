@@ -6,6 +6,11 @@
         正在加载...
       </div>
       <div *ngIf="!loading">
+        <div *ngIf="!(data.rows[index].info && data.rows[index].info.isMultiLinks) && !(data.rows[index].info && data.rows[index].info.isMultiVersions)">
+          <span>
+            是否确定删除?
+          </span>
+        </div>
         <div *ngIf="data.rows[index].info && data.rows[index].info.isMultiLinks">
           <span>链接:</span>
           <md-radio-group [(ngModel)]="data.rows[index].info.type">

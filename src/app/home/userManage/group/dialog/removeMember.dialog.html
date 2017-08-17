@@ -2,8 +2,10 @@
   <h2 md-dialog-title>删除组</h2>
   <md-dialog-content>
     <div>
-      <span>确定要删除组
-        <strong>{{data.row.objectName}}</strong> 吗</span>
+      <span>确定要删除以下这些成员吗?</span>
+      <div *ngFor="let member of data.selected">
+        {{member.objectName}}
+      </div>
     </div>
   </md-dialog-content>
   <md-dialog-actions>

@@ -1,7 +1,7 @@
 import { Component,OnInit,Input,OnChanges,SimpleChange } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
-import { editMultipleDialog,FileBaseService } from '../index'
+import { editMultipleDialog,FileBaseService,selectUserDialog } from '../index'
 
 @Component({
   selector: 'file-info',
@@ -16,6 +16,7 @@ export class FileInfoComponent implements OnInit {
   @Input() parameter : any;
   @Input() selectedLength : number = 0;
   currentTab : number = 0;
+  firstInitMoreInfo : boolean = false;
 
   loading : boolean = false;
   showMoreAttr : boolean = false;
@@ -36,8 +37,13 @@ export class FileInfoComponent implements OnInit {
         let info = data.json();
         if (info.code == 1) {
           if (option == 2){
+            this.firstInitMoreInfo = true
+            info.data.forEach((c)=>{
+              c['isMore'] = true
+            })
             this.attrList = this.attrList.concat(info.data)
           }else{
+            this.firstInitMoreInfo = false
             this.attrList = info.data
             this.editStatus = false;
           }
@@ -49,6 +55,14 @@ export class FileInfoComponent implements OnInit {
       }
     )
   }
+  showMore(){
+    this.showMoreAttr = true;
+    if (!this.firstInitMoreInfo){
+      this.getInfo(2)
+    }
+  }
+
+
   getLimit(){
     this.fileBaseService.getLimit(this.row,this.parameter).subscribe(
       data => {
@@ -119,6 +133,22 @@ export class FileInfoComponent implements OnInit {
     this.editLimit = true;
   }
 
+  selectUser(attr){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      //attrValue : attr.attrValue,
+      docbase : this.parameter.docbase,
+      type : "user"
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        attr.attrValue = result[0]
+      }
+    });
+  }
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
     if (changes['row']) {
       if (changes['row'].currentValue){

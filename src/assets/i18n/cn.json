@@ -3,5 +3,16 @@
   "upload_folder":"上传文件夹",
   "upload_file":"上传文件",
   "wison_company":"企业文档库",
+  "DROP_MENU_copy":"复制到",
+  "DROP_MENU_move":"移动到",
+  "DROP_MENU_link":"连接到",
+
+
+
+
+
+
+
+
   "wison_projects":"项目文档库"
 }

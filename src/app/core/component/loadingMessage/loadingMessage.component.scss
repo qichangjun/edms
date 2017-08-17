@@ -29,12 +29,14 @@
     left: 50%;
     margin-top: -100px;
     margin-left: -100px;
-    &:before{
-      font: normal normal normal 14px/1 FontAwesome;
-      content: '\f110';
-      color: #ffffff;
-      animation: fa-spin 1s infinite steps(8);
-      font-size: 50px;
+    .fa{
+      font-size: 55px;
     }
+    //.fa:before{
+    //  font: normal normal normal 14px/1 FontAwesome;
+    //  content: '\f110';
+    //  color: #ffffff;
+    //  font-size: 50px;
+    //}
   }
 }

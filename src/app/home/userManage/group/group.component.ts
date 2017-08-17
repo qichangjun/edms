@@ -6,6 +6,8 @@ import { MD_DIALOG_DATA } from '@angular/material';
 import { ConstantService } from '../../../services/constant.service';
 import { EventService } from '../../../services/behavior.service';
 import { GroupService } from './group.service'
+import { UserService } from '../user/user.service';
+import { selectUserDialog } from '../../fileBase/dialog/selectUser/selectUser.dialog';
 
 @Component({
   selector: 'group',
@@ -17,7 +19,8 @@ export class GroupComponent implements OnInit,AfterViewInit{
     docbase : this.constantService.companyBase(),
     totalElements : 0,
     currentPage : 1,
-    pageSize : 50
+    pageSize : 50,
+    objectType : 'group'
   };
   @ViewChild('gridList') gridList:any;
   @ViewChild('groupNameTmpl') groupNameTmpl: TemplateRef<any>;
@@ -28,7 +31,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
   @ViewChild('configGridHeadTmpl') configGridHeadTmpl: TemplateRef<any>;
   @ViewChild('configGridTmpl') configGridTmpl: TemplateRef<any>;
 
-  currentGroup : any;
+  currentGroup : any = {};
   subscription : any;
   isLoading : boolean;
   selected : Array<any> = [];               //被选中的列数组
@@ -38,7 +41,11 @@ export class GroupComponent implements OnInit,AfterViewInit{
   localColumns : Array<any> = [];           //localColumns : 要存入localStorage的变量
   allColumns : Array<any> = [];             //allColumns : 显示隐藏列的配置菜单
   storageName : string = 'groupList';
+  ids : Array<any> = [];
+  breadCrumbLists : Array<any> = [];
+  rootName : string = '所有用户/组';
   constructor(
+    private _userService : UserService,
     private _groupService : GroupService,
     private _EventService : EventService,
     private router: Router,
@@ -81,16 +88,17 @@ export class GroupComponent implements OnInit,AfterViewInit{
     if (init){
       this.selected = [];
     }
-    this._groupService.getGroupList(this.parameter,init).subscribe(
+    this._userService.getUserList(this.parameter,init).subscribe(
       data => {
         this.isLoading = false;
         let info = data.json();
         if (info.code == 1) {
           this.loadColumns();
-          this.parameter.totalElements = info.data.page.totalCount;
-          this.parameter.currentPage = info.data.page.currentPage ;
+          this.breadCrumbLists = []
+          this.parameter.totalElements = info.data.pageInfo.totalCount;
+          this.parameter.currentPage = info.data.pageInfo.currentPage ;
           if (init) {
-            this.rows = info.data.groupList
+            this.rows = info.data.userGroupList
             setTimeout(() => {
               if (this.rows.length > this.pageLimit) {
                 this.gridList.datatable.offset = this.gridList.datatable.rowCount/this.gridList.datatable.pageSize;
@@ -98,7 +106,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
               }
             });
           }else {
-            this.rows = this.rows.concat(info.data.groupList);
+            this.rows = this.rows.concat(info.data.userGroupList);
           }
         }
         else if (info.code ==0) {
@@ -116,20 +124,20 @@ export class GroupComponent implements OnInit,AfterViewInit{
      this.allColumns : 用于管理显示及隐藏的列配置
      */
     this.allColumns = [
-      {name:'组名',prop:'groupName',cellTemplate:this.groupNameTmpl,minWidth:100},
+      {name:'组名',prop:'objectName',cellTemplate:this.groupNameTmpl,minWidth:100},
       {name:'描述',prop:'description',minWidth:100},
-      {name:'拥有者',prop:'owner',minWidth:100}
+      {name:'拥有者',prop:'ownerName',minWidth:100}
     ]
     this.columns = [
       { name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
-      {name:'组名',prop:'groupName',cellTemplate:this.groupNameTmpl,minWidth:100},
+      {name:'组名',prop:'objectName',cellTemplate:this.groupNameTmpl,minWidth:100},
       {name:'描述',prop:'description',minWidth:100},
       { name:'',prop:'',cellTemplate:this.configGridTmpl,headerTemplate:this.configGridHeadTmpl,minWidth:80,resizeable:false}
     ];
     this.localColumns = JSON.parse(localStorage.getItem('grid_columns'+'_'+this.storageName));
     if (!this.localColumns){
       this.localColumns = [
-        { prop:'groupName',minWidth:100,name:'组名'},
+        { prop:'objectName',minWidth:100,name:'组名'},
         { prop:'description',minWidth:100,name:'描述'}
       ]
     }else{
@@ -141,7 +149,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
       ];
       for (let i = 0 ;i < this.localColumns.length; i ++) {
         this.columns[i + 1] = Object.assign({}, this.localColumns[i])
-        if (this.localColumns[i].prop == 'groupName'){
+        if (this.localColumns[i].prop == 'objectName'){
           this.columns[i + 1].cellTemplate = this.groupNameTmpl
         }
       }
@@ -173,6 +181,41 @@ export class GroupComponent implements OnInit,AfterViewInit{
     });
   }
 
+  enterGroup(row){
+    if (this.ids[this.ids.length - 1] != row.objectId) {
+      this.ids.push(row.objectId)
+      this.breadCrumbLists.push({object_name:row.objectName,r_object_id:row.objectId})
+      this.searchGroupChild(row.objectId)
+    }
+  }
+  clickTreeOrBreadCrumb(event){
+    if(event.ids.length == 1){
+      this.ids = event.ids
+      this.getList(true)
+    }else{
+      for (let i = 0 ; i < this.ids.length;i++) {
+        if (this.ids[i] == event.node.r_object_id) {
+          this.ids.splice(i+1,this.ids.length - i);
+          break;
+        }
+      }
+      let list = {objectName : event.node.object_name,objectId:event.node.r_object_id}
+      this.searchGroupChild(list.objectId)
+    }
+  }
+  searchGroupChild(objectId){
+    this.selected = [];
+    this._groupService.searchGroupChild(this.parameter.docbase,objectId).subscribe(
+      data => {
+        let info = data.json();
+        if (info.code == 1) {
+          this.rows = info.data.userList.concat(info.data.groupList);
+        }else{
+          this.toastr.error(info.message)
+        }
+      }
+    );
+  }
   createGroup(){
     let conifg = new MdDialogConfig();
     conifg.data = {
@@ -183,7 +226,11 @@ export class GroupComponent implements OnInit,AfterViewInit{
     let dialogRef = this.dialog.open(createGroupDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true)
+        if(this.ids.length == 0){
+          this.getList(true)
+        }else{
+          this.searchGroupChild(this.ids[this.ids.length - 1])
+        }
       }
     });
   }
@@ -198,7 +245,51 @@ export class GroupComponent implements OnInit,AfterViewInit{
     let dialogRef = this.dialog.open(removeGroupDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true)
+        if(this.ids.length == 0){
+          this.getList(true)
+        }else{
+          this.searchGroupChild(this.ids[this.ids.length - 1])
+        }
+      }
+    });
+  }
+  removeMember(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selected : this.selected,
+      groupId : this.ids[this.ids.length - 1]
+    };
+    conifg.height = '400px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(removeMemberDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if(this.ids.length == 0){
+          this.getList(true)
+        }else{
+          this.searchGroupChild(this.ids[this.ids.length - 1])
+        }
+      }
+    });
+  }
+  addMember(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      groupId : this.ids[this.ids.length - 1],
+      type : 'all'
+    };
+    conifg.height = '400px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(addMemberDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        if(this.ids.length == 0){
+          this.getList(true)
+        }else{
+          this.searchGroupChild(this.ids[this.ids.length - 1])
+        }
       }
     });
   }
@@ -209,13 +300,11 @@ export class Parameter {
   totalElements : number;
   currentPage : number;
   pageSize : number;
+  objectType : string;
 }
 
-
 /**
- * 新建文件柜
- * @params this.data={parentId:父文件夹Id}
- * @params attrLists:文件柜的属性
+ * 新建组
  * */
 @Component({
   selector: 'create-group',
@@ -224,6 +313,8 @@ export class Parameter {
 })
 export class createGroupDialog implements OnInit{
   loading : boolean = false;
+  ownerName : string = '';
+  groupAdminName : string = ''
   constructor(
     public dialog: MdDialog,
     public toastr: ToastsManager,
@@ -254,8 +345,25 @@ export class createGroupDialog implements OnInit{
       }
     )
   }
-}
 
+  selectUser(attrName,displayName){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      //attrValue : this.entity[attrName],
+      docbase : this.data.docbase,
+      type : 'all'
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.entity[attrName] = result[0].objectId
+        this[displayName] = result[0].objectName
+      }
+    });
+  }
+}
 
 @Component({
   selector: 'remove-group',
@@ -280,6 +388,81 @@ export class removeGroupDialog implements OnInit{
   removeGroup(){
     this.loading = true;
     this._groupService.removeGroup(this.data).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.dialogRef.close(true);
+          this.toastr.success(info.message);
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+
+@Component({
+  selector: 'remove-member',
+  templateUrl: './dialog/removeMember.dialog.html',
+  styleUrls: ['./dialog/css/removeGroup.dialog.scss'],
+})
+export class removeMemberDialog implements OnInit{
+  loading : boolean = false;
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<removeGroupDialog>,
+    private _groupService : GroupService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){
+    console.log(this.data)
+  }
+  removeMember(){
+    this.loading = true;
+    this._groupService.removeGroup(this.data).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.dialogRef.close(true);
+          this.toastr.success(info.message);
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+
+@Component({
+  selector: 'add-member',
+  templateUrl: './dialog/addMember.dialog.html',
+  styleUrls: ['./dialog/css/removeGroup.dialog.scss'],
+})
+export class addMemberDialog implements OnInit{
+  loading : boolean = false;
+  selectedList : Array<any> = [];
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<addMemberDialog>,
+    private _groupService : GroupService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){
+    console.log(this.data)
+  }
+  addMember(){
+    this.loading = true;
+    this._groupService.addMember(this.data,this.selectedList).subscribe(
       data => {
         this.loading = false;
         let info = data.json();

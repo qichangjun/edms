@@ -23,9 +23,9 @@ export class selectUserDialog implements OnInit{
   }
 
   ngOnInit() {
-    if (this.data.attr.attrValue) {
-      this.selectedList = this.data.attr.attrValue
-    }
+    //if (this.data.attrValue) {
+    //  this.selectedList.push(this.data.attrValue)
+    //}
   }
 
   setUser(){
