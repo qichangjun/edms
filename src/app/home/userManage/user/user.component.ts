@@ -66,8 +66,8 @@ export class UserComponent implements OnInit,AfterViewInit{
       if (params['currentPage']) {
         this.parameter.currentPage = Number(params['currentPage']) || 1;
       }
-      if (params['keywords']  && this.parameter.keywords != params['keywords']) {
-        this.parameter.keywords = params['keywords'] || 1;
+      if (this.parameter.keywords != params['keywords']) {
+        this.parameter.keywords = params['keywords'] || '';
         this.getList(true)
       }
     });
@@ -194,7 +194,7 @@ export class UserComponent implements OnInit,AfterViewInit{
     conifg.data = {
       docbase : this.parameter.docbase
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(createUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -209,7 +209,7 @@ export class UserComponent implements OnInit,AfterViewInit{
       docbase : this.parameter.docbase,
       row : row
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(removeUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -225,12 +225,12 @@ export class UserComponent implements OnInit,AfterViewInit{
       docbase : this.parameter.docbase,
       selected : this.selected
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(checkUsersGroupDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.getList(true)
+        return
       }
     });
   }
@@ -240,7 +240,7 @@ export class UserComponent implements OnInit,AfterViewInit{
       docbase : this.parameter.docbase,
       selected : this.selected
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(reAssignDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -402,8 +402,8 @@ export class reAssignDialog implements OnInit{
   selectUser(){
     let conifg = new MdDialogConfig();
     conifg.data = {
-      attr : this.newUser,
-      docbase : this.data.docbase
+      docbase : this.data.docbase,
+      type : 'user'
     };
     conifg.height = '800px';
     conifg.width = '600px';

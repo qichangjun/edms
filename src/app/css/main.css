@@ -196,7 +196,7 @@ ul {
   max-width: 100vw !important; }
 
 .mat-dialog-content {
-  padding: 10px 24px 20px !important; }
+  padding: 20px 24px 20px !important; }
 
 .datatable-row-wrapper:hover .object_name {
   display: inline-block;
@@ -534,5 +534,8 @@ label {
 
 .attr--checked--box label {
   margin-bottom: 2px; }
+
+.select--user--modal--wrap .modal-group-add-member {
+  width: 100% !important; }
 
 /*# sourceMappingURL=main.css.map */

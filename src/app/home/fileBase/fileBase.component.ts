@@ -352,7 +352,7 @@ export class FileBaseComponent implements OnInit,AfterViewInit{
     ]
     this.columns = [
       { name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
-      {name:'名称',prop:'object_name',cellTemplate:this.object_nameTmpl,minWidth:200},
+      {name:'名称',prop:'object_name',cellTemplate:this.object_nameTmpl,minWidth:200,width:200},
       {name:'密级',prop:'w_secret_level',minWidth:100},
       {name:'是否加密',prop:'w_is_encrypted',minWidth:100},
       {name:'目录内文件数',prop:'docNum',minWidth:100},

@@ -5,6 +5,8 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 
+import { selectUserDialog } from '../../../fileBase/dialog/selectUser/selectUser.dialog';
+
 
 @Component({
   selector: 'group-info',
@@ -18,7 +20,6 @@ export class GroupInfoComponent implements OnInit,AfterViewInit{
   entity : any = {};
   loading : boolean = false;
   editStatus : boolean = false;
-  formData : any = {};
   constructor(
     public toastr: ToastsManager,
     private _groupService : GroupService,
@@ -30,15 +31,13 @@ export class GroupInfoComponent implements OnInit,AfterViewInit{
   ngOnInit(){}
   updateGroup(){
     this.loading = true;
-    this._groupService.updateGroup(this.formData,this.docbase).subscribe(
+    this._groupService.updateGroup(this.entity,this.docbase).subscribe(
       data => {
         this.loading = false;
         let info = data.json();
         if (info.code==1) {
           this.editStatus = false;
-          for(let key in this.formData){
-            this.entity[key] = this.formData[key]
-          };
+          this.getGroupInfo()
           this.toastr.success(info.message);
         }else {
           this.toastr.error(info.message);
@@ -46,11 +45,44 @@ export class GroupInfoComponent implements OnInit,AfterViewInit{
       }
     )
   }
+
+  getGroupInfo(){
+    this.loading = true;
+    this._groupService.getGroupInfo(this.currentGroup.objectId,this.currentGroup.objectName,this.docbase).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.editStatus = false;
+          this.entity = info.data.groupInfo
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+
+  selectUser(attrName){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.docbase,
+      type : 'all'
+    };
+    conifg.height = 'auto';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.entity[attrName] = result[0].objectName
+      }
+    });
+  }
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
     if (changes['currentGroup']) {
       if (changes['currentGroup'].currentValue){
-        this.entity = changes['currentGroup'].currentValue;
-        this.formData = Object.assign({}, changes['currentGroup'].currentValue)
+        if(this.currentGroup.objectType == 'group'){
+          this.getGroupInfo()
+        }
       }
     }
   }

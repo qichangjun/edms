@@ -1,17 +1,20 @@
 <div style="height:100%">
   <md-sidenav-container style="height: 100%">
+    <bread-crumb
+      [rootName]="rootName"
+      [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
     <div class="toolbar--option--btn--wrap">
-      <bread-crumb
-        [rootName]="rootName"
-        [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
       <div class="toolbar--option--btn--box">
         <button (click)="createGroup()" class="btn btn-default"><span >新建组</span></button>
-        <button  *ngIf="ids.length > 0" (click)="addMember()" class="btn btn-default"><span >添加成员</span></button>
+        <button *ngIf="ids.length > 0" (click)="addMember()" class="btn btn-default"><span >添加成员</span></button>
+        <button *ngIf="selected.length == 1 && selected[0].objectType=='group'" (click)="reAssignGroup()" class="btn btn-default"><span >重新指派</span></button>
+        <button *ngIf="selected.length == 1 && selected[0].objectType=='group'" (click)="checkGroupParent()" class="btn btn-default"><span >查看当前组所在的组</span></button>
         <button *ngIf="selected.length > 0" (click)="removeMember()" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
       </div>
       <span class="load--quantity">已加载{{rows.length}}个,共{{parameter.totalElements}}个</span>
     </div>
-    <div style="height: calc(100% - 50px)">
+
+    <div style="height: calc(100% - 98px)">
       <grid-list
         #gridList
         [selected]="selected"

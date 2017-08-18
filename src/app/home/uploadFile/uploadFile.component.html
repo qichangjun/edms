@@ -28,7 +28,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let file of uploader.queue; let i = index">
-        <td class="upload--table--file--name--td">{{file._file.name}}</td>
+        <td class="upload--table--file--name--td" title="{{file._file.name}}">{{file._file.name}}</td>
         <td>{{file.file.size | sizefilter}}</td>
         <td>{{file.parentFolder}}</td>
         <td>

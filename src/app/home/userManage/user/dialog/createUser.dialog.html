@@ -2,7 +2,7 @@
   <h2 md-dialog-title>新建用户</h2>
   <md-dialog-content>
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !userName.valid && userName.required }">
-      <label class="attr--name">用户名</label>
+      <label class="attr--name">用户名：</label>
       <div style="position: relative;display:inline-block;">
         <input id="userName" type="text" class="form-control attr--value"
                name="userName" [(ngModel)]="entity.userName"
@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !loginName.valid && loginName.required }">
-      <label class="attr--name">登录名</label>
+      <label class="attr--name">登录名：</label>
       <div style="position: relative;display:inline-block;">
         <input id="loginName" type="text" class="form-control attr--value"
                name="loginName" [(ngModel)]="entity.loginName"
@@ -36,7 +36,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户来源</label>
+      <label class="attr--name">用户来源：</label>
       <div style="position: relative;display:inline-block;">
         <md-select name="userSource" class="form-control attr--value" id="userSource" #userSource="ngModel"   [(ngModel)]="entity.userSource" >
           <md-option  [value]="'inline password'">
@@ -55,7 +55,7 @@
       </div>
     </div>
     <div *ngIf="entity.userSource == 'inline password'" class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
-      <label class="attr--name">密码</label>
+      <label class="attr--name">密码：</label>
       <div style="position: relative;display:inline-block;">
         <input id="password" type="password" class="form-control attr--value"
                name="password" [(ngModel)]="entity.password"
@@ -72,7 +72,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">邮箱</label>
+      <label class="attr--name">邮箱：</label>
       <div style="position: relative;display:inline-block;">
         <input id="email" type="email" class="form-control attr--value"
                name="email" [(ngModel)]="entity.email"
@@ -80,7 +80,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">描述</label>
+      <label class="attr--name vertical--align--top">描述：</label>
       <div style="position: relative;display:inline-block;">
         <textarea id="description" type="text" class="form-control attr--value"
                   name="description" [(ngModel)]="entity.description"
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">客户端功能</label>
+      <label class="attr--name">客户端功能：</label>
       <div style="position: relative;display:inline-block;">
         <md-select  class="form-control attr--value" name="clientFunction" id="clientFunction" #clientFunction="ngModel"   [(ngModel)]="entity.clientFunction" >
           <md-option  [value]="0">
@@ -111,7 +111,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户权限</label>
+      <label class="attr--name">用户权限：</label>
       <div style="position: relative;display:inline-block;">
         <md-select  name="userPermit" class="form-control attr--value" id="userPermit" #userPermit="ngModel"   [(ngModel)]="entity.userPermit" >
           <md-option  [value]="0">
@@ -149,7 +149,7 @@
     </div>
 
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户状态</label>
+      <label class="attr--name">用户状态：</label>
       <div style="position: relative;display:inline-block;">
         <md-select name="userState" class="form-control attr--value" id="userState" #userState="ngModel"   [(ngModel)]="entity.userState" >
           <md-option  [value]="0">
@@ -168,7 +168,7 @@
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户扩展权限</label>
+      <label class="attr--name">用户扩展权限：</label>
       <div style="position: relative;display:inline-block;">
         <md-select name="userXPermit" class="form-control attr--value" id="userXPermit" #userXPermit="ngModel"   [(ngModel)]="entity.userXPermit" >
           <md-option  [value]="0">

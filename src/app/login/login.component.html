@@ -47,10 +47,10 @@
       <div class="form-group input-content-box select" >
         <label class="title" for="language">{{ 'select_langueage' | translate}}</label>
         <md-select name="language" (change)="translate.use($event.value)" [(ngModel)]="model.language" class="value--input">
-          <md-option  [value]="'cn'">
+          <md-option  [value]="'zh_CN'">
             中文
           </md-option>
-          <md-option  [value]="'en'">
+          <md-option  [value]="'en_US'">
             英文
           </md-option>
         </md-select>

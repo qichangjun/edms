@@ -35,7 +35,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let file of uploader.queue; let i = index">
-          <td class="version--manage--table--filename--td">{{file._file.name}}</td>
+          <td class="version--manage--table--filename--td" title="{{file._file.name}}">{{file._file.name}}</td>
           <td>{{file.file.size | sizefilter}}</td>
           <td>
             <span *ngIf="file.isError" class="fa fa-exclamation-circle status--prompt--icon" style="color: #cd624c"></span>

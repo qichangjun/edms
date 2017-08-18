@@ -139,6 +139,38 @@ export class GroupService {
     return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getGroupsChildren'] + queryUrl);
   }
 
+  getGroupInfo(groupId,groupName,docbase){
+    let queryUrl =
+      '?docbase=' + docbase +
+      '&accessToken=' + this._authenticationService.getCurrentUser().accessToken +
+      '&accessUser=' + this._authenticationService.getCurrentUser().accessUser +
+      '&locale=' + this._authenticationService.getCurrentLanguage() +
+      '&groupName=' + groupName +
+      '&groupId=' + groupId;
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['getGroupInfo'] + queryUrl)
+  }
+
+  reAssignGroup(parameters,docbase : string,targetId) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('docbase',docbase);
+    params.set('groupId',parameters.objectId);
+    params.set('targetGroupId',targetId);
+    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
+    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
+    params.set('locale',this._authenticationService.getCurrentLanguage());
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['reAssignGroup'],{search: params})
+  }
+
+  checkGroupParent(parameters,docbase : string) {
+    let params: URLSearchParams = new URLSearchParams();
+    params.set('docbase',docbase);
+    params.set('groupId',parameters.objectId);
+    params.set('accessToken',this._authenticationService.getCurrentUser().accessToken);
+    params.set('accessUser',this._authenticationService.getCurrentUser().accessUser);
+    params.set('locale',this._authenticationService.getCurrentLanguage());
+    return this.http.get(this._constantService.baseUrl() + this._apiUrlService['checkGroupParent'],{search: params})
+  }
+
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);

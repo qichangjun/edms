@@ -45,8 +45,8 @@
         <span class="caret"></span>
       </div>
       <md-menu #moreOperation="mdMenu">
-        <button *ngIf="translate.currentLang == 'en'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('cn')">切换至中文</button>
-        <button *ngIf="translate.currentLang == 'cn'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en')">切换至英文</button>
+        <button *ngIf="translate.currentLang == 'en_US'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('zh_CN')">切换至中文</button>
+        <button *ngIf="translate.currentLang == 'zh_CN'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en_US')">切换至英文</button>
         <button class="mat-menu-item__button" md-menu-item  (click)="toggleTree()">
           <span *ngIf="showSideBar">隐藏左侧栏</span>
           <span *ngIf="!showSideBar">显示左侧栏</span>

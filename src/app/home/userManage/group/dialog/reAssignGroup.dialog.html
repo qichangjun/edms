@@ -1,0 +1,15 @@
+<div>
+  <h2 md-dialog-title>重新指派</h2>
+  <md-dialog-content>
+    <div>
+      <span>{{data.selected[0].objectName}} 重新指派给
+        <strong>{{newUser.objectName}}</strong>
+        <a (click)="selectUser()">编辑</a>
+      </span>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" (click)="reAssignGroup()" class="btn btn-sure">确定</button>
+    <button md-button md-dialog-close >取消</button>
+  </md-dialog-actions>
+</div>

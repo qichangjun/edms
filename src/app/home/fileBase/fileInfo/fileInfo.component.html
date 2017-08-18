@@ -150,11 +150,12 @@
                 </div>
               </div>
             </div>
+            <div class="option--btn--box">
+              <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
+              <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+            </div>
           </form>
-          <div class="option--btn--box">
-            <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">取消</button>
-            <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
-          </div>
+
         </div>
       </md-tab>
       <md-tab label="权限信息">

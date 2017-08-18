@@ -54,7 +54,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.logout();
-    this.model.language = this.authenticationService.getCurrentLanguage() || 'cn';
+    this.model.language = this.authenticationService.getCurrentLanguage() || 'zh_CN';
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/main';
   }
 

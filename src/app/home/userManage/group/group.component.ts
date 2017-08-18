@@ -190,7 +190,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
   }
   clickTreeOrBreadCrumb(event){
     if(event.ids.length == 1){
-      this.ids = event.ids
+      this.ids = []
       this.getList(true)
     }else{
       for (let i = 0 ; i < this.ids.length;i++) {
@@ -204,12 +204,13 @@ export class GroupComponent implements OnInit,AfterViewInit{
     }
   }
   searchGroupChild(objectId){
-    this.selected = [];
     this._groupService.searchGroupChild(this.parameter.docbase,objectId).subscribe(
       data => {
         let info = data.json();
         if (info.code == 1) {
+          this.selected = [];
           this.rows = info.data.userList.concat(info.data.groupList);
+          this.parameter.totalElements = this.rows.length;
         }else{
           this.toastr.error(info.message)
         }
@@ -221,7 +222,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
     conifg.data = {
       docbase : this.parameter.docbase
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(createGroupDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -240,7 +241,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
       docbase : this.parameter.docbase,
       row : row
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(removeGroupDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -260,7 +261,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
       selected : this.selected,
       groupId : this.ids[this.ids.length - 1]
     };
-    conifg.height = '400px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(removeMemberDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
@@ -280,8 +281,8 @@ export class GroupComponent implements OnInit,AfterViewInit{
       groupId : this.ids[this.ids.length - 1],
       type : 'all'
     };
-    conifg.height = '400px';
-    conifg.width = '600px';
+    conifg.height = 'auto';
+    conifg.width = '800px';
     let dialogRef = this.dialog.open(addMemberDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -290,6 +291,36 @@ export class GroupComponent implements OnInit,AfterViewInit{
         }else{
           this.searchGroupChild(this.ids[this.ids.length - 1])
         }
+      }
+    });
+  }
+  reAssignGroup(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selected : this.selected
+    };
+    conifg.height = 'auto';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(reAssignGroupDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.getList(true)
+      }
+    });
+  }
+  checkGroupParent(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selected : this.selected
+    };
+    conifg.height = 'auto';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(checkGroupParentDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        return
       }
     });
   }
@@ -346,20 +377,19 @@ export class createGroupDialog implements OnInit{
     )
   }
 
-  selectUser(attrName,displayName){
+  selectUser(attrName){
     let conifg = new MdDialogConfig();
     conifg.data = {
       //attrValue : this.entity[attrName],
       docbase : this.data.docbase,
       type : 'all'
     };
-    conifg.height = '800px';
+    conifg.height = 'auto';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(selectUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        this.entity[attrName] = result[0].objectId
-        this[displayName] = result[0].objectName
+        this.entity[attrName] = result[0].objectName
       }
     });
   }
@@ -424,7 +454,7 @@ export class removeMemberDialog implements OnInit{
   }
   removeMember(){
     this.loading = true;
-    this._groupService.removeGroup(this.data).subscribe(
+    this._groupService.removeMember(this.data).subscribe(
       data => {
         this.loading = false;
         let info = data.json();
@@ -476,3 +506,88 @@ export class addMemberDialog implements OnInit{
     )
   }
 }
+
+@Component({
+  selector: 're-assign-group',
+  templateUrl: './dialog/reAssignGroup.dialog.html',
+  styleUrls: ['./dialog/css/removeGroup.dialog.scss'],
+})
+export class reAssignGroupDialog implements OnInit{
+  loading : boolean = false;
+  groupList : Array<any> = [];
+  newUser : any = {};
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<reAssignGroupDialog>,
+    private _groupService : GroupService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){}
+  selectUser(){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      docbase : this.data.docbase,
+      type : 'group'
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        this.newUser = result[0]
+      }
+    });
+  }
+  reAssignGroup(){
+    this._groupService.reAssignGroup(this.data.selected[0],this.data.docbase,this.newUser.objectId).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.toastr.success(info.message);
+          this.dialogRef.close(true);
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+
+@Component({
+  selector: 'check-group-parent',
+  templateUrl: './dialog/checkGroupParent.dialog.html',
+  styleUrls: ['./dialog/css/removeGroup.dialog.scss'],
+})
+export class checkGroupParentDialog implements OnInit{
+  loading : boolean = false;
+  groupList : Array<any> = [];
+  constructor(
+    public dialog: MdDialog,
+    public toastr: ToastsManager,
+    public dialogRef: MdDialogRef<checkGroupParentDialog>,
+    private _groupService : GroupService,
+    @Inject(MD_DIALOG_DATA) public data: any
+  ) {}
+  cancel(){
+    this.dialogRef.close(false);
+  }
+  ngOnInit(){
+    this._groupService.checkGroupParent(this.data.selected[0],this.data.docbase).subscribe(
+      data => {
+        this.loading = false;
+        let info = data.json();
+        if (info.code==1) {
+          this.groupList = info.data.groupList
+        }else {
+          this.toastr.error(info.message);
+        }
+      }
+    )
+  }
+}
+

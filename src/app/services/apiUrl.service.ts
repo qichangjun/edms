@@ -26,6 +26,9 @@ export class ApiUrlService {
   getGroupsChildren = '/group/listAllSubObjects'
   getListTypes='/attribute/list_types'
   setMulPro = '/attribute/update_batch'
+  getGroupInfo = '/group/list'
+  reAssignGroup = '/group/reassign'
+  checkGroupParent = '/group/list_groups'
 
   move = '/resource/move';
   copy = '/resource/copy';

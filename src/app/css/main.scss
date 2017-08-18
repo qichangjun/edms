@@ -265,7 +265,7 @@ ul{
   max-width: 100vw !important;
 }
 .mat-dialog-content{
-  padding: 10px 24px 20px !important;
+  padding: 20px 24px 20px !important;
 }
 
 //grid row hover -->option btn
@@ -738,5 +738,12 @@ label{
 .attr--checked--box{
   label{
     margin-bottom: 2px;
+  }
+}
+
+//新建组 弹框
+.select--user--modal--wrap{
+  .modal-group-add-member{
+    width: 100% !important;
   }
 }

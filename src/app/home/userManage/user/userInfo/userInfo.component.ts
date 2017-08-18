@@ -42,6 +42,10 @@ export class UserInfoComponent implements OnInit,AfterViewInit{
       }
     )
   }
+
+  getUserInfo(){
+
+  }
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
     if (changes['currentUser']) {
       if (changes['currentUser'].currentValue){
