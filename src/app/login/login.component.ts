@@ -1,7 +1,7 @@
 import { Component, OnInit,ViewContainerRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
-import { AuthenticationService } from '../services/authentication.service';
+import { AuthenticationService } from '@commonService/authentication.service';
 import { TranslateService } from '@ngx-translate/core';
 import {
   trigger,
@@ -14,22 +14,22 @@ import {
 @Component({
   selector: 'login',
   templateUrl: './login.component.html',
-  styleUrls: [ './login.component.scss' ],
-  animations: [
-    trigger('isInputError', [
-      state('0' , style({ opacity: 1})),
-      state('1', style({ opacity: 1,})),
-      transition('0 => 1', [
-        animate(300, keyframes([
-          style({transform: 'translateX(-10px)', offset: 0}),
-          style({transform: 'translateX(10px)',  offset: 0.3}),
-          style({transform: 'translateX(-5px)', offset: 0.6}),
-          style({transform: 'translateX(5px)', offset: 0.9}),
-          style({transform: 'translateX(0)',     offset: 1.0})
-        ]))
-      ])
-    ])
-  ]
+  styleUrls: [ './login.component.scss' ]
+  // animations: [
+  //   trigger('isInputError', [
+  //     state('0' , style({ opacity: 1})),
+  //     state('1', style({ opacity: 1,})),
+  //     transition('0 => 1', [
+  //       animate(300, keyframes([
+  //         style({transform: 'translateX(-10px)', offset: 0}),
+  //         style({transform: 'translateX(10px)',  offset: 0.3}),
+  //         style({transform: 'translateX(-5px)', offset: 0.6}),
+  //         style({transform: 'translateX(5px)', offset: 0.9}),
+  //         style({transform: 'translateX(0)',     offset: 1.0})
+  //       ]))
+  //     ])
+  //   ])
+  // ]
 })
 
 export class LoginComponent implements OnInit {
@@ -54,6 +54,10 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     this.authenticationService.logout();
+    localStorage.removeItem('grid_columns_fileBase');
+    localStorage.removeItem('grid_columns_groupList');  
+    localStorage.removeItem('grid_columns_roleList');  
+    localStorage.removeItem('grid_columns_userList');          
     this.model.language = this.authenticationService.getCurrentLanguage() || 'zh_CN';
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/main';
   }

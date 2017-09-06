@@ -4,7 +4,7 @@ import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
-import { ConstantService } from '../../../../services/constant.service';
+import { ConstantService } from '@commonService/constant.service';
 
 /**
  * 删除文件
@@ -31,21 +31,21 @@ export class removeFileDialog implements OnInit{
   }
   getDeleteInfo(index : number){
     this.loading = true
-    this.fileBaseService.getDeleteInfo(this.data.rows[index].r_object_id,this.data.docbase).subscribe(
+    this.fileBaseService.getDeleteInfo(this.data.rows[index].r_object_id,this.data.docbase).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.data.rows[index].info = info.data
-          if(this.data.rows[index].info.isMultiVersions){
-            this.data.rows[index].info.type = 2
-          }else if (this.data.rows[index].info.isMultiLinks){
-            this.data.rows[index].info.type = 1
-          }
-          else {
-            this.data.rows[index].info.type = 0
-          }
+        this.data.rows[index].info = data
+        if(this.data.rows[index].info.isMultiVersions){
+          this.data.rows[index].info.type = 2
+        }else if (this.data.rows[index].info.isMultiLinks){
+          this.data.rows[index].info.type = 1
         }
+        else {
+          this.data.rows[index].info.type = 0
+        }
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -63,16 +63,13 @@ export class removeFileDialog implements OnInit{
         params.types.push(0)
       }
     })
-    this.fileBaseService.deleteFile(params,this.data.docbase,this.data.parentId).subscribe(
+    this.fileBaseService.deleteFile(params,this.data.docbase,this.data.parentId).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.toastr.success(info.message);
-          this.dialogRef.close(true);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }

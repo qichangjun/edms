@@ -1,0 +1,16 @@
+<form name="form" (ngSubmit)="f.form.valid && addMember()" #f="ngForm" novalidate>
+        <h2 md-dialog-title>添加成员</h2>
+        <md-dialog-content >
+          <single-selectUser
+            [docbase]="data.docbase"
+            [selectType]="'multiple'"
+            [type]="data.type"
+            [selectedList]="selectedList"
+          ></single-selectUser>
+        </md-dialog-content>
+        <md-dialog-actions>
+          <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+          <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+        </md-dialog-actions>
+      </form>
+      

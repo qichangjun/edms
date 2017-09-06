@@ -6,8 +6,8 @@
   background: transparent !important; }
 
 .ztree li a.curSelectedNode {
-  border-color: #C53928 !important;
-  background: #EEEEEE !important; }
+  border-color: transparent !important;
+  background: #e6e5e5  !important; }
 
 .ztree li a.level0.curSelectedNode {
   color: #C53928 !important; }

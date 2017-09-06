@@ -12,6 +12,7 @@ import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 })
 export class selectUserDialog implements OnInit{
   selectedList : Array<any> = [];
+  value : Array<any> = []
   loading : boolean = false;
   constructor(
     private fileBaseService : FileBaseService,
@@ -29,12 +30,16 @@ export class selectUserDialog implements OnInit{
   }
 
   setUser(){
-    let value = []
+    this.value = []
     this.selectedList.forEach((attr) => {
       if (attr.isChecked){
-        value.push(attr)
+        this.value.push(attr)
       }
     });
-    this.dialogRef.close(value);
+    if (this.value.length > 0){
+      this.dialogRef.close(this.value);
+    }else{
+      this.dialogRef.close(false);
+    }  
   }
 }

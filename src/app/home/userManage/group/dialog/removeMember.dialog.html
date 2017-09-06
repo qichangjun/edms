@@ -1,7 +1,7 @@
 <div>
-  <h2 md-dialog-title>删除组</h2>
+  <h2 md-dialog-title>删除成员</h2>
   <md-dialog-content>
-    <div>
+    <div class="delete--hints--box">
       <span>确定要删除以下这些成员吗?</span>
       <div *ngFor="let member of data.selected">
         {{member.objectName}}
@@ -9,7 +9,7 @@
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" (click)="removeMember()" class="btn btn-sure">确定</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" (click)="removeMember()" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </div>

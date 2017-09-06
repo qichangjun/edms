@@ -1,8 +1,8 @@
 import { Component,OnInit,AfterViewInit,trigger, transition, style, animate,state,ViewChild } from '@angular/core';
-import { slideInDownAnimation } from '../../core/animations/animations'
+import { slideInDownAnimation } from '@coreModule/animations/animations'
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConstantService } from '../../services/constant.service';
-import { EventService } from '../../services/behavior.service';
+import { ConstantService } from '@commonService/constant.service';
+import { EventService } from '@commonService/behavior.service';
 
 @Component({
   selector: 'user-manage',

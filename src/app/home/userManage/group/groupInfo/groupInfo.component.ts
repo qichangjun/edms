@@ -31,33 +31,28 @@ export class GroupInfoComponent implements OnInit,AfterViewInit{
   ngOnInit(){}
   updateGroup(){
     this.loading = true;
-    this._groupService.updateGroup(this.entity,this.docbase).subscribe(
+    this._groupService.updateGroup(this.entity,this.docbase).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.editStatus = false;
-          this.getGroupInfo()
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.editStatus = false;
+        this.getGroupInfo()
+      },
+      error => {
+        this.loading = false;
       }
     )
   }
 
   getGroupInfo(){
     this.loading = true;
-    this._groupService.getGroupInfo(this.currentGroup.objectId,this.currentGroup.objectName,this.docbase).subscribe(
+    this._groupService.getGroupInfo(this.currentGroup.objectId,this.currentGroup.objectName,this.docbase).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.editStatus = false;
-          this.entity = info.data.groupInfo
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.editStatus = false;
+        this.entity = data.groupInfo
+      },
+      error => {
+        this.loading = false
       }
     )
   }

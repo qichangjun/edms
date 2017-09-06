@@ -2,104 +2,325 @@
   <md-toolbar class="group--sidebar--info--head">
     <span class="fa fa-cogs head--bg-icon"></span>
     <div class="head--box">
-      <div class="head" >用户信息</div>
+      <div class="head" >{{ 'HOME_USER_USER_INFORMATION' | translate}}</div>
     </div>
 
   </md-toolbar>
   <div class="groupinfo--right--sidebar--info--content" *ngIf="!editStatus">
     <div class="attr--type--box">
       <div class="single--attr--row">
-        <span class="title">用户名：</span>
+        <span class="title">{{ 'HOME_USER_USER_NAME' | translate}}：</span>
         <span class="value">{{entity.userName}}</span>
       </div>
       <div class="single--attr--row">
-        <span class="title">登录名：</span>
+        <span class="title">{{ 'HOME_USER_LOGIN_NAME' | translate}}：</span>
         <span class="value">{{entity.loginName}}</span>
       </div>
       <div class="single--attr--row">
-        <span class="title">密码：</span>
+          <span class="title">{{ 'HOME_USER_USER_SOURCE' | translate}}：</span>
+          <span class="value">
+              {{entity.userSource == 'inline password' ? 'HOME_USER_INLINE_PASSWORD' :
+              entity.userSource == 'none' ? 'NONE' :
+              entity.userSource == 'ldap' ? 'LDAP' :
+              entity.userSource == 'dm_krb' ? 'dm_krb' : 'NONE'
+              }}
+          </span>
+        </div>
+      <div class="single--attr--row">
+        <span class="title">{{ 'HOME_USER_PASSWORD' | translate}}：</span>
         <span class="value">{{entity.password}}</span>
       </div>
       <div class="single--attr--row">
-        <span class="title">邮箱地址：</span>
+        <span class="title">{{ 'HOME_USER_EMail' | translate}}：</span>
         <span class="value">{{entity.email}}</span>
       </div>
-    </div>
-    <div class="option--btn--box">
-      <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">编辑</button>
-    </div>
-  </div>
-
-  <div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
-    <form name="form" (ngSubmit)="f.form.valid && updateUser()" #f="ngForm" novalidate>
-      <div class="attr--type--box">
-        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !userName.valid && userName.required }">
-          <label class="title">用户名：</label>
-          <div class="input--value" style="position: relative;display:inline-block;">
-            <input id="userName" type="text" class="form-control attr--value"
-                   name="userName" [(ngModel)]="entity.userName"
-                   #userName="ngModel" [required]="true" />
-            <div  messageVerify [elementName]="'userName'" *ngIf="f.submitted && !userName.value" class="FormMessage-container">
-              <div class="form-messages">
-                <div class="msg-tri-outside"></div>
-                <div class="msg-tri-inside"></div>
-                <div  class="form-messages__icon fa fa-exclamation-circle">
-                  <div >用户名不能为空</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !loginName.valid && loginName.required }">
-          <label class="title">登录名：</label>
-          <div class="input--value" style="position: relative;display:inline-block;">
-            <input id="loginName" type="text" class="form-control attr--value"
-                   name="loginName" [(ngModel)]="entity.loginName"
-                   #loginName="ngModel" [required]="true" />
-            <div  messageVerify [elementName]="'loginName'" *ngIf="f.submitted && !loginName.value" class="FormMessage-container">
-              <div class="form-messages">
-                <div class="msg-tri-outside"></div>
-                <div class="msg-tri-inside"></div>
-                <div  class="form-messages__icon fa fa-exclamation-circle">
-                  <div >登录名不能为空</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
-          <label class="title">密码：</label>
-          <div class="input--value" style="position: relative;display:inline-block;">
-            <input id="password" type="password" class="form-control attr--value"
-                   name="password" [(ngModel)]="entity.password"
-                   #password="ngModel" [required]="true" />
-            <div  messageVerify [elementName]="'password'" *ngIf="f.submitted && !password.value" class="FormMessage-container">
-              <div class="form-messages">
-                <div class="msg-tri-outside"></div>
-                <div class="msg-tri-inside"></div>
-                <div  class="form-messages__icon fa fa-exclamation-circle">
-                  <div >密码不能为空</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group single--attr--row">
-          <label class="title">邮箱：</label>
-          <div class="input--value" style="position: relative;display:inline-block;">
-            <input id="email" type="email" class="form-control attr--value"
-                   name="email" [(ngModel)]="entity.email"
-                   #email="ngModel" />
-          </div>
-        </div>
+      <div class="single--attr--row">
+          <span class="title">{{ 'HOME_USER_DESCRIPTION' | translate}}：</span>
+          <span class="value">{{entity.description}}</span>
       </div>
-    </form>
+      <div class="single--attr--row">
+        <span class="title">{{ 'HOME_USER_CLIENT_CAPABILITY' | translate}}：</span>
+        <span class="value">
+          {{(entity.clientFunction == 0 ? 'NONE' :
+          entity.clientFunction == 1 ? 'HOME_USER_CONSUMER' :
+          entity.clientFunction == 2 ? 'HOME_USER_CONTRIBUTOR' :
+          entity.clientFunction == 4 ? 'HOME_USER_COORDINATOR' :
+          entity.clientFunction == 8 ? 'HOME_USER_SYSTEM_ADMINISTRATOR' : 'NONE') | translate
+           }}
+        </span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">{{ 'HOME_USER_USER_PRIVILEGES' | translate}}：</span>
+        <span class="value">
+            {{(entity.userPermit == 0 ? 'NONE' :
+            entity.userPermit == 1 ? 'HOME_USER_CREATE_TYPE':
+            entity.userPermit == 2 ? 'HOME_USER_CREATE_CABINET' :
+            entity.userPermit == 3 ? 'HOME_USER_CREATE_CABINET_AND_TYPE' :
+            entity.userPermit == 4 ? 'HOME_USER_CREATE_GROUP' :
+            entity.userPermit == 5 ? 'HOME_USER_CREATE_GROUP_AND_TYPE' :
+            entity.userPermit == 6 ? 'HOME_USER_CREATE_GROUP_AND_CABINET' :
+            entity.userPermit == 7 ? 'HOME_USER_CREATE_GROUP_CABINET_AND_TYPE' :
+            entity.userPermit == 8 ? 'HOME_USER_SYSTEM_ADMINISTRATOR' :
+            entity.userPermit == 16 ? 'HOME_USER_SUPERUSER' : 'NONE') | translate
+            }}
+        </span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">{{ 'HOME_USER_USER_STATE' | translate}}：</span>
+        <span class="value">
+            {{(entity.userState == 0 ? 'HOME_USER_ACTIVE' :
+            entity.userState == 1 ? 'HOME_USER_INACTIVE' :
+            entity.userState == 2 ? 'HOME_USER_LOCKED' :
+            entity.userState == 3 ? 'HOME_USER_LOCKED_AND_INACTIVE' :'NONE') | translate
+            }}
+        </span>
+      </div>
+      <div class="single--attr--row">
+        <span class="title">{{ 'HOME_USER_USER_EXTENDED_PRIVILEGES' | translate}}：</span>
+        <span class="value">
+            {{(entity.userXPermit == 0 ? 'NONE' :
+            entity.userXPermit == 8 ? 'HOME_USER_CONFIG_AUDIT' :
+            entity.userXPermit == 16 ? 'HOME_USER_PURGE_AUDIT' :
+            entity.userXPermit == 24 ? 'HOME_USER_CONFIG_AND_PURGE_AUDIT' :
+            entity.userXPermit == 32 ? 'HOME_USER_VIEW_AUDIT' :
+            entity.userXPermit == 40 ? 'HOME_USER_CONFIG_AND_VIEW_AUDIT' :
+            entity.userXPermit == 48 ? 'HOME_USER_VIEW_AND_PURGE_AUDIT' :
+            entity.userXPermit == 56 ? 'HOME_USER_CONFIG_VIEW_AND_PURGE_AUDIT' : 'NONE') | translate
+            }}
+        </span>
+      </div>
+
+      <div  class="single--attr--row">
+          <label class="title">{{ 'HOME_USER_USER_ROLE' | translate}}</label>
+          <span class="value">
+              {{entity.userGroupName}}
+          </span>
+      </div>
+    </div>
     <div class="option--btn--box">
-      <button md-button (click)="editStatus = false" [disabled]="loading" class="two--btn">取消</button>
-      <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+      <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</button>
     </div>
   </div>
+  <div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
+    <form name="form" (ngSubmit)="f.form.valid && updateUser()" #f="ngForm" novalidate class="attr--type--box">
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_USER_NAME' | translate}}：</label>
+            <div class="parent--do--position">
+              <span class="input--value">{{entity.userName}}</span>
+            </div>
+          </div>
+          <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !loginName.valid && loginName.required }">
+            <label class="title">{{ 'HOME_USER_LOGIN_NAME' | translate}}：</label>
+            <div class="parent--do--position">
+              <input id="loginName" type="text" class="form-control input--value"
+                     name="loginName" [(ngModel)]="entity.loginName"
+                     #loginName="ngModel" [required]="true" />
+              <div  messageVerify [elementName]="'loginName'" *ngIf="f.submitted && !loginName.value" class="FormMessage-container">
+                <div class="form-messages">
+                  <div class="msg-tri-outside"></div>
+                  <div class="msg-tri-inside"></div>
+                  <div  class="form-messages__icon fa fa-exclamation-circle">
+                    <div >{{ 'HOME_USER_LOGIN_NAME' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_USER_SOURCE' | translate}}：</label>
+            <div class="parent--do--position">
+              <md-select name="userSource" class="form-control input--value" id="userSource" #userSource="ngModel"   [(ngModel)]="entity.userSource" >
+                <md-option  [value]="'none'">
+                  {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
+                </md-option>
+                <md-option  [value]="'ldap'">
+                  LDAP
+                </md-option>
+                <md-option  [value]="'inline password'">
+                  {{ 'HOME_USER_INLINE_PASSWORD' | translate}}
+                </md-option>
+                <md-option  [value]="'dm_krb'">
+                  dm_krb
+                </md-option>
+              </md-select>
+            </div>
+          </div>
+          <div *ngIf="entity.userSource == 'inline password'" class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
+            <label class="title">{{ 'HOME_USER_PASSWORD' | translate}}：</label>
+            <div class="parent--do--position">
+              <input id="password" type="password" class="form-control input--value"
+                     name="password" [(ngModel)]="entity.password"
+                     #password="ngModel" [required]="true" />
+              <div  messageVerify [elementName]="'password'" *ngIf="f.submitted && !password.value" class="FormMessage-container">
+                <div class="form-messages">
+                  <div class="msg-tri-outside"></div>
+                  <div class="msg-tri-inside"></div>
+                  <div  class="form-messages__icon fa fa-exclamation-circle">
+                    <div >{{ 'HOME_USER_PASSWORD' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_EMail' | translate}}：</label>
+            <div class="parent--do--position">
+              <input id="email" type="email" class="form-control input--value"
+                     name="email" [(ngModel)]="entity.email"
+                     #email="ngModel"
+                     [required]="true" />
+              <div  messageVerify [elementName]="'email'" *ngIf="f.submitted && !email.value" class="FormMessage-container">
+                <div class="form-messages">
+                  <div class="msg-tri-outside"></div>
+                  <div class="msg-tri-inside"></div>
+                  <div  class="form-messages__icon fa fa-exclamation-circle">
+                    <div >{{ 'HOME_USER_EMail' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title vertical--align--top">{{ 'HOME_USER_DESCRIPTION' | translate}}：</label>
+            <div class="parent--do--position">
+              <textarea id="description" type="text" class="form-control input--value"
+                        name="description" [(ngModel)]="entity.description"
+                        #description="ngModel"  cols="30" rows="10">
+              </textarea>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_CLIENT_CAPABILITY' | translate}}：</label>
+            <div class="parent--do--position">
+              <md-select  class="form-control input--value" name="clientFunction" id="clientFunction" #clientFunction="ngModel"   [(ngModel)]="entity.clientFunction" >
+                <md-option  [value]="0">
+                  {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
+                </md-option>
+                <md-option  [value]="1">
+                  {{ 'HOME_USER_CONSUMER' | translate}}
+                </md-option>
+                <md-option  [value]="2">
+                  {{ 'HOME_USER_CONTRIBUTOR' | translate}}
+                </md-option>
+                <md-option  [value]="4">
+                  {{ 'HOME_USER_COORDINATOR' | translate}}
+                </md-option>
+                <md-option  [value]="8">
+                  {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
+                </md-option>
+              </md-select>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_USER_PRIVILEGES' | translate}}：</label>
+            <div class="parent--do--position">
+              <md-select  name="userPermit" class="form-control input--value" id="userPermit" #userPermit="ngModel"   [(ngModel)]="entity.userPermit" >
+                <md-option  [value]="0">
+                  {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
+                </md-option>
+                <md-option  [value]="1">
+                  {{ 'HOME_USER_CREATE_TYPE' | translate}}
+                </md-option>
+                <md-option  [value]="2">
+                  {{ 'HOME_USER_CREATE_CABINET' | translate}}
+                </md-option>
+                <md-option  [value]="3">
+                  {{ 'HOME_USER_CREATE_CABINET_AND_TYPE' | translate}}
+                </md-option>
+                <md-option  [value]="4">
+                  {{ 'HOME_USER_CREATE_GROUP' | translate}}
+                </md-option>
+                <md-option  [value]="5">
+                  {{ 'HOME_USER_CREATE_GROUP_AND_TYPE' | translate}}
+                </md-option>
+                <md-option  [value]="6">
+                  {{ 'HOME_USER_CREATE_GROUP_AND_CABINET' | translate}}
+                </md-option>
+                <md-option  [value]="7">
+                  {{ 'HOME_USER_CREATE_GROUP_CABINET_AND_TYPE' | translate}}
+                </md-option>
+                <md-option  [value]="8">
+                  {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
+                </md-option>
+                <md-option  [value]="16">
+                  {{ 'HOME_USER_SUPERUSER' | translate}}
+                </md-option>
+              </md-select>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_USER_STATE' | translate}}：</label>
+            <div class="parent--do--position">
+              <md-select name="userState" class="form-control input--value" id="userState" #userState="ngModel"   [(ngModel)]="entity.userState" >
+                <md-option  [value]="0">
+                  {{ 'HOME_USER_ACTIVE' | translate}}
+                </md-option>
+                <md-option  [value]="1">
+                  {{ 'HOME_USER_INACTIVE' | translate}}
+                </md-option>
+                <md-option  [value]="2">
+                  {{ 'HOME_USER_LOCKED' | translate}}
+                </md-option>
+                <md-option  [value]="3">
+                  {{ 'HOME_USER_LOCKED_AND_INACTIVE' | translate}}
+                </md-option>
+              </md-select>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+            <label class="title">{{ 'HOME_USER_USER_EXTENDED_PRIVILEGES' | translate}}：</label>
+            <div class="parent--do--position">
+              <md-select name="userXPermit" class="form-control input--value" id="userXPermit" #userXPermit="ngModel"   [(ngModel)]="entity.userXPermit" >
+                <md-option  [value]="0">
+                  {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
+                </md-option>
+                <md-option  [value]="8">
+                  {{ 'HOME_USER_CONFIG_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="16">
+                  {{ 'HOME_USER_PURGE_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="24">
+                  {{ 'HOME_USER_CONFIG_AND_PURGE_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="32">
+                  {{ 'HOME_USER_VIEW_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="40">
+                  {{ 'HOME_USER_CONFIG_AND_VIEW_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="48">
+                  {{ 'HOME_USER_VIEW_AND_PURGE_AUDIT' | translate}}
+                </md-option>
+                <md-option  [value]="56">
+                  {{ 'HOME_USER_CONFIG_VIEW_AND_PURGE_AUDIT' | translate}}
+                </md-option>
+              </md-select>
+            </div>
+          </div>
+          <div class="form-group single--attr--row">
+              <label class="title">{{ 'HOME_USER_USER_ROLE' | translate}}</label>
+              <div class="parent--do--position">
+                  <md-select name="userGroupName" class="form-control input--value" id="userGroupName" #userGroupName="ngModel"   [(ngModel)]="entity.userGroupName" >
+                      <md-option  [value]="'guest'">
+                        {{ 'HOME_USER_VISITOR' | translate}}
+                      </md-option>
+                      <md-option  [value]="'ordinary_user'">
+                        {{ 'HOME_USER_GENERAL_USER' | translate}}
+                      </md-option>
+                      <md-option  [value]="'system_administrator'">
+                        {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
+                      </md-option>
+                  </md-select>
+              </div>
+          </div>
+      <div class="option--btn--box">
+        <button md-button (click)="editStatus = false" [disabled]="loading" class="two--btn">{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+        <button md-button  [disabled]="loading" class="btn btn-sure two--btn">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+      </div>
+      </form>
 
+  </div>
 </div>
 
 

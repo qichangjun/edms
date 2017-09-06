@@ -43,37 +43,34 @@ export class translateFileDialog implements OnInit{
   getTreeData(){
     this.loading = true;
     this.data.ids = [0]
-    this.fileBaseService.getTreeDataPaths(this.data).subscribe(
+    this.fileBaseService.getTreeDataPaths(this.data).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code == 1) {
-          this.treeData = info.data;
-          for (let i = 0 ; i < this.treeData.length; i ++) {
-            if (this.treeData[i].child_count > 0) {
-              this.treeData[i].isParent = true
-            }
-          }
-          //获取树目录的数据,若是第一层,则自动打开第一层目录
-          if (info.data[0]) {
-            this.currentNode = info.data[0].r_object_id
+        this.treeData = data;
+        for (let i = 0 ; i < this.treeData.length; i ++) {
+          if (this.treeData[i].child_count > 0) {
+            this.treeData[i].isParent = true
           }
         }
+        //获取树目录的数据,若是第一层,则自动打开第一层目录
+        if (data[0]) {
+          this.currentNode = data[0].r_object_id
+        }
+      },
+      error => {
+        this.loading = false;
       }
     )
   }
   translateTo(){
     this.loading = true;
-    this.fileBaseService.translateFile(this.currentNode,this.data).subscribe(
+    this.fileBaseService.translateFile(this.currentNode,this.data).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false;
       }
     );
   }

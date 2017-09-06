@@ -2,16 +2,16 @@
   <h2 md-dialog-title>删除 : 目录"{{data.rows[index].object_name}}"(第{{index+1}}个,共{{data.rows.length}}个)</h2>
   <md-dialog-content>
     <div>
-      <div *ngIf="loading">
-        正在加载...
+      <div *ngIf="loading" class="loading">
+         {{ 'FILEBASE_LOADING' | translate}}
       </div>
       <div *ngIf="!loading">
         <div *ngIf="!(data.rows[index].info && data.rows[index].info.isMultiLinks) && !(data.rows[index].info && data.rows[index].info.isMultiVersions)">
-          <span>
-            是否确定删除?
+          <span class="delete--hints">
+            是否确定删除？
           </span>
         </div>
-        <div *ngIf="data.rows[index].info && data.rows[index].info.isMultiLinks">
+        <div *ngIf="data.rows[index].info && data.rows[index].info.isMultiLinks" class="delete--hints">
           <span>链接:</span>
           <md-radio-group [(ngModel)]="data.rows[index].info.type">
             <md-radio-button value="1">删除当前链接</md-radio-button>
@@ -29,9 +29,9 @@
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading || index == data.rows.length - 1" class="btn btn-sure" (click)="index=index+1;getDeleteInfo(index)">下一步</button>
-    <button md-button [disabled]="loading || index == 0" class="btn btn-sure" (click)="index=index-1;getDeleteInfo(index)">上一步</button>
     <button md-button [disabled]="loading" class="btn btn-sure" (click)="deleteFile()">完成</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+    <button md-button [disabled]="loading || index == data.rows.length - 1"  (click)="index=index+1;getDeleteInfo(index)">下一步</button>
+    <button md-button [disabled]="loading || index == 0" (click)="index=index-1;getDeleteInfo(index)">上一步</button>
   </md-dialog-actions>
 </div>

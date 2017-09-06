@@ -4,7 +4,7 @@ import { UserService } from '../user.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
-
+import { FileBaseService,editMultipleDialog,selectUserDialog } from '@fileBaseModule/index';
 
 @Component({
   selector: 'user-info',
@@ -29,28 +29,35 @@ export class UserInfoComponent implements OnInit,AfterViewInit{
   ngOnInit(){}
   updateUser(){
     this.loading = true;
-    this._userService.updateUser(this.entity,this.docbase).subscribe(
+    this._userService.updateUser(this.entity,this.docbase).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.editStatus = false
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.editStatus = false
+      },
+      error => {
+        this.loading = false
       }
     )
   }
 
   getUserInfo(){
-
+    this.loading = true;
+    this._userService.getUserInfo(this.currentUser.objectId,this.currentUser.objectName,this.docbase).then(
+      data => {
+        this.loading = false;
+        this.editStatus = false;
+        this.entity = data.userInfo
+      },
+      error => {
+        this.loading = false
+      }
+    )
   }
+
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){
     if (changes['currentUser']) {
       if (changes['currentUser'].currentValue){
-        this.entity = changes['currentUser'].currentValue;
-        console.log(this.entity)
+        this.getUserInfo()
       }
     }
   }

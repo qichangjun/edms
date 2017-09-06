@@ -19,7 +19,7 @@
       width: 100%;
       height: 100%;
       border: 1px solid #EEEEEE;
-      padding-top: 50px;
+      padding-top: 48px;
       //overflow-y: auto;
       //position: absolute;
       //top: 195px;
@@ -165,3 +165,14 @@
   }
 }
 
+.modal-group-add-member__content__search--input--box{
+  width: 100%;
+  position: absolute;
+  padding: 0 7px;
+  margin-top: -41px;
+  display: flex;
+  justify-content: space-between;
+  .select--input{
+    margin-left: 8px;
+  }
+}

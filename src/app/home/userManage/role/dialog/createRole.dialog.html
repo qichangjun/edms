@@ -1,0 +1,69 @@
+<form name="form" (ngSubmit)="f.form.valid && createRole()" #f="ngForm" novalidate>
+  <h2 md-dialog-title>新建角色</h2>
+  <md-dialog-content>
+      <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !roleName.valid && roleName.required }">
+          <label class="attr--name">角色名</label>
+          <div style="position: relative;display:inline-block;">
+            <input id="roleName" type="text" class="form-control attr--value"
+                   name="roleName" [(ngModel)]="entity.roleName"
+                   #roleName="ngModel" [required]="true"
+    
+              />
+            <div  messageVerify [elementName]="'roleName'" *ngIf="f.submitted && !roleName.value" class="FormMessage-container">
+              <div class="form-messages">
+                <div class="msg-tri-outside"></div>
+                <div class="msg-tri-inside"></div>
+                <div  class="form-messages__icon fa fa-exclamation-circle">
+                  <div >角色名{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+        <div class="form-group new--folder--modal--attr--box">
+          <label class="attr--name">邮箱：</label>
+          <div style="position: relative;display:inline-block;">
+            <input id="email" type="email" class="form-control attr--value"
+                   name="email" [(ngModel)]="entity.email"
+                   #email="ngModel" />
+          </div>
+        </div>
+    
+        <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
+          <label class="attr--name vertical--align--top">描述：</label>
+          <div style="position: relative;display:inline-block;">
+            <textarea id="description" type="text" class="form-control attr--value"
+                   name="description" [(ngModel)]="entity.description"
+                   #description="ngModel" >
+            </textarea>
+          </div>
+        </div>
+        <div class="form-group new--folder--modal--attr--box">
+          <label class="attr--name">拥有者：</label>
+          <div style="position: relative;display:inline-block;">
+            <div class="attr--value">
+              <a  (click)="selectUser('owner')">选择</a>
+              <span>
+                {{entity.owner}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group new--folder--modal--attr--box">
+          <label class="attr--name">组管理员：</label>
+          <div style="position: relative;display:inline-block;">
+            <div class="attr--value">
+              <a  (click)="selectUser('groupAdmin')">选择</a>
+              <span>
+                {{entity.groupAdmin}}
+              </span>
+            </div>
+          </div>
+        </div>
+  </md-dialog-content>
+  <md-dialog-actions>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+  </md-dialog-actions>
+</form>

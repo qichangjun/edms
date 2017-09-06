@@ -1,5 +1,5 @@
 import { Component,Inject,OnInit,AfterViewInit,HostBinding,TemplateRef,ViewChild,ViewContainerRef,ElementRef, trigger, transition, style, animate,state } from '@angular/core';
-import { FileBaseService,editMultipleDialog,selectUserDialog } from '../../index';
+import { FileBaseService,editMultipleDialog,selectUserDialog,cascadeSelectDialog,inputMultipleDialog } from '../../index';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
@@ -35,16 +35,13 @@ export class newFolderDialog implements OnInit{
   }
   newFolder(){
     this.loading = true;
-    this.fileBaseService.newFolder(this.entity,this.data.docbase,this.attrLists).subscribe(
+    this.fileBaseService.newFolder(this.entity,this.data.docbase,this.attrLists).then(
       data => {
-        this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.toastr.success(info.message);
-          this.dialogRef.close(true);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.loading = false;        
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     );
   }
@@ -58,7 +55,8 @@ export class newFolderDialog implements OnInit{
     let dialogRef = this.dialog.open(editMultipleDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        attr.attrValue = result.join(',')
+        console.log(result)
+        attr.attrValues = result
       }
     });
   }
@@ -67,14 +65,37 @@ export class newFolderDialog implements OnInit{
     conifg.data = {
       //attrValue : attr.attrValue,
       docbase : this.data.docbase,
-      type : "user"
+      type : "user",
+      selectType : 'single'
     };
     conifg.height = '800px';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(selectUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        attr.attrValue = result[0]
+        attr.attrValue = result[0].objectName
+      }
+    });
+  }
+
+  selectUsers(attr){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      //attrValue : attr.attrValue,
+      docbase : this.data.docbase,
+      type : "user",
+      selectType : 'mult'
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        let _arr = []
+        result.forEach(c => {
+          _arr.push(c.objectName)          
+        });
+        attr.attrValues = _arr
       }
     });
   }
@@ -91,25 +112,74 @@ export class newFolderDialog implements OnInit{
     }
   }
   checkAttrList(option){
-    this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).subscribe(
+    this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).then(
       data => {
-        let info = data.json();
-        if (info.code==1) {
-          if (option == 1){
+        if (option == 1){
             this.showMoreAttr = false
             this.firstInitMoreInfo = false
-            this.attrLists = info.data
-          }else {
-            this.firstInitMoreInfo = true
-            info.data.forEach((c)=>{
-              c['isMore'] = true
-            })
-            this.attrLists = this.attrLists.concat(info.data)
-          }
+            this.attrLists = data
         }else {
-          this.toastr.error(info.message);
+          this.firstInitMoreInfo = true
+          data.forEach((c)=>{
+            c['isMore'] = true
+          })
+          this.attrLists = this.attrLists.concat(data)
         }
       }
     );
+  }
+
+  cascadeSelectMul(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.data.docbase,
+      selectType : 'mult',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '1000px';
+    let dialogRef = this.dialog.open(cascadeSelectDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){        
+        attr.attrValues = result
+      }
+    }); 
+  }
+
+  cascadeSelectSingle(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.data.docbase,
+      selectType : 'single',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '1000px';
+    let dialogRef = this.dialog.open(cascadeSelectDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){        
+        attr.attrValues = result
+      }
+    }); 
+  }
+
+  inputMultiple(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.data.docbase,
+      selectType : 'single',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '1000px';
+    let dialogRef = this.dialog.open(inputMultipleDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){        
+        attr.attrValues = result
+      }
+    }); 
   }
 }

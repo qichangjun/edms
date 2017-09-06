@@ -7,14 +7,14 @@
            [ngStyle]="{'float': 'left',height:'100%','width':zTreeWidth,background:'#f3f3f3',color:'#333',overflow:'hidden'}"
            [@enterAnimation]="showTree"
            mwlResizable
-           [resizeCursorPrecision] = "'20'"
+           [resizeCursorPrecision] = "'6'"
            [ghostElementPositioning]="'absolute'"
            [enableGhostResize]="true"
            [resizeEdges]="{ right: true}"
            (resizeEnd)="onResizeEnd($event)"
            [currentNode]="currentNode"
            [idLists]="parameter.ids"
-           [treeData]="treeData"
+           [treeData]="treeData"           
            (clickTree)="clickTreeOrBreadCrumb($event)">
     </ztree>
 
@@ -51,61 +51,78 @@
             <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('copy')">{{ 'DROP_MENU_copy' | translate}}</button>
             <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="translateFile('link')">{{ 'DROP_MENU_link' | translate}}</button>
             <span class="divider--line"></span>
-            <button class="mat-menu-item__button drop--menu--version--manage" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">版本管理</button>
+            <button class="mat-menu-item__button drop--menu--version--manage" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" (click)="versionManage()">{{ 'DROP_MENU_VERSION_MANAGEMENT' | translate}}</button>
             <span *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_document' || selected[0].r_object_type == 'wison_document')" class="divider--line"></span>
-            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">批量修改权限</button>
-            <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_folder' || selected[0].r_object_type == 'wison_folder')" (click)="exportCurrFolderLimits()">当前文件夹权限报表</button>
-            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">批量修改属性</button>
-            <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">查看位置</button>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulJurisdiction()">{{ 'DROP_MENU_BATCH_MODIFY_PERMISSIONS' | translate}}</button>
+            <button class="mat-menu-item__button" md-menu-item *ngIf="selected.length == 1 && (selected[0].r_object_type == 'wison_prj_folder' || selected[0].r_object_type == 'wison_folder')" (click)="exportCurrFolderLimits()">{{ 'DROP_MENU_CURRENT_FOLDER_PERMISSIONS_REPORT' | translate}}</button>
+            <button class="mat-menu-item__button" md-menu-item [disabled]="selected.length == 0" (click)="setMulPro()">{{ 'DROP_MENU_BATCH_MODIFY_PROPERTIES' | translate}}</button>
+            <button *ngIf="parameter.ids.length != 1" class="mat-menu-item__button" md-menu-item [disabled]="selected.length != 1" (click)="checkPosition()">{{ 'DROP_MENU_VIEW_LOCATION' | translate}}</button>
           </md-menu>
         </div>
       </div>
       <div class="filter--condition--box" >
         <div class="select--input--box" *ngIf="parameter.ids.length == 1 && parameter.docbase != 'wison_company'">
-          <ss-multiselect-dropdown [settings]="mySettings" [options]="myOptions" [texts]="statusTexts" [(ngModel)]="parameter.a_status" (ngModelChange)="search()"></ss-multiselect-dropdown>
+            <md-select multiple class="select--input--box"  [(ngModel)]="parameter.a_status"  (change)="search()">
+                <md-option  [value]="'在建'">
+                    {{'on_build' | translate}}
+                </md-option>
+                <md-option  [value]="'待关闭'">
+                    {{'waiting_for_close' | translate}}
+                </md-option>
+                <md-option  [value]="'已归档'">
+                    {{'is_filed' | translate}}
+                </md-option>
+              </md-select>
+
+
+          <!-- <ss-multiselect-dropdown [settings]="mySettings" [options]="myOptions" [texts]="statusTexts" [(ngModel)]="parameter.a_status" (ngModelChange)="search()"></ss-multiselect-dropdown> -->
         </div>
         <div *ngIf="parameter.ids.length > 1" class="search--wrap">
           <div class="search--box">
-            <input placeholder="以此开头" type="text" class="form-control search--box__input" [(ngModel)]="parameter.object_name" />
+            <input placeholder="{{ 'HOME_FILEBASE_START_WITH_THIS' | translate}}" type="text" class="form-control search--box__input" [(ngModel)]="parameter.object_name" />
             <span class="fa fa-times-circle remove--btn" *ngIf="parameter.object_name" (click)="clearSearch()"></span>
             <span class="fa fa-search search--btn" *ngIf="parameter.object_name" (click)="search()"></span>
           </div>
-          <md-select  class="select--input--box"   [(ngModel)]="parameter.type" (change)="search()">
+          <md-select class="select--input--box"   [(ngModel)]="parameter.type" (change)="search()">
             <md-option  [value]="0">
-              只显示文件夹
+              {{ 'FILEBASE_TOOLBAR_FILTER_SHOW_ONLY_FOLDER' | translate}}
             </md-option>
             <md-option  [value]="1">
-              只显示文档
+              {{ 'FILEBASE_TOOLBAR_FILTER_SHOW_ONLY_DOCUMENTS' | translate}}
             </md-option>
             <md-option  [value]="2">
-              显示文件夹和文档
+              {{ 'FILEBASE_TOOLBAR_FILTER_SHOW_FOLDERS_AND_DOCUMENTS' | translate}}
             </md-option>
             <md-option  [value]="3">
-              显示所有版本
+              {{ 'FILEBASE_TOOLBAR_FILTER_SHOW_ALL_VERSIONS' | translate}}
             </md-option>
           </md-select>
         </div>
-        <span class="load--quantity">已加载{{rows.length}}个，共{{parameter.totalElements}}个</span>
+        <span class="load--quantity">{{ 'HOME_FILEBASE_LOADED' | translate}}{{rows.length}}{{ 'HOME_FILEBASE_GE' | translate}}，{{ 'HOME_FILEBASE_TOTAL' | translate}}{{parameter.totalElements}}{{ 'HOME_FILEBASE_GE' | translate}}</span>
       </div>
     </div>
     <div
       #myupload
       id="myupload"
       style="height: calc(100% - 86px);width:calc(100% - 250px);float: left;transition:0.1s;position: relative;">
-      <div [hidden]="rows.length != 0" class="list--no--data">
+      <div [hidden]="rows.length != 0 || isLoading" class="list--no--data">
         <div class="no--data__prompt--box">
         <span class="prompt--img">
           <img class="prompt--img" src="assets/images/list--no--data-img.png" alt=""/>
         </span>
-          <h3 class="prompt--head">没有数据</h3>
+          <h3 class="prompt--head">{{ 'FILEBASE_NO_DATA' | translate}}</h3>
           <!--<span class="prompt&#45;&#45;content">-->
           <!--请检查与业务系统的网络连接是否通畅或者数据库连接的情况-->
           <!--</span>-->
 
         </div>
       </div>
+      <div [hidden]="!isLoading" class="list--no--data">
+          <span>加载中</span>
+        </div>
+
       <grid-list
-        [hidden]="rows.length == 0"
+        [hidden]="rows.length == 0 || isLoading"
         #gridList
         [selected]="selected"
         [rows]="rows"
@@ -115,10 +132,18 @@
         [isLoading]="isLoading"
         [storageName]="storageName"
         (uploadGrid)="uploadGrid($event)"
+        (activeRow)="activeRow($event)"
+        [enableSave]="enableSave"
         ></grid-list>
     </div>
-    <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
+    <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;
+    transition: width 0.2s;
+    -moz-transition: width 0.2s;
+    -webkit-transition: width 0.2s;
+    -o-transition: width 0.2s;
+    ">
       <!--<span (click)="sidenav.toggle()">关闭</span>-->
+
       <file-info
         *ngIf="currentFileId"
         [selectedLength]="selected.length"
@@ -143,32 +168,44 @@
   </div>
   <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
 </ng-template>
+<ng-template #r_full_content_sizeTmpl let-row="row" let-value="value">
+  <span >{{value | sizefilter}}</span>
+</ng-template>
+
+<template #translateHeaderTmpl let-sort="sortFn" let-column="column" ngx-datatable-header-template>
+    <span class="datatable-header-cell-wrapper"> <span class="datatable-header-cell-label draggable" (click)="sort()">{{column.name | translate}}</span></span>
+</template>
 <ng-template #objectNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
-  <div *ngIf="!row.isEditalbe" style="width: 100%;" >
+  <!--<div *ngIf="!row.isEditalbe" style="width: 100%;" >-->
     <div class="data--list--doc--icon--box">
-      <img class="data--list--doc--icon" *ngIf="row.r_object_type != 'wison_prj_document'  && row.r_object_type != 'wison_document' && !row.a_content_type" src="assets/images/icon/{{row.r_object_type}}.png" alt="">
-      <img class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && row.a_content_type" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
+      <img  onerror="this.src='assets/images/icon/unknown.png'" class="data--list--doc--icon" *ngIf="row.r_object_type != 'wison_prj_document'  && row.r_object_type != 'wison_document' && !row.a_content_type" src="assets/images/icon/{{row.r_object_type}}.png" alt="">
+      <img onerror="this.src='assets/images/icon/unknown.png'" class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && row.a_content_type" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
       <img class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && !row.a_content_type" src="assets/images/icon/unknown.png" alt="">
     </div>
-    <a (click)="enterFile(row,$event)" title="{{value}}" class="object_name">{{value}}</a>
-    <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="查看属性"><span class="fa fa-info-circle"></span></a>
-    <a class="hidd list--option--btn" (click)="downloadFile(row);$event.stopPropagation()" title="下载"><span class="fa fa-download"></span></a>
-    <a class="hidd list--option--btn" (click)="row.isEditalbe = true;$event.stopPropagation()" title="重命名"><span class="fa fa-pencil"></span></a>
-    <a class="hidd list--option--btn" (click)="removeFile(row);$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
-  </div>
-  <div *ngIf="row.isEditalbe">
-    <input
-      autofocus
-      type="text"
-      (click)="$event.stopPropagation()"
-      (dblclick)="$event.stopPropagation()"
-      [value]="row.object_name"
-      (blur)="changeName($event)"
-    />
-    <a (click)="renameFile(row);$event.stopPropagation()">确定</a>
-    <a (click)="this.editName='';row.isEditalbe=false;$event.stopPropagation()">取消</a>
-  </div>
+    <a (click)="enterFile(row);$event.stopPropagation()" title="{{value}}" class="object_name">{{value}}</a>
+    <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="{{ 'HOME_FILEBASE_VIEW_PROPERTIES' | translate}}"><span class="fa fa-info-circle"></span></a>
+    <a class="hidd list--option--btn" (click)="downloadFile(row);$event.stopPropagation()" title="{{ 'HOME_FILEBASE_VIEW_DOWNLOAD' | translate}}"><span class="fa fa-download"></span></a>
+    <a class="hidd list--option--btn" (click)="removeFile(row);$event.stopPropagation()" title="{{ 'CORE_COMPONENT_MULJURISDICTION_DELETE' | translate}}"><span class="fa fa-times"></span></a>
+
 </ng-template>
+
+<ng-template #fullPathTmpl let-row="row" let-value="value">    
+    <a (click)="findPath(row);$event.stopPropagation()">{{value}}</a>
+</ng-template>
+
+<ng-template #searchNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
+    <!--<div *ngIf="!row.isEditalbe" style="width: 100%;" >-->
+      <div class="data--list--doc--icon--box">
+        <img  onerror="this.src='assets/images/icon/unknown.png'" class="data--list--doc--icon" *ngIf="row.r_object_type != 'wison_prj_document'  && row.r_object_type != 'wison_document' && !row.a_content_type" src="assets/images/icon/{{row.r_object_type}}.png" alt="">
+        <img onerror="this.src='assets/images/icon/unknown.png'" class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && row.a_content_type" src="assets/images/icon/{{row.a_content_type}}.png" alt="">
+        <img class="data--list--doc--icon" *ngIf="(row.r_object_type == 'wison_prj_document' || row.r_object_type == 'wison_document') && !row.a_content_type" src="assets/images/icon/unknown.png" alt="">
+      </div>
+      <a (click)="findPath(row);$event.stopPropagation()" title="{{value}}" class="object_name">{{value}}</a>
+      <a class="hidd list--option--btn" (click)="sidenav.open();currentFileId=row;" title="{{ 'HOME_FILEBASE_VIEW_PROPERTIES' | translate}}"><span class="fa fa-info-circle"></span></a>
+      <a class="hidd list--option--btn" (click)="downloadFile(row);$event.stopPropagation()" title="{{ 'HOME_FILEBASE_VIEW_DOWNLOAD' | translate}}"><span class="fa fa-download"></span></a>
+      <a class="hidd list--option--btn" (click)="removeFile(row);$event.stopPropagation()" title="{{ 'CORE_COMPONENT_MULJURISDICTION_DELETE' | translate}}"><span class="fa fa-times"></span></a>
+  </ng-template>
+  
 <ng-template #dateTmpl let-row="row" let-value="value">
   <span >{{value | date: 'yyyy/MM/dd'}}</span>
 </ng-template>
@@ -191,7 +228,7 @@
             />
           <label for="{{col.name}}"></label>
         </div>
-        <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name}}</label>
+        <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name | translate}}</label>
       </li>
     </ul>
   </md-menu>

@@ -16,8 +16,9 @@ export class GridListComponent implements OnInit{
   @Input() parameter : any;
   @Input() isLoading : boolean = false;
   @Input() storageName : string;
-
+  @Input() enableSave : string;
   @Output() uploadGrid : EventEmitter<any> = new EventEmitter();
+  @Output() activeRow : EventEmitter<any> = new EventEmitter();
 
   @ViewChild('datatable') datatable:any;
 
@@ -40,16 +41,21 @@ export class GridListComponent implements OnInit{
   ) {}
   ngOnInit(){}
   reOrder(orderInfo){
-    this.localColumns = this.swap(this.localColumns,orderInfo.prevValue -1 ,orderInfo.newValue - 1)
-    localStorage.setItem('grid_columns'+'_'+this.storageName, JSON.stringify(this.localColumns));
+    if (this.enableSave){
+      this.localColumns = this.swap(this.localColumns,orderInfo.prevValue -1 ,orderInfo.newValue - 1)
+      localStorage.setItem('grid_columns'+'_'+this.storageName, JSON.stringify(this.localColumns));
+    }
+    
   }
   reSize(reSizeInfo){
-    for (let i = 0;i < this.localColumns.length; i ++) {
-      if (reSizeInfo.column.prop == this.localColumns[i].prop) {
-        this.localColumns[i].width = reSizeInfo.newValue
+    if (this.enableSave){
+      for (let i = 0;i < this.localColumns.length; i ++) {
+        if (reSizeInfo.column.prop == this.localColumns[i].prop) {
+          this.localColumns[i].width = reSizeInfo.newValue
+        }
       }
-    }
-    localStorage.setItem('grid_columns'+'_'+this.storageName, JSON.stringify(this.localColumns));
+      localStorage.setItem('grid_columns'+'_'+this.storageName, JSON.stringify(this.localColumns));
+    }    
   }
   onScroll(offsetY: number){
     const viewHeight = this.el.nativeElement.getBoundingClientRect().height - this.headerHeight;
@@ -77,6 +83,11 @@ export class GridListComponent implements OnInit{
     this.parameter.prop = event.sorts[0].prop;
     this.router.navigate([], { queryParams: this.parameter });
     this.uploadGrid.emit(true);
+  }
+  onActivate(e){
+    if (e.type == 'dblclick'){
+      this.activeRow.emit(e);
+    }
   }
 
   ngOnChanges(changes: {[propertyName: string]: SimpleChange}){

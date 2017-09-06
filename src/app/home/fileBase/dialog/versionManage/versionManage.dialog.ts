@@ -5,9 +5,9 @@ import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
 import { TranslateService,LangChangeEvent } from '@ngx-translate/core';
 import { FileSelectDirective, FileDropDirective, FileUploader,FileUploaderOptions } from 'ng2-file-upload/ng2-file-upload';
-import { ConstantService } from '../../../../services/constant.service';
-import { AuthenticationService } from '../../../../services/authentication.service';
-import { ApiUrlService } from '../../../../services/apiUrl.service';
+import { ConstantService } from '@commonService/constant.service';
+import { AuthenticationService } from '@commonService/authentication.service';
+import { ApiUrlService } from '@commonService/apiUrl.service';
 
 //
 @Component({
@@ -70,33 +70,30 @@ export class versionManageDialog implements OnInit{
     }
   }
   getVersionList(){
-    this.fileBaseService.getVersionList(this.data).subscribe(
+    this.fileBaseService.getVersionList(this.data).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.versionList = info.data
-          this.versionList.forEach((version)=>{
-            if (version['r_version_label'].indexOf('CURRENT') != -1){
-              this.currentVersion = version.r_object_id
-              version['isCurrentVersion'] = true
-            }
-          })
-        }
+        this.versionList = data
+        this.versionList.forEach((version)=>{
+          if (version['r_version_label'].indexOf('CURRENT') != -1){
+            this.currentVersion = version.r_object_id
+            version['isCurrentVersion'] = true
+          }
+        })
+      },
+      error => {
+        this.loading = false
       }
     )
   }
   remove(id){
-    this.fileBaseService.removeCurrentVersion(id,this.data).subscribe(
+    this.fileBaseService.removeCurrentVersion(id,this.data).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.toastr.success(info.message);
-          this.getVersionList()
-        }else{
-          this.toastr.error(info.message);
-        }
+        this.getVersionList()
+      },
+      error => {
+        this.loading = false
       }
     )
   }

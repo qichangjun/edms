@@ -31,17 +31,24 @@
         padding: 0 30px;
       }
       .user--sidebar--column--wrap{
-        padding-left: 30px;
+        //padding-left: 30px;
         padding-top: 15px;
         .single--column{
-          padding: 4px 0;
+          width: 100%;
+          padding-left: 30px;
+          height: 28px;
+          line-height: 28px;
+          vertical-align: middle;
+          cursor: pointer;
           &.active{
+            background: #e6e5e5;
             .single--column__link{
-              color: #333333;
+              color: #C53928;
             }
           }
           &__link{
             text-decoration: none;
+            color: #333333;
           }
         }
       }

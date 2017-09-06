@@ -1,15 +1,15 @@
 <form name="form" (ngSubmit)="f.form.valid && exportLimits()" #f="ngForm" novalidate class="new--folder--modal">
-  <h2 md-dialog-title>导出{{data.selected[0].object_name}}权限</h2>
+  <h2 md-dialog-title>{{ 'HOME_FILEBASE_DIALOG_EXPORTCURRFOLDERLIMITS_EXPORT' | translate}}{{data.selected[0].object_name}}{{ 'HOME_FILEBASE_FILEINFO_AUTHORITY' | translate}}</h2>
   <md-dialog-content  class="new--folder--dialog--content">
     <div class="select--folder--type">
-      <div class="head">是否级联：</div>
+      <div class="head">{{ 'HOME_FILEBASE_DIALOG_EXPORTCURRFOLDERLIMITS_WHETHER_CASCADE' | translate}}：</div>
       <md-radio-group name="cascade" [(ngModel)]="cascade" >
-        <md-radio-button value="0">是</md-radio-button>
-        <md-radio-button value="1" >否</md-radio-button>
+        <md-radio-button value="0">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+        <md-radio-button value="1" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
       </md-radio-group>
     </div>
     <div class="select--folder--type">
-      <div class="head">导出格式：</div>
+      <div class="head">{{ 'HOME_FILEBASE_DIALOG_EXPORTCURRFOLDERLIMITS_EXPORT_FORMAT' | translate}}：</div>
       <md-radio-group name="exportToHtml" [(ngModel)]="exportToHtml" >
         <md-radio-button value="1">excel</md-radio-button>
         <md-radio-button value="0" >html</md-radio-button>
@@ -17,7 +17,7 @@
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" class="btn btn-sure">导出</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_DIALOG_EXPORTCURRFOLDERLIMITS_EXPORT' | translate}}</button>
+    <button md-button md-dialog-close > {{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </form>

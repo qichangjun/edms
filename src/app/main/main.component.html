@@ -10,7 +10,6 @@
   <div class="main--content--wrap">
     <div class="search--wrap">
       <div class="search--box clearfix">
-
         <div class="search-input--box">
           <input [(ngModel)]="keywords" type="text" class="form-control" placeholder="全文检索"/>
           <label (click)="fullSearch()" for="search-input" class="search--input"><span id="search-input" class="fa fa-search"></span></label>
@@ -20,7 +19,7 @@
     </div>
     <div class="card--wrap clearfix">
       <div class="left--content">
-        <div [routerLink]="['/']" class="normalContainer single--card--box " style="background:  #53beac ;">
+        <div [routerLink]="['/fileBase']" class="normalContainer single--card--box " style="background:  #53beac ;">
           <div class="head">
             <i class="decorate--icon company--doc"></i>
             <div class="title">企业文档</div>
@@ -72,18 +71,7 @@
           </div>
           <div class="back" >
             <div class="public--nav--box">
-              <a class="public--nav__a" href="{{hrefList.InternationalItem}}" target="_blank" ><i class="fa fa-folder"></i>国际项目管理</a>
-              <a class="public--nav__a" href="{{hrefList.domesticItem}}" target="_blank" ><i class="fa fa-folder"></i>国内项目管理</a>
-              <a class="public--nav__a" href="{{hrefList.caseBase}}" target="_blank" ><i class="fa fa-folder"></i>案例库</a>
-              <a class="public--nav__a" href="{{hrefList.thesisBase}}" target="_blank" ><i class="fa fa-folder"></i>论文库</a>
-              <a class="public--nav__a" href="{{hrefList.archivesList}}" target="_blank" ><i class="fa fa-folder"></i>档案清单</a>
-              <a class="public--nav__a" href="{{hrefList.EnterpriseTemplate}}" target="_blank" ><i class="fa fa-folder"></i>企业标准记录模板</a>
-              <a class="public--nav__a" href="{{hrefList.EnterpriseBase}}" target="_blank" ><i class="fa fa-folder"></i>企业标准库</a>
-              <a class="public--nav__a" href="{{hrefList.completeCertificate}}" target="_blank" ><i class="fa fa-folder"></i>项目完成证书</a>
-              <a class="public--nav__a" href="{{hrefList.exchangeShare}}" target="_blank" ><i class="fa fa-folder"></i>技术交流材料分享</a>
-              <a class="public--nav__a" href="{{hrefList.intelligenceInfo}}" target="_blank" ><i class="fa fa-folder"></i>技术及市场情报信息</a>
-              <a class="public--nav__a" href="{{hrefList.companyProfile}}" target="_blank" ><i class="fa fa-folder"></i>公司概况</a>
-              <a class="public--nav__a" href="{{hrefList.businessConstruction}}" target="_blank" ><i class="fa fa-folder"></i>业务建设</a>
+              <a class="public--nav__a" (click)="findPath(docList)" *ngFor="let docList of docLists"><i class="fa fa-folder"></i>{{docList.name}}</a>          
             </div>
           </div>
         </div>

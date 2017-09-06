@@ -14,3 +14,5 @@ export * from './dialog/exportCurrFolderLimits/exportCurrFolderLimits.dialog';
 export * from './dialog/setMulPro/setMulPro.dialog'
 export * from './dialog/selectUser/selectUser.dialog'
 export * from './dialog/removeFileConfirm/removeFileConfirm.dialog'
+export * from './dialog/cascadeSelect/cascadeSelect.dialog';
+export * from './dialog/inputMultiple/inputMultiple.dialog';

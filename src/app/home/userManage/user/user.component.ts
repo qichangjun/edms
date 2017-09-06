@@ -4,9 +4,9 @@ import { UserService } from './user.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
-import { ConstantService } from '../../../services/constant.service';
-import { EventService } from '../../../services/behavior.service';
-import { FileBaseService,editMultipleDialog,selectUserDialog } from '../../fileBase/index';
+import { ConstantService } from '@commonService/constant.service';
+import { EventService } from '@commonService/behavior.service';
+import { FileBaseService,editMultipleDialog,selectUserDialog } from '@fileBaseModule/index';
 
 @Component({
   selector: 'user',
@@ -90,30 +90,26 @@ export class UserComponent implements OnInit,AfterViewInit{
     if (init){
       this.selected = [];
     }
-    this._userService.getUserList(this.parameter,init).subscribe(
+    this._userService.getUserList(this.parameter,init).then(
       data => {
         this.isLoading = false;
-        let info = data.json();
-        if (info.code == 1) {
-          this.loadColumns();
-          this.parameter.totalElements = info.data.pageInfo.totalCount;
-          this.parameter.currentPage = info.data.pageInfo.currentPage ;
-          if (init) {
-            this.rows = info.data.userGroupList
-            setTimeout(() => {
-              if (this.rows.length > this.pageLimit) {
-                this.gridList.datatable.offset = this.gridList.datatable.rowCount/this.gridList.datatable.pageSize;
-                this.gridList.datatable.bodyComponent.updateOffsetY(this.gridList.datatable.offset);
-              }
-            });
-          }else {
-            this.rows = this.rows.concat(info.data.userGroupList);
-          }
+        this.loadColumns();
+        this.parameter.totalElements = data.pageInfo.totalCount;
+        this.parameter.currentPage = data.pageInfo.currentPage ;
+        if (init) {
+          this.rows = data.userGroupList
+          setTimeout(() => {
+            if (this.rows.length > this.pageLimit) {
+              this.gridList.datatable.offset = this.gridList.datatable.rowCount/this.gridList.datatable.pageSize;
+              this.gridList.datatable.bodyComponent.updateOffsetY(this.gridList.datatable.offset);
+            }
+          });
+        }else {
+          this.rows = this.rows.concat(data.userGroupList);
         }
-        else if (info.code ==0) {
-          //this.router.navigate(['/login']);
-          this.toastr.error(info.message);
-        }
+      },
+      error => {
+        this.isLoading = false;
       }
     )
   }
@@ -286,27 +282,25 @@ export class createUserDialog implements OnInit{
   }
   ngOnInit(){
     this.entity.docbase = this.data.docbase
-    this.entity.clientFunction = 1
+    this.entity.clientFunction = 0
     this.entity.userPermit = 0
     this.entity.userSource = 'none'
     this.entity.userState = 0
-    this.entity.userXPermit = 1
+    this.entity.userXPermit = 0
   }
   createUser(){
     this.loading = true;
-    this._userService.createUser(this.entity).subscribe(
+    this._userService.createUser(this.entity).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }
+
 }
 
 @Component({
@@ -331,16 +325,13 @@ export class removeUserDialog implements OnInit{
   }
   removeUser(){
     this.loading = true;
-    this._userService.removeUser(this.data).subscribe(
+    this._userService.removeUser(this.data).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -365,15 +356,13 @@ export class checkUsersGroupDialog implements OnInit{
     this.dialogRef.close(false);
   }
   ngOnInit(){
-    this._userService.checkUsersGroup(this.data.selected[0],this.data.docbase).subscribe(
+    this._userService.checkUsersGroup(this.data.selected[0],this.data.docbase).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.groupList = info.data.groupList
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.groupList = data.groupList
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -415,16 +404,13 @@ export class reAssignDialog implements OnInit{
     });
   }
   reAssignUser(){
-    this._userService.reAssignUser(this.data.selected[0],this.data.docbase,this.newUser.objectId).subscribe(
+    this._userService.reAssignUser(this.data.selected[0],this.data.docbase,this.newUser.objectId).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.toastr.success(info.message);
-          this.dialogRef.close(true);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false;
       }
     )
   }

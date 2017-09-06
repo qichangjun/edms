@@ -1,8 +1,8 @@
 <form name="form" (ngSubmit)="f.form.valid && createUser()" #f="ngForm" novalidate>
-  <h2 md-dialog-title>新建用户</h2>
+  <h2 md-dialog-title>{{ 'HOME_USER_NEW_USER' | translate}}</h2>
   <md-dialog-content>
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !userName.valid && userName.required }">
-      <label class="attr--name">用户名：</label>
+      <label class="attr--name">{{ 'HOME_USER_USER_NAME' | translate}}：</label>
       <div style="position: relative;display:inline-block;">
         <input id="userName" type="text" class="form-control attr--value"
                name="userName" [(ngModel)]="entity.userName"
@@ -12,14 +12,14 @@
             <div class="msg-tri-outside"></div>
             <div class="msg-tri-inside"></div>
             <div  class="form-messages__icon fa fa-exclamation-circle">
-              <div >用户名不能为空</div>
+              <div >{{ 'HOME_USER_USER_NAME' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !loginName.valid && loginName.required }">
-      <label class="attr--name">登录名：</label>
+      <label class="attr--name">{{ 'HOME_USER_LOGIN_NAME' | translate}}：</label>
       <div style="position: relative;display:inline-block;">
         <input id="loginName" type="text" class="form-control attr--value"
                name="loginName" [(ngModel)]="entity.loginName"
@@ -29,24 +29,24 @@
             <div class="msg-tri-outside"></div>
             <div class="msg-tri-inside"></div>
             <div  class="form-messages__icon fa fa-exclamation-circle">
-              <div >登录名不能为空</div>
+              <div >{{ 'HOME_USER_LOGIN_NAME' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户来源：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_USER_SOURCE' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <md-select name="userSource" class="form-control attr--value" id="userSource" #userSource="ngModel"   [(ngModel)]="entity.userSource" >
-          <md-option  [value]="'inline password'">
-            inline password
-          </md-option>
           <md-option  [value]="'none'">
-            none
+            {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
           </md-option>
           <md-option  [value]="'ldap'">
-            ldap
+            LDAP
+          </md-option>
+          <md-option  [value]="'inline password'">
+            {{ 'HOME_USER_INLINE_PASSWORD' | translate}}
           </md-option>
           <md-option  [value]="'dm_krb'">
             dm_krb
@@ -55,8 +55,8 @@
       </div>
     </div>
     <div *ngIf="entity.userSource == 'inline password'" class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !password.valid && password.required }">
-      <label class="attr--name">密码：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_PASSWORD' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <input id="password" type="password" class="form-control attr--value"
                name="password" [(ngModel)]="entity.password"
                #password="ngModel" [required]="true" />
@@ -65,142 +65,169 @@
             <div class="msg-tri-outside"></div>
             <div class="msg-tri-inside"></div>
             <div  class="form-messages__icon fa fa-exclamation-circle">
-              <div >密码不能为空</div>
+              <div >{{ 'HOME_USER_PASSWORD' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">邮箱：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_EMail' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <input id="email" type="email" class="form-control attr--value"
                name="email" [(ngModel)]="entity.email"
-               #email="ngModel" />
+               #email="ngModel"
+               [required]="true"
+               />
+        <div  messageVerify [elementName]="'email'" *ngIf="f.submitted && !email.value" class="FormMessage-container">
+          <div class="form-messages">
+            <div class="msg-tri-outside"></div>
+            <div class="msg-tri-inside"></div>
+            <div  class="form-messages__icon fa fa-exclamation-circle">
+              <div >{{ 'HOME_USER_EMail' | translate}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name vertical--align--top">描述：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name vertical--align--top">{{ 'HOME_USER_DESCRIPTION' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <textarea id="description" type="text" class="form-control attr--value"
                   name="description" [(ngModel)]="entity.description"
-                  #email="ngModel"  cols="30" rows="10">
+                  #description="ngModel"  cols="30" rows="10">
         </textarea>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">客户端功能：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_CLIENT_CAPABILITY' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <md-select  class="form-control attr--value" name="clientFunction" id="clientFunction" #clientFunction="ngModel"   [(ngModel)]="entity.clientFunction" >
           <md-option  [value]="0">
-            默认
+            {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
           </md-option>
           <md-option  [value]="1">
-            Consumer
+            {{ 'HOME_USER_CONSUMER' | translate}}
           </md-option>
           <md-option  [value]="2">
-            Contributor
+            {{ 'HOME_USER_CONTRIBUTOR' | translate}}
           </md-option>
           <md-option  [value]="4">
-            Coordinator
+            {{ 'HOME_USER_COORDINATOR' | translate}}
           </md-option>
           <md-option  [value]="8">
-            System Administrator
+            {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
           </md-option>
         </md-select>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户权限：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_USER_PRIVILEGES' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <md-select  name="userPermit" class="form-control attr--value" id="userPermit" #userPermit="ngModel"   [(ngModel)]="entity.userPermit" >
           <md-option  [value]="0">
-            无
+           {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
           </md-option>
           <md-option  [value]="1">
-            Create Type
+           {{ 'HOME_USER_CREATE_TYPE' | translate}}
           </md-option>
           <md-option  [value]="2">
-            Create Cabine
+            {{ 'HOME_USER_CREATE_CABINET' | translate}}
           </md-option>
           <md-option  [value]="3">
-            Create Cabinet and Type
+            {{ 'HOME_USER_CREATE_CABINET_AND_TYPE' | translate}}
           </md-option>
           <md-option  [value]="4">
-            Create Group
+            {{ 'HOME_USER_CREATE_GROUP' | translate}}
           </md-option>
           <md-option  [value]="5">
-            Create group and Type
+            {{ 'HOME_USER_CREATE_GROUP_AND_TYPE' | translate}}
           </md-option>
           <md-option  [value]="6">
-            Create group and Cabinet
+            {{ 'HOME_USER_CREATE_GROUP_AND_CABINET' | translate}}
           </md-option>
           <md-option  [value]="7">
-            Create Group,Cabinet and Type
+            {{ 'HOME_USER_CREATE_GROUP_CABINET_AND_TYPE' | translate}}
           </md-option>
           <md-option  [value]="8">
-            System Administrator
+            {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
           </md-option>
           <md-option  [value]="16">
-            Superuser
+           {{ 'HOME_USER_SUPERUSER' | translate}}
           </md-option>
         </md-select>
       </div>
     </div>
 
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户状态：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_USER_STATE' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <md-select name="userState" class="form-control attr--value" id="userState" #userState="ngModel"   [(ngModel)]="entity.userState" >
           <md-option  [value]="0">
-            激活
+            {{ 'HOME_USER_ACTIVE' | translate}}
           </md-option>
           <md-option  [value]="1">
-            待用
+            {{ 'HOME_USER_INACTIVE' | translate}}
           </md-option>
           <md-option  [value]="2">
-            锁定
+            {{ 'HOME_USER_LOCKED' | translate}}
           </md-option>
           <md-option  [value]="3">
-            锁定待用
+            {{ 'HOME_USER_LOCKED_AND_INACTIVE' | translate}}
           </md-option>
         </md-select>
       </div>
     </div>
     <div class="form-group new--folder--modal--attr--box">
-      <label class="attr--name">用户扩展权限：</label>
-      <div style="position: relative;display:inline-block;">
+      <label class="attr--name">{{ 'HOME_USER_USER_EXTENDED_PRIVILEGES' | translate}}：</label>
+      <div class="attr--value--wrap--do--position">
         <md-select name="userXPermit" class="form-control attr--value" id="userXPermit" #userXPermit="ngModel"   [(ngModel)]="entity.userXPermit" >
           <md-option  [value]="0">
-            none
+            {{ 'CORE_COMPONENT_MULJURISDICTION_NOTHING' | translate}}
           </md-option>
           <md-option  [value]="8">
-            Config Audit
+           {{ 'HOME_USER_CONFIG_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="16">
-            Purge Audit
+            {{ 'HOME_USER_PURGE_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="24">
-            Config and Purge Audit
+            {{ 'HOME_USER_CONFIG_AND_PURGE_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="32">
-            View Audit
+            {{ 'HOME_USER_VIEW_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="40">
-            Config and View Audit
+            {{ 'HOME_USER_CONFIG_AND_VIEW_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="48">
-            View and Purge Audit
+            {{ 'HOME_USER_VIEW_AND_PURGE_AUDIT' | translate}}
           </md-option>
           <md-option  [value]="56">
-            Config,View and Purge Audit
+            {{ 'HOME_USER_CONFIG_VIEW_AND_PURGE_AUDIT' | translate}}
           </md-option>
         </md-select>
       </div>
     </div>
+
+    <div class="form-group new--folder--modal--attr--box">
+        <label class="attr--name">{{ 'HOME_USER_SELECT_ROLE' | translate}}:</label>
+        {{entity.userGroupName}}
+        <md-select name="userGroupName" class="form-control attr--value" id="userGroupName" #userGroupName="ngModel"   [(ngModel)]="entity.userGroupName" >
+            <md-option  [value]="'guest'">
+              {{ 'HOME_USER_VISITOR' | translate}}
+            </md-option>
+            <md-option  [value]="'ordinary_user'">
+              {{ 'HOME_USER_GENERAL_USER' | translate}}
+            </md-option>
+            <md-option  [value]="'system_administrator'">
+              {{ 'HOME_USER_SYSTEM_ADMINISTRATOR' | translate}}
+            </md-option>
+        </md-select>
+    </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </form>

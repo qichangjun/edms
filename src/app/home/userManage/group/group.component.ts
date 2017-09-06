@@ -3,11 +3,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
 import { MD_DIALOG_DATA } from '@angular/material';
-import { ConstantService } from '../../../services/constant.service';
-import { EventService } from '../../../services/behavior.service';
+import { ConstantService } from '@commonService/constant.service';
+import { EventService } from '@commonService/behavior.service';
 import { GroupService } from './group.service'
-import { UserService } from '../user/user.service';
-import { selectUserDialog } from '../../fileBase/dialog/selectUser/selectUser.dialog';
+import { UserService } from '@userModule/user.service';
+import { selectUserDialog } from '@fileBaseModule/dialog/selectUser/selectUser.dialog';
+import { RoleService } from '@roleModule/role.service';
+import { removeRoleMemberDialog,addRoleMemberDialog } from '@roleModule/role.component';
+import { reAssignDialog,checkUsersGroupDialog } from '@userModule/user.component';
+import { reAssignRoleDialog,checkRoleParentDialog } from '@roleModule/role.component';
 
 @Component({
   selector: 'group',
@@ -20,10 +24,12 @@ export class GroupComponent implements OnInit,AfterViewInit{
     totalElements : 0,
     currentPage : 1,
     pageSize : 50,
-    objectType : 'group'
+    objectType : 'group',
+    keywords : null
   };
   @ViewChild('gridList') gridList:any;
-  @ViewChild('groupNameTmpl') groupNameTmpl: TemplateRef<any>;
+  @ViewChild('objectNameTmpl') objectNameTmpl: TemplateRef<any>;
+  @ViewChild('translateHeaderTmpl') translateHeaderTmpl: TemplateRef<any>;
 
   @ViewChild('operaHeadTmpl') operaHeadTmpl: TemplateRef<any>;
   @ViewChild('checkboxTmpl') checkboxTmpl: TemplateRef<any>;
@@ -44,6 +50,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
   ids : Array<any> = [];
   breadCrumbLists : Array<any> = [];
   rootName : string = '所有用户/组';
+  currentType : string;
   constructor(
     private _userService : UserService,
     private _groupService : GroupService,
@@ -53,6 +60,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
     private constantService : ConstantService,
     public toastr: ToastsManager,
     public MdDialogConfig : MdDialogConfig,
+    public _roleService : RoleService,
     public dialog: MdDialog
   ) {
     let _self = this
@@ -68,6 +76,10 @@ export class GroupComponent implements OnInit,AfterViewInit{
       if (params['currentPage']) {
         this.parameter.currentPage = Number(params['currentPage']) || 1;
       }
+      if (this.parameter.keywords != params['keywords']) {
+        this.parameter.keywords = params['keywords'] || '';
+        this.getList(true)
+      }
     });
     this.subscription = this._EventService.toggleEvent$.subscribe(bool => {
       setTimeout(function(){
@@ -81,38 +93,38 @@ export class GroupComponent implements OnInit,AfterViewInit{
     this.getList(true)
   }
   uploadGrid(event){
-    this.getList(event);
+    if(this.ids.length == 0){
+      this.getList(event);
+    }
   }
   getList(init : boolean){
     this.isLoading = true;
     if (init){
       this.selected = [];
     }
-    this._userService.getUserList(this.parameter,init).subscribe(
+    this._userService.getUserList(this.parameter,init).then(
       data => {
         this.isLoading = false;
-        let info = data.json();
-        if (info.code == 1) {
-          this.loadColumns();
+        this.loadColumns();
           this.breadCrumbLists = []
-          this.parameter.totalElements = info.data.pageInfo.totalCount;
-          this.parameter.currentPage = info.data.pageInfo.currentPage ;
+          this.parameter.totalElements = data.pageInfo.totalCount;
+          this.parameter.currentPage = data.pageInfo.currentPage ;
           if (init) {
-            this.rows = info.data.userGroupList
+            this.rows = data.userGroupList
             setTimeout(() => {
+              this.gridList.el.nativeElement.querySelector('datatable-body').scrollTop = 1
+              this.gridList.el.nativeElement.querySelector('datatable-body').scrollLeft = 1
               if (this.rows.length > this.pageLimit) {
                 this.gridList.datatable.offset = this.gridList.datatable.rowCount/this.gridList.datatable.pageSize;
                 this.gridList.datatable.bodyComponent.updateOffsetY(this.gridList.datatable.offset);
               }
             });
           }else {
-            this.rows = this.rows.concat(info.data.userGroupList);
+            this.rows = this.rows.concat(data.userGroupList);
           }
-        }
-        else if (info.code ==0) {
-          //this.router.navigate(['/login']);
-          this.toastr.error(info.message);
-        }
+      },
+      error => {
+        this.isLoading = false
       }
     )
   }
@@ -123,22 +135,23 @@ export class GroupComponent implements OnInit,AfterViewInit{
      this.columns : 列表真正使用的列配置(犹豫会被new成新的对象,所以无法直接存存储再localstorage中)
      this.allColumns : 用于管理显示及隐藏的列配置
      */
+    let _self = this
     this.allColumns = [
-      {name:'组名',prop:'objectName',cellTemplate:this.groupNameTmpl,minWidth:100},
-      {name:'描述',prop:'description',minWidth:100},
-      {name:'拥有者',prop:'ownerName',minWidth:100}
+      {name:'group_objectName',prop:'objectName',cellTemplate:this.objectNameTmpl,minWidth:100,hasTempl:true,headerTemplate:_self['translateHeaderTmpl']},
+      {name:'description',prop:'description',minWidth:100,headerTemplate:_self['translateHeaderTmpl']},
+      {name:'ownerName',prop:'ownerName',minWidth:100,headerTemplate:_self['translateHeaderTmpl']}
     ]
     this.columns = [
-      { name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
-      {name:'组名',prop:'objectName',cellTemplate:this.groupNameTmpl,minWidth:100},
-      {name:'描述',prop:'description',minWidth:100},
-      { name:'',prop:'',cellTemplate:this.configGridTmpl,headerTemplate:this.configGridHeadTmpl,minWidth:80,resizeable:false}
+      {name:'',prop:'',cellTemplate:this.checkboxTmpl,headerTemplate:this.checkboxHeadTmpl,maxWidth:50,minWidth:50,width:50},
+      {name:'group_objectName',prop:'objectName',cellTemplate:this.objectNameTmpl,headerTemplate:this.translateHeaderTmpl,minWidth:100,hasTempl:true},
+      {name:'description',prop:'description',minWidth:100,headerTemplate:this.translateHeaderTmpl},
+      {name:'',prop:'',cellTemplate:this.configGridTmpl,headerTemplate:this.configGridHeadTmpl,minWidth:80,resizeable:false}
     ];
     this.localColumns = JSON.parse(localStorage.getItem('grid_columns'+'_'+this.storageName));
     if (!this.localColumns){
       this.localColumns = [
-        { prop:'objectName',minWidth:100,name:'组名'},
-        { prop:'description',minWidth:100,name:'描述'}
+        { prop:'objectName',minWidth:100,name:'group_objectName',hasTempl:true},
+        { prop:'description',minWidth:100,name:'description'}
       ]
     }else{
       /*
@@ -149,8 +162,9 @@ export class GroupComponent implements OnInit,AfterViewInit{
       ];
       for (let i = 0 ;i < this.localColumns.length; i ++) {
         this.columns[i + 1] = Object.assign({}, this.localColumns[i])
-        if (this.localColumns[i].prop == 'objectName'){
-          this.columns[i + 1].cellTemplate = this.groupNameTmpl
+        this.columns[i + 1].headerTemplate = this.translateHeaderTmpl
+        if (this.localColumns[i].hasTempl){
+          this.columns[i + 1].cellTemplate = this[this.localColumns[i].prop + 'Tmpl']
         }
       }
       this.columns.push(
@@ -171,7 +185,7 @@ export class GroupComponent implements OnInit,AfterViewInit{
       this.columns = [...this.columns];
       this.columns.splice(index + 1,0,col)
       this.localColumns = [...this.localColumns];
-      this.localColumns.splice(index + 1,0,{name:col.name,prop:col.prop,width:col.width})
+      this.localColumns.splice(index,0,{name:col.name,prop:col.prop,width:col.width,hasTempl:col.hasTempl})
     }
     localStorage.setItem('grid_columns'+'_'+this.storageName, JSON.stringify(this.localColumns));
   }
@@ -184,10 +198,49 @@ export class GroupComponent implements OnInit,AfterViewInit{
   enterGroup(row){
     if (this.ids[this.ids.length - 1] != row.objectId) {
       this.ids.push(row.objectId)
-      this.breadCrumbLists.push({object_name:row.objectName,r_object_id:row.objectId})
+      this.breadCrumbLists.push({object_name:row.objectName,r_object_id:row.objectId,type:'group'})
+      this.parameter.currentPage = 1
+      this.currentType = 'group'
       this.searchGroupChild(row.objectId)
     }
   }
+
+  enterRole(row){
+    if (this.ids[this.ids.length - 1] != row.objectId) {
+      this.ids.push(row.objectId)
+      this.breadCrumbLists.push({object_name:row.objectName,r_object_id:row.objectId,type:'role'})
+      this.parameter.currentPage = 1
+      this.currentType = 'role'
+      this.searchRoleChild(row.objectId)
+    }
+  }
+
+  searchGroupChild(objectId){
+    this._groupService.searchGroupChild(this.parameter.docbase,objectId).then(
+      data => {
+        this.selected = [];
+        this.rows = data.userList.concat(data.groupList);
+        this.parameter.totalElements = this.rows.length;
+      },
+      error => {
+        return
+      }
+    );
+  }
+
+  searchRoleChild(objectId){
+    this._roleService.searchRoleChild(this.parameter.docbase,objectId).then(
+      data => {
+        this.selected = [];
+        this.rows = data.userList.concat(data.groupList);
+        this.parameter.totalElements = this.rows.length;
+      },
+      error => {
+        return
+      }
+    );
+  }
+
   clickTreeOrBreadCrumb(event){
     if(event.ids.length == 1){
       this.ids = []
@@ -200,23 +253,17 @@ export class GroupComponent implements OnInit,AfterViewInit{
         }
       }
       let list = {objectName : event.node.object_name,objectId:event.node.r_object_id}
-      this.searchGroupChild(list.objectId)
+      if (event.node.type == 'role') {
+        this.currentType = 'role'
+        this.searchRoleChild(list.objectId)
+      }
+      else{
+        this.currentType = 'group'
+        this.searchGroupChild(list.objectId)
+      }
     }
   }
-  searchGroupChild(objectId){
-    this._groupService.searchGroupChild(this.parameter.docbase,objectId).subscribe(
-      data => {
-        let info = data.json();
-        if (info.code == 1) {
-          this.selected = [];
-          this.rows = info.data.userList.concat(info.data.groupList);
-          this.parameter.totalElements = this.rows.length;
-        }else{
-          this.toastr.error(info.message)
-        }
-      }
-    );
-  }
+
   createGroup(){
     let conifg = new MdDialogConfig();
     conifg.data = {
@@ -254,23 +301,28 @@ export class GroupComponent implements OnInit,AfterViewInit{
       }
     });
   }
+
   removeMember(){
     let conifg = new MdDialogConfig();
     conifg.data = {
       docbase : this.parameter.docbase,
       selected : this.selected,
-      groupId : this.ids[this.ids.length - 1]
+      targetId : this.ids[this.ids.length - 1]
     };
     conifg.height = 'auto';
     conifg.width = '600px';
-    let dialogRef = this.dialog.open(removeMemberDialog,conifg);
+    let dialogRef
+    switch (this.currentType){
+      case 'role':
+        dialogRef = this.dialog.open(removeRoleMemberDialog,conifg);
+        break;
+      case 'group':
+        dialogRef = this.dialog.open(removeMemberDialog,conifg);
+        break;
+    }
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if(this.ids.length == 0){
-          this.getList(true)
-        }else{
-          this.searchGroupChild(this.ids[this.ids.length - 1])
-        }
+        this.updateList()
       }
     });
   }
@@ -278,23 +330,27 @@ export class GroupComponent implements OnInit,AfterViewInit{
     let conifg = new MdDialogConfig();
     conifg.data = {
       docbase : this.parameter.docbase,
-      groupId : this.ids[this.ids.length - 1],
+      targetId : this.ids[this.ids.length - 1],
       type : 'all'
     };
     conifg.height = 'auto';
     conifg.width = '800px';
-    let dialogRef = this.dialog.open(addMemberDialog,conifg);
+    let dialogRef
+    switch (this.currentType){
+      case 'role':
+        dialogRef = this.dialog.open(addRoleMemberDialog,conifg);
+        break;
+      case 'group':
+        dialogRef = this.dialog.open(addMemberDialog,conifg);
+        break;
+    }
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        if(this.ids.length == 0){
-          this.getList(true)
-        }else{
-          this.searchGroupChild(this.ids[this.ids.length - 1])
-        }
+        this.updateList()
       }
     });
   }
-  reAssignGroup(){
+  reAssign(){
     let conifg = new MdDialogConfig();
     conifg.data = {
       docbase : this.parameter.docbase,
@@ -302,14 +358,26 @@ export class GroupComponent implements OnInit,AfterViewInit{
     };
     conifg.height = 'auto';
     conifg.width = '600px';
-    let dialogRef = this.dialog.open(reAssignGroupDialog,conifg);
+    let dialogRef
+    switch (this.selected[0].objectType){
+      case 'user':
+        dialogRef = this.dialog.open(reAssignDialog,conifg);
+        break;
+      case 'role':
+        dialogRef = this.dialog.open(reAssignRoleDialog,conifg);
+        break;
+      case 'group':
+        dialogRef = this.dialog.open(reAssignGroupDialog,conifg);
+        break;
+    }
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.getList(true)
+      if (result){
+        this.updateList()
       }
     });
   }
-  checkGroupParent(){
+
+  checkParent(){
     let conifg = new MdDialogConfig();
     conifg.data = {
       docbase : this.parameter.docbase,
@@ -317,12 +385,35 @@ export class GroupComponent implements OnInit,AfterViewInit{
     };
     conifg.height = 'auto';
     conifg.width = '600px';
-    let dialogRef = this.dialog.open(checkGroupParentDialog,conifg);
+    let dialogRef
+    switch (this.selected[0].objectType){
+      case 'user':
+        dialogRef = this.dialog.open(checkUsersGroupDialog,conifg);
+        break;
+      case 'role':
+        dialogRef = this.dialog.open(checkRoleParentDialog,conifg);
+        break;
+      case 'group':
+        dialogRef = this.dialog.open(checkGroupParentDialog,conifg);
+        break;
+    }
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         return
       }
     });
+  }
+
+  updateList(){
+    if(this.ids.length == 0){
+      this.getList(true)
+    }else{
+      if (this.currentType == 'role') {
+        this.searchRoleChild(this.ids[this.ids.length - 1])
+      }else{
+        this.searchGroupChild(this.ids[this.ids.length - 1])
+      }
+    }
   }
 }
 
@@ -332,6 +423,7 @@ export class Parameter {
   currentPage : number;
   pageSize : number;
   objectType : string;
+  keywords : string;
 }
 
 /**
@@ -363,16 +455,13 @@ export class createGroupDialog implements OnInit{
   }
   createGroup(){
     this.loading = true;
-    this._groupService.createGroup(this.entity).subscribe(
+    this._groupService.createGroup(this.entity).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -417,16 +506,14 @@ export class removeGroupDialog implements OnInit{
   }
   removeGroup(){
     this.loading = true;
-    this._groupService.removeGroup(this.data).subscribe(
+    console.log (111)
+    this._groupService.removeGroup(this.data).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false;
       }
     )
   }
@@ -454,16 +541,13 @@ export class removeMemberDialog implements OnInit{
   }
   removeMember(){
     this.loading = true;
-    this._groupService.removeMember(this.data).subscribe(
+    this._groupService.removeMember(this.data).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -492,16 +576,13 @@ export class addMemberDialog implements OnInit{
   }
   addMember(){
     this.loading = true;
-    this._groupService.addMember(this.data,this.selectedList).subscribe(
+    this._groupService.addMember(this.data,this.selectedList).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false;
       }
     )
   }
@@ -510,7 +591,7 @@ export class addMemberDialog implements OnInit{
 @Component({
   selector: 're-assign-group',
   templateUrl: './dialog/reAssignGroup.dialog.html',
-  styleUrls: ['./dialog/css/removeGroup.dialog.scss'],
+  styleUrls: ['./dialog/css/createGroup.dialog.scss'],
 })
 export class reAssignGroupDialog implements OnInit{
   loading : boolean = false;
@@ -543,16 +624,13 @@ export class reAssignGroupDialog implements OnInit{
     });
   }
   reAssignGroup(){
-    this._groupService.reAssignGroup(this.data.selected[0],this.data.docbase,this.newUser.objectId).subscribe(
+    this._groupService.reAssignGroup(this.data.selected[0],this.data.docbase,this.newUser.objectId).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.toastr.success(info.message);
-          this.dialogRef.close(true);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -577,15 +655,13 @@ export class checkGroupParentDialog implements OnInit{
     this.dialogRef.close(false);
   }
   ngOnInit(){
-    this._groupService.checkGroupParent(this.data.selected[0],this.data.docbase).subscribe(
+    this._groupService.checkGroupParent(this.data.selected[0],this.data.docbase).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.groupList = info.data.groupList
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.groupList = data.groupList
+      },
+      error => {
+        this.loading = false;
       }
     )
   }

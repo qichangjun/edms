@@ -6,81 +6,81 @@
     <!--<span class="logo&#45;&#45;description">Electronic Records Management System</span>-->
   </div>
   <div class="navbar--right--content--box">
+
+    <!-- fileBase搜索框 -->
     <div class="navbar--search--box" routerLinkActive="search-active" style="display: none;">
-      <a routerLink="/fileBase"  styler="display:none"></a>
-      <!--<button type="button" class="btn btn-default indent&#45;&#45;btn"><span class="fa fa-bars"></span></button>-->
+      <a routerLink="/fileBase"  styler="display:none"></a>      
       <span class="fa fa-search"></span>
-      <input type="text" class="form-control search--input" placeholder="搜索点什么..."/>
+      <input type="text" class="form-control search--input" [(ngModel)]="keywords" placeholder="搜索点什么..."/>
+      <button md-button [disabled]="loading" class="btn btn-sure" (click)="searchKeywords()">
+          {{ 'CORE_COMPONENT_TOOLBAR_SEARCH' | translate}}
+         </button>
     </div>
+
+    <!-- projectFile搜索框 -->
     <div class="navbar--search--box" routerLinkActive="search-active" style="display: none;">
       <a routerLink="/projectFile"  styler="display:none"></a>
       <!--<button type="button" class="btn btn-default indent&#45;&#45;btn"><span class="fa fa-bars"></span></button>-->
       <span class="fa fa-search"></span>
-      <input type="text" class="form-control search--input" placeholder="搜索点什么..."/>
+      <input type="text" class="form-control search--input" [(ngModel)]="keywords" placeholder="搜索点什么..."/>
+      <button md-button [disabled]="loading" class="btn btn-sure" (click)="searchKeywords()">
+          {{ 'CORE_COMPONENT_TOOLBAR_SEARCH' | translate}}
+         </button>
     </div>
+
+    <!-- 用户搜索框 -->
     <div class="navbar--search--box" routerLinkActive="search-active" style="display: none;">
       <a routerLink="/userManage/user"  styler="display:none"></a>
       <span class="fa fa-search"></span>
       <input type="text" class="form-control search--input" [(ngModel)]="keywords" placeholder="搜索用户"/>
       <button md-button [disabled]="loading" class="btn btn-sure" (click)="searchUser()">
-        搜索
+       {{ 'CORE_COMPONENT_TOOLBAR_SEARCH' | translate}}
       </button>
     </div>
+
+    <!-- 组搜索框 -->
     <div class="navbar--search--box" routerLinkActive="search-active" style="display: none;">
       <a routerLink="/userManage/group"  styler="display:none"></a>
-      <!--<button type="button" class="btn btn-default indent&#45;&#45;btn"><span class="fa fa-bars"></span></button>-->
       <span class="fa fa-search"></span>
-      <input type="text" class="form-control search--input" placeholder="搜索组"/>
+      <input type="text" class="form-control search--input" [(ngModel)]="keywords" placeholder="搜索组"/>
+      <button md-button [disabled]="loading" class="btn btn-sure" (click)="searchUser()">
+        {{ 'CORE_COMPONENT_TOOLBAR_SEARCH' | translate}}
+       </button>
     </div>
+
+    <!-- 角色搜索框 -->
     <div class="navbar--search--box" routerLinkActive="search-active" style="display: none;">
       <a routerLink="/userManage/role"  styler="display:none"></a>
-      <!--<button type="button" class="btn btn-default indent&#45;&#45;btn"><span class="fa fa-bars"></span></button>-->
       <span class="fa fa-search"></span>
-      <input type="text" class="form-control search--input" placeholder="搜索角色"/>
+      <input type="text" class="form-control search--input" [(ngModel)]="keywords" placeholder="搜索角色"/>
+      <button md-button [disabled]="loading" class="btn btn-sure" (click)="searchUser()">
+        {{ 'CORE_COMPONENT_TOOLBAR_SEARCH' | translate}}
+       </button>
     </div>
 
     <div class="toolbar--user--info--box" >
-      <div [mdMenuTriggerFor]="moreOperation" class="head--user--info--box">
+      <div 
+        #paletteMenuTrigger="mdMenuTrigger"
+        [mdMenuTriggerFor]="moreOperation" class="head--user--info--box">
         <img class="navbar--admin--icon" src="assets/images/head--photo.jpg" alt=""/>
         <span class="caret"></span>
       </div>
       <md-menu #moreOperation="mdMenu">
-        <button *ngIf="translate.currentLang == 'en_US'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('zh_CN')">切换至中文</button>
-        <button *ngIf="translate.currentLang == 'zh_CN'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en_US')">切换至英文</button>
+        <button *ngIf="translate.currentLang == 'en_US'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('zh_CN');$event.stopPropagation()">{{ 'FILEBASE_TOOLBAR_CHANGE_TO_CHINESE' | translate}}</button>
+        <button *ngIf="translate.currentLang == 'zh_CN'" class="mat-menu-item__button" md-menu-item  (click)="changeLanguage('en_US');$event.stopPropagation()">{{ 'FILEBASE_TOOLBAR_CHANGE_TO_ENGLISH' | translate}}</button>
         <button class="mat-menu-item__button" md-menu-item  (click)="toggleTree()">
-          <span *ngIf="showSideBar">隐藏左侧栏</span>
-          <span *ngIf="!showSideBar">显示左侧栏</span>
+          <span *ngIf="showSideBar">{{ 'CORE_COMPONENT_TOOLBAR_HIDE_LEFT_COLUMN' | translate}}</span>
+          <span *ngIf="!showSideBar">{{ 'CORE_COMPONENT_TOOLBAR_SHOW_LEFT_COLUMN' | translate}}</span>
         </button>
+        <div class="mat-menu-item__button mat-menu-item" *ngIf="isHidden" (click)="isHidden=false;changeShowObj();$event.stopPropagation()">
+          <span>不显示隐藏对象</span>
 
-        <!--<div class="mat-menu-item__button">-->
-          <!--<span>显示隐藏对象</span>-->
-          <!--<input-->
-            <!--type='checkbox'-->
-            <!--class="input_check"-->
-            <!--(click)='changeShowObj();$event.stopPropagation()'-->
-            <!--[checked]='isHidden'-->
-          <!--/>-->
-        <!--</div>-->
-        <div class="mat-menu-item__button mat-menu-item">
-          <span>显示隐藏对象</span>
-          <div class="checkbox toolbar--checkbox">
-            <input
-              type='checkbox'
-              class="input_check"
-              (click)='changeShowObj();$event.stopPropagation()'
-              [checked]='isHidden'
-              id="checkbox--all"
-              />
-            <label for="checkbox--all"></label>
-          </div>
         </div>
-        <button class="mat-menu-item__button" md-menu-item  [routerLink]="['/login']">登出</button>
+        <div class="mat-menu-item__button mat-menu-item" *ngIf="!isHidden" (click)="isHidden=true;changeShowObj();$event.stopPropagation()">
+          <span>显示隐藏对象</span>
+        </div>
+        <div class="mat-menu-item__button" md-menu-item (click)="loginOut();$event.stopPropagation()" >{{ 'CORE_COMPONENT_TOOLBAR_LOGOUT' | translate}}</div>
       </md-menu>
-      <!--<p-tieredMenu appendTo="body"  #menu [model]="items" [popup]="true"></p-tieredMenu>-->
-      <!--<button style="position: absolute;-->
-      <!--right: 0px;-->
-      <!--top: 13%;" #tieredMenuBtn md-button (click)="menu.toggle($event)">设置</button>-->
-      <!--<a class="login&#45;&#45;out&#45;&#45;btn"   [routerLink]="['/login']">登出</a>-->
     </div>
   </div>
 

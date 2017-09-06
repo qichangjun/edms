@@ -7,9 +7,19 @@
       [type]="'all'"
       [selectedList]="selectedList"
     ></multi-jurisdiction>
+    <div class="cascade--prompt">
+      <md-checkbox id="checkbox_ali" name="cascade" [(ngModel)]="cascade"></md-checkbox>
+      <label for="checkbox_ali">是否级联</label>
+    </div>
+    <div class="batch--modify--permissions--prompt">
+      <div>提示：<span class="concrete--description">若选择的用户/组没有设置权限，则设置权限；</span></div>
+      <div class="concrete--description">若选择的用户/组已设置权限，则更新权限；</div>
+      <div class="concrete--description">若选择的用户/组权限设置为无，则收回权限。</div>
+    </div>
+    <loading-message *ngIf="loading" ></loading-message>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </form>

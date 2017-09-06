@@ -1,0 +1,42 @@
+<div [formGroup]="form">
+    <label  class="attr--name" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+    <div class="attr--value--wrap">
+        <div *ngIf="attr.inputMode == 1 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+        <input id="{{attr.attrName}}"  type="text" [(ngModel)]="attr.attrValue" class="form-control attr--value" [formControlName]="attr.attrName" />
+        </div>
+        <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
+        <md-input-container id="{{attr.attrName}}"  class="attr--value date--input--box" [ngClass]="{'input-required':attr.required}">
+            <input mdInput [(ngModel)]="attr.attrValue" [mdDatepicker]="startPicker"  [formControlName]="attr.attrName" >
+            <md-datepicker-toggle mdSuffix [for]="startPicker"></md-datepicker-toggle>
+        </md-input-container>
+        <md-datepicker #startPicker></md-datepicker>
+        </div>
+        <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
+        <md-radio-group id="{{attr.attrName}}" [formControlName]="attr.attrName" [(ngModel)]="attr.attrValue">
+            <md-radio-button value="true">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+            <md-radio-button value="false" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
+        </md-radio-group>
+        </div>
+        <div  *ngIf="attr.inputMode == 4 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+        <md-select [(ngModel)]="attr.attrValue" id="{{attr.attrName}}" class="attr--value select--input--box"  [formControlName]="attr.attrName"  >
+            <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+            {{selectValue.name}}
+            </md-option>
+        </md-select>
+        </div>
+        <div *ngIf="attr.inputMode == 5 && !attr.readOnly" class="attr--value">
+        <a  (click)="editMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+        <span>{{attr.attrValue}}</span>
+        </div>
+        <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+        <a  (click)="selectUser(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+        <span>
+            {{attr.attrValue.objectName}}
+        </span>
+        </div>
+        <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
+        <div class="errorMessage" *ngIf="isValid">{{attr.displayName}} is required</div>
+    <span *ngIf="form.controls[attr.attrName].errors">
+        {{form.controls[attr.attrName].errors.required}}
+    </span>
+</div>

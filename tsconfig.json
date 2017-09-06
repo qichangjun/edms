@@ -9,6 +9,14 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es5",
+    "paths": {
+      "@commonService/*":["app/services/*"],
+      "@coreModule/*" : ["app/core/*"],
+      "@fileBaseModule/*" : ["app/home/fileBase/*"],
+      "@userModule/*" : ["app/home/userManage/user/*"],
+      "@groupModule/*" : ["app/home/userManage/group/*"],
+      "@roleModule/*" : ["app/home/userManage/role/*"]
+    },
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -16,5 +24,5 @@
       "es2016",
       "dom"
     ]
-  }
+  } 
 }

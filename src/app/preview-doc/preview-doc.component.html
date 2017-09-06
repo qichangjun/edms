@@ -1,0 +1,172 @@
+<div class="hs-doc-preview-wrapper">
+  <div class="hs-doc-preview-head">
+      <span class="title-text">
+          <img onerror="this.src='assets/images/icon/unknown.png'" src="assets/images/icon/{{row.contentType}}.png" />
+          {{row.object_name}}
+      </span>
+      <button  (click)="goBack()" class="btn btn-primary title-right-btn"><span >关闭</span></button>
+  </div>
+  <div class="doc-operate-btn">
+      <button class="btn btn-success" (click)="fullScreen()">
+          <span >全屏显示</span>
+      </button>
+      <button class="btn btn-default" (click)="downloadDoc()">
+          <span >下载</span>
+      </button>
+  </div>
+  <div class="hs-doc-preview-container">
+      <div class="doc-preview-show pull-left" >
+          <iframe [src]="previewUrl ? previewUrl : null" frameBorder="0" (load)="previewUrl ? onLoad() : null" style="width:100%;height:100%"></iframe>
+      </div>
+      <div class="doc-detail pull-left">
+          <div class="document-information-box">
+            <div *ngIf="editStatus == false" class="attr--type--wrap">
+              <div class="attr--type--box" >
+                <div  *ngFor="let attr of attrList;let i = index">
+                  <div class="single--attr--row" *ngIf="!attr.isMore">
+                    <label class="title">{{attr.displayName}}：</label>
+                    <span class="value">{{attr.attrValue}}</span>
+                  </div>
+                </div>
+                <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMore()">
+                  <span class="more">{{ 'HOME_FILEBASE_FILEINFO_SHOW_MORE' | translate}}</span>
+                </div>
+                <div class="single--attr--row" *ngIf="showMoreAttr == true" (click)="showMoreAttr = false">
+                  <span class="hide--content">{{ 'HOME_FILEBASE_FILEINFO_HIDE_MORE' | translate}}</span>
+                </div>
+                <div [hidden]="!showMoreAttr"  *ngFor="let attr of attrList;let i = index">
+                  <div class="single--attr--row" *ngIf="attr.isMore">
+                    <label class="title">{{attr.displayName}}：</label>
+                    <span class="value">{{attr.attrValue}}</span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="option--btn--box">
+                <button md-button (click)="editStatus = true" [disabled]="loading" class="btn btn-sure one--btn">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</button>
+              </div>
+            </div>
+            <div class="attr--type--wrap" *ngIf="editStatus == true">
+              <form name="form" (ngSubmit)="f.form.valid && updateInfo()" #f="ngForm" novalidate class="attr--type--box">
+                <div  *ngFor="let attr of attrList;let i = index">
+                  <div class="single--attr--row input--row" *ngIf="!attr.isMore">
+                    <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+                    <div class="value--input parent--do--position">
+                      <div *ngIf="attr.inputMode == 1 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                        <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+                      </div>
+                      <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
+                        <md-input-container id="{{attr.attrName}}"  class="date--input" [ngClass]="{'input-required':attr.required}">
+                          <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+                          <md-datepicker-toggle mdSuffix [for]="startPicker"></md-datepicker-toggle>
+                        </md-input-container>
+                        <md-datepicker #startPicker></md-datepicker>
+                      </div>
+                      <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
+                        <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                          <md-radio-button value="1">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+                          <md-radio-button value="0" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
+                        </md-radio-group>
+                      </div>
+                      <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
+                        <md-select id="{{attr.attrName}}"  name="{{attr.attrName}}"  [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+                          <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+                            {{selectValue.name}}
+                          </md-option>
+                        </md-select>
+                      </div>
+                      <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                        <a  (click)="editMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                      <span>
+                        {{attr.attrValue}}
+                      </span>
+                      </div>
+                      <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+                        <a  (click)="selectUser(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                        <span >
+                          {{attr.attrValue.objectName}}
+                        </span>
+                      </div>
+                      <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
+                      <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                        <div class="form-messages">
+                          <div class="msg-tri-outside"></div>
+                          <div class="msg-tri-inside"></div>
+                          <div  class="form-messages__icon fa fa-exclamation-circle">
+                            <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="single--attr--row" *ngIf="showMoreAttr == false" (click)="showMore()">
+                  <span class="more">{{ 'HOME_FILEBASE_FILEINFO_SHOW_MORE' | translate}}</span>
+                </div>
+                <div class="single--attr--row" *ngIf="showMoreAttr == true" (click)="showMoreAttr = false">
+                  <span class="hide--content">{{ 'HOME_FILEBASE_FILEINFO_HIDE_MORE' | translate}}</span>
+                </div>
+                <div [hidden]="!showMoreAttr" *ngFor="let attr of attrList;let i = index">
+                  <div class="single--attr--row input--row" *ngIf="attr.isMore">
+                    <label class="title" for="{{attr.attrName}}">{{attr.displayName}}：</label>
+                    <div class="value--input parent--do--position">
+                      <div *ngIf="attr.inputMode == 1 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                        <input id="{{attr.attrName}}"  type="text" class="form-control attr--value" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" />
+                      </div>
+                      <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
+                        <md-input-container id="{{attr.attrName}}"  class="date--input" [ngClass]="{'input-required':attr.required}">
+                          <input mdInput [mdDatepicker]="startPicker"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required">
+                          <md-datepicker-toggle mdSuffix [for]="startPicker"></md-datepicker-toggle>
+                        </md-input-container>
+                        <md-datepicker #startPicker></md-datepicker>
+                      </div>
+                      <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
+                        <md-radio-group id="{{attr.attrName}}" name="{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                          <md-radio-button value="1">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+                          <md-radio-button value="0" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
+                        </md-radio-group>
+                      </div>
+                      <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
+                        <md-select id="{{attr.attrName}}"  name="{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{attr.attrName}}="ngModel" [required]="attr.required" >
+                          <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
+                            {{selectValue.name}}
+                          </md-option>
+                        </md-select>
+                      </div>
+                      <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                        <a  (click)="editMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                      <span>
+                        {{attr.attrValue}}
+                      </span>
+                      </div>
+                      <div *ngIf="attr.inputMode == 6 && !attr.readOnly" class="attr--value">
+                        <a  (click)="selectUser(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                        <span >
+                          {{attr.attrValue.objectName}}
+                        </span>
+                      </div>
+                      <span *ngIf="attr.readOnly" class="value">{{attr.attrValue}}</span>
+                      <div  messageVerify [elementName]="attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                        <div class="form-messages">
+                          <div class="msg-tri-outside"></div>
+                          <div class="msg-tri-inside"></div>
+                          <div  class="form-messages__icon fa fa-exclamation-circle">
+                            <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="option--btn--box">
+                  <button md-button (click)="getInfo(1);showMoreAttr=false" [disabled]="loading" class="two--btn">{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+                  <button md-button  [disabled]="loading" class="btn btn-sure two--btn">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+                </div>
+              </form>
+            </div>
+
+          </div>
+      </div>
+  </div>
+</div>
+<div class="do--compress--loading"  [hidden]="!isDownloading" >正在打包下载，请稍后...</div>

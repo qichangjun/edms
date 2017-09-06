@@ -1,0 +1,18 @@
+<h2 md-dialog-title>{{ 'HOME_FILEBASE_DIALOG_EDITMULTIPLEPROPERTY_SET_ATTRIBUTES' | translate}}</h2>
+<md-dialog-content>
+        <input type="text" class="form-control attr--value" [(ngModel)]="keyValue" />
+        <button md-button (click)="addValue()"  class="">添加</button>
+        <button md-button (click)="editValue()" class="">编辑</button>
+        <button md-button (click)="deleteValue()" class="">删除</button>
+        <div *ngFor="let value of valueLists">
+            <span
+                [ngClass]="{'isSelected': currentValue == value}"
+                (click)="currentValue = value">
+                    {{value}}
+            </span>
+        </div>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button [disabled]="loading" (click)="setProperty()" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+  <button md-button md-dialog-close>{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+</md-dialog-actions>

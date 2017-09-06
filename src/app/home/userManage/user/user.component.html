@@ -6,7 +6,7 @@
       <button (click)="checkUsersGroup()" [disabled]="selected.length != 1" class="btn btn-default"><span >查看用户所在的组</span></button>
       <button (click)="reAssign()" [disabled]="selected.length != 1" class="btn btn-default"><span >重新指派</span></button>
     </div>
-    <span class="load--quantity">已加载{{rows.length}}个,共{{parameter.totalElements}}个</span>
+    <span class="load--quantity">{{ 'HOME_FILEBASE_LOADED' | translate}}{{rows.length}}{{ 'HOME_FILEBASE_GE' | translate}}，{{ 'HOME_FILEBASE_TOTAL' | translate}}{{parameter.totalElements}}{{ 'HOME_FILEBASE_GE' | translate}}</span>
   </div>
     <div style="height: calc(100% - 50px)">
       <grid-list
@@ -19,6 +19,7 @@
         [isLoading]="isLoading"
         [storageName]="storageName"
         (uploadGrid)="uploadGrid($event)"
+        [enableSave]="true"
         ></grid-list>
     </div>
   <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
@@ -44,9 +45,9 @@
   </ng-template>
   <ng-template #userNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
     <div>
-      <a >{{value}}</a>
-      <a class="hidd list--option--btn" (click)="sidenav.open();currentUser=row;$event.stopPropagation()" title="查看属性"><span class="fa fa-info-circle"></span></a>
-      <a class="hidd list--option--btn" (click)="removeUser(row);currentUser=row;$event.stopPropagation()" title="删除"><span class="fa fa-times"></span></a>
+      <a class="object_name">{{value}}</a>
+      <a class="hidd list--option--btn" (click)="sidenav.open();currentUser=row;$event.stopPropagation()" title="{{ 'HOME_FILEBASE_VIEW_PROPERTIES' | translate}}"><span class="fa fa-info-circle"></span></a>
+      <a class="hidd list--option--btn" (click)="removeUser(row);currentUser=row;$event.stopPropagation()" title="{{ 'CORE_COMPONENT_MULJURISDICTION_DELETE' | translate}}"><span class="fa fa-times"></span></a>
     </div>
   </ng-template>
   <ng-template #stateTmpl let-row="row" let-value="value">

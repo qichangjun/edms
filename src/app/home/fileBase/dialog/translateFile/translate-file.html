@@ -10,7 +10,7 @@
   <loading-message *ngIf="loading" ></loading-message>
 </md-dialog-content>
 <md-dialog-actions>
-  <button md-button [disabled]="loading" (click)="translateTo()" class="btn btn-sure">确定</button>
-  <button md-button [disabled]="loading" (click)="cancel()">取消</button>
+  <button md-button [disabled]="loading" (click)="translateTo()" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+  <button md-button [disabled]="loading" (click)="cancel()">{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
 </md-dialog-actions>
 

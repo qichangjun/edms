@@ -7,6 +7,10 @@ export class ConstantService {
   baseUrl() {
     return environment.baseUrl;
   }
+
+  previewUrl(){
+    return environment.previewUrl;
+  }
   companyBase(){
     return environment.companyBase;
   }
@@ -15,5 +19,8 @@ export class ConstantService {
   }
   hrefList(){
     return environment.mainHref;
+  }
+  docIdsLInk(){
+    return environment.docIdsLInk;
   }
 }

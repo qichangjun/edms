@@ -1,0 +1,14 @@
+<h2 md-dialog-title>{{data.attr.displayName}}</h2>
+<md-dialog-content>
+  <cascade-select
+    [attrLists] = "data.attr.map"
+    [selectLists]="selectLists"
+    [selectType]="data.selectType"
+  >
+
+  </cascade-select>
+</md-dialog-content>
+<md-dialog-actions>
+  <button md-button [disabled]="loading" (click)="setProperty()" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+  <button md-button md-dialog-close>{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+</md-dialog-actions>

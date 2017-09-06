@@ -7,6 +7,7 @@ export const environment = {
   production: false,
   //baseUrl : 'http://mvn.docworks.cn:9092/mockjsdata/8',
   baseUrl : 'http://demo.docworks.cn/edmsapi',
+  previewUrl : 'http://baidu.com/',
   //baseUrl : 'http://192.168.0.153:8080',
   //baseUrl : 'http://192.168.0.208:8080/edmsapi',
   companyBase : 'wison_company',
@@ -31,6 +32,20 @@ export const environment = {
     companyProfile : 'http://edms.wison.com/folder?objectId=0b01e240803cb4f4',
     businessConstruction : 'http://edms.wison.com/folder?objectId=0b01e24080002f1f',
     fullSearch : 'http://kmdoc.wison.com/wisonsearch/#!/searchResult?docbase=wison_company&keywords='
-  }
+  },
+  docIdsLInk:[
+    {objectId:'0b0186a18000b21c',docbase:'wison_company',name:'国际项目管理'},
+    {objectId:'0b0186a18000b229',docbase:'wison_company',name:'国内项目管理'},
+    {objectId:'0b0186a18000afdd',docbase:'wison_company',name:'案例库'},
+    {objectId:'0b0186a18000b22a',docbase:'wison_company',name:'论文库'},
+    {objectId:'0b0186a18000b22b',docbase:'wison_company',name:'档案清单'},
+    {objectId:'0b0186a18000b230',docbase:'wison_company',name:'企业标准记录模板'},
+    {objectId:'0b0186a18000b22c',docbase:'wison_company',name:'企业标准库'},
+    {objectId:'0b0186a18000b22d',docbase:'wison_company',name:'项目完工证书'},
+    {objectId:'0bffffff80048e22',docbase:'wison_projects',name:'技术交流材料分享'},
+    {objectId:'0bffffff80012100',docbase:'wison_projects',name:'技术及市场情报信息'},
+    {objectId:'0bffffff80012101',docbase:'wison_projects',name:'公司概况'},
+    {objectId:'0bffffff80012178',docbase:'wison_projects',name:'业务建设'}
+  ]  
   //baseUrl : 'http://demo.docworks.cn/adminapi'
 };

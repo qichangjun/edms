@@ -51,7 +51,6 @@
   transform: rotateY(0deg);
   width: 210px;
   height: 430px;
-  z-index:2;
   //border:1px solid transparent;
   //background: #ffffff;
   @media (max-width: 1366px) {
@@ -66,31 +65,31 @@
 }
 .container:hover .flip{
   transform:rotateY(180deg);
-  z-index: 3;
+
 }
 
-.flip:hover .front{
-  backface-visibility:visible;
-  -moz-backface-visibility:visible;
-  -ms-backface-visibility:visible;
-}
-.front:hover{
-  .head{
-    visibility: hidden;
-  }
-}
-.flip:hover .back{
-  //-webkit-transform: rotateY(180deg);
-  //-moz-transform: rotateY(180deg);
-  //-o-transform: rotateY(180deg);
-  //-ms-transform: rotateY(180deg);
-  //transform: rotateY(180deg);
-  z-index: 4;
-  backface-visibility:visible;
-  -moz-backface-visibility:visible;
-  -ms-backface-visibility:visible;
-  background: #008efa;
-}
+// .flip:hover .front{
+//   backface-visibility:hidden;
+//   -moz-backface-visibility:hidden;
+//   -ms-backface-visibility:hidden;
+// }
+// .front:hover{
+//   .head{
+//     visibility: hidden;
+//   }
+// }
+// .flip:hover .back{
+//   //-webkit-transform: rotateY(180deg);
+//   //-moz-transform: rotateY(180deg);
+//   //-o-transform: rotateY(180deg);
+//   //-ms-transform: rotateY(180deg);
+//   //transform: rotateY(180deg);
+//   z-index: 4;
+//   backface-visibility:visible;
+//   -moz-backface-visibility:visible;
+//   -ms-backface-visibility:visible;
+//   background: #008efa;
+// }
 
 .normalContainer {
   width:292px;

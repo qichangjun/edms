@@ -1,7 +1,9 @@
 import { Component,OnInit,Input,OnChanges,SimpleChange } from '@angular/core';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { MdDialog, MdDialogRef,MdDialogConfig } from '@angular/material';
-import { editMultipleDialog,FileBaseService,selectUserDialog } from '../index'
+import { editMultipleDialog,FileBaseService,selectUserDialog,cascadeSelectDialog,inputMultipleDialog } from '../index'
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'file-info',
@@ -31,27 +33,23 @@ export class FileInfoComponent implements OnInit {
   ngOnInit() {}
   getInfo(option){
     this.loading = true
-    this.fileBaseService.getInfo(this.row,this.parameter,option).subscribe(
+    this.fileBaseService.getInfo(this.row,this.parameter,option).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          if (option == 2){
+        if (option == 2){
             this.firstInitMoreInfo = true
-            info.data.forEach((c)=>{
+            data.forEach((c)=>{
               c['isMore'] = true
             })
-            this.attrList = this.attrList.concat(info.data)
+            this.attrList = this.attrList.concat(data)
           }else{
             this.firstInitMoreInfo = false
-            this.attrList = info.data
+            this.attrList = data
             this.editStatus = false;
           }
-        }
-        else if (info.code ==0) {
-          this.attrList = []
-          this.toastr.error(info.message);
-        }
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -62,21 +60,16 @@ export class FileInfoComponent implements OnInit {
     }
   }
 
-
   getLimit(){
-    this.fileBaseService.getLimit(this.row,this.parameter).subscribe(
+    this.fileBaseService.getLimit(this.row,this.parameter).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.limitList = info.data;
-          this.editLimit = false
-          this.sidenav._elementRef.nativeElement.style.width = 400 + 'px';
-        }
-        else if (info.code ==0) {
-          this.limitList = []
-          this.toastr.error(info.message);
-        }
+        this.limitList = data;
+        this.editLimit = false
+        this.sidenav._elementRef.nativeElement.style.width = 400 + 'px';
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -90,41 +83,33 @@ export class FileInfoComponent implements OnInit {
     let dialogRef = this.dialog.open(editMultipleDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        attr.attrValue = result.join(',')
+        attr.attrValues = result
       }
     });
   }
   updateInfo(){
     this.loading = true
-    this.fileBaseService.updateInfo(this.row.r_object_id,this.attrList,this.parameter.docbase).subscribe(
+    this.fileBaseService.updateInfo(this.row.r_object_id,this.attrList,this.parameter.docbase).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.toastr.success(info.message);
-          this.editStatus=false
-          return
-        }
-        else if (info.code ==0) {
-          this.toastr.error(info.message);
-        }
+        this.editStatus=false
+        return
+      },
+      error => {
+        this.loading = false
       }
     )
   }
   updateLimit(){
     this.loading = true
-    this.fileBaseService.updateLimit(this.row.r_object_id,this.limitList,this.parameter.docbase).subscribe(
+    this.fileBaseService.updateLimit(this.row.r_object_id,this.limitList,this.parameter.docbase).then(
       data => {
         this.loading = false
-        let info = data.json();
-        if (info.code == 1) {
-          this.toastr.success(info.message);
-          this.getLimit();
-          return
-        }
-        else if (info.code ==0) {
-          this.toastr.error(info.message);
-        }
+        this.getLimit();
+        return
+      },
+      error => {
+        this.loading = false
       }
     )
   }
@@ -133,19 +118,105 @@ export class FileInfoComponent implements OnInit {
     this.editLimit = true;
   }
 
+  selectedIndexChange(){
+    if (this.currentTab == 1) {
+      this.sidenav._elementRef.nativeElement.style.width = 400 + 'px';
+    }
+    if (this.currentTab == 0 &&  this.editLimit == true) {
+      this.sidenav._elementRef.nativeElement.style.width = 800 + 'px';
+    }
+  }
+
   selectUser(attr){
     let conifg = new MdDialogConfig();
     conifg.data = {
       //attrValue : attr.attrValue,
       docbase : this.parameter.docbase,
-      type : "user"
+      type : "user",
+      selectType : 'single'
     };
     conifg.height = '800px';
     conifg.width = '600px';
     let dialogRef = this.dialog.open(selectUserDialog,conifg);
     dialogRef.afterClosed().subscribe(result => {
       if (result){
-        attr.attrValue = result[0]
+        attr.attrValue = result[0].objectName
+      }
+    });
+  }
+
+  selectUsers(attr){
+    let conifg = new MdDialogConfig();
+    conifg.data = {
+      //attrValue : attr.attrValue,
+      docbase : this.parameter.docbase,
+      type : "user",
+      selectType : 'mult'
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(selectUserDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        let _arr = []
+        result.forEach(c => {
+          _arr.push(c.objectName)
+        });
+        attr.attrValues = _arr
+      }
+    });
+  }
+
+  cascadeSelectMul(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selectType : 'mult',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '1000px';
+    let dialogRef = this.dialog.open(cascadeSelectDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        attr.attrValues = result
+      }
+    });
+  }
+
+  cascadeSelectSingle(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selectType : 'single',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '1000px';
+    let dialogRef = this.dialog.open(cascadeSelectDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        attr.attrValues = result
+      }
+    });
+  }
+
+  inputMultiple(attr){
+    let conifg = new MdDialogConfig();
+    let newAttr = Object.assign({}, attr)
+    conifg.data = {
+      docbase : this.parameter.docbase,
+      selectType : 'single',
+      attr : newAttr
+    };
+    conifg.height = '800px';
+    conifg.width = '600px';
+    let dialogRef = this.dialog.open(inputMultipleDialog,conifg);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result){
+        attr.attrValues = result
       }
     });
   }

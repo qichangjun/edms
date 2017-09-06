@@ -1,5 +1,5 @@
 import { Component,AfterViewInit,OnInit } from '@angular/core';
-import { EventService } from '../services/behavior.service'
+import { EventService } from '@commonService/behavior.service'
 @Component({
   selector: 'home',
   templateUrl: './home.component.html',

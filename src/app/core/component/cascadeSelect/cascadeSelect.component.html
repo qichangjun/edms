@@ -1,0 +1,46 @@
+<div class="modal-group-add-membe-body clearfix">
+    <div class="modal-group-add-member pull-left">
+        <ul class="modal-group-add-member__content ">
+        <li *ngFor="let list of groupLists; let i = index"
+            [ngClass]="{'isSelected':(currentGroup == list)}"
+            class="modal-group-add-member__content__everyuser"
+            (click)="currentGroup=list"
+            >
+            <span class="everyuser-username">{{list.name}}</span>
+        </li>
+        </ul>
+    </div>
+
+    <div class="modal-group-add-member pull-left">
+            <ul class="modal-group-add-member__content ">
+            <li *ngFor="let list of currentGroup.children; let i = index"
+                [ngClass]="{'isSelected':(currentGroup == list)}"
+                class="modal-group-add-member__content__everyuser"
+                >
+                <span class="everyuser-username">{{list}}</span>
+                <i *ngIf="!isChecked(list)" (click)="selectRow(list)"
+                class="fa fa-circle-o modal-group-add-member__content__everyuser-icon  pull-right"></i>
+                <i *ngIf="isChecked(list)" (click)="removeRow(list)"
+                    class="fa fa-check-circle modal-group-add-member__content__everyuser-icon selected pull-right"></i>
+            </li>
+            </ul>
+            
+        </div>
+    
+    
+    <div class="modal-group-add-member-result pull-right">
+        <ul class="modal-group-add-member-result__content ">
+        <li *ngFor="let list of selectLists; let i = index"                        
+            class="modal-group-add-member-result__content__everyuser"
+            >
+            <span class="everyuser-username">{{list}}</span>
+            <i (click)="removeRow(list)"
+                class="fa fa-times-circle pull-right modal-group-add-member-result__content__everyuser-icon"></i>
+        </li>
+        </ul>
+    </div>
+
+</div>
+
+      
+      

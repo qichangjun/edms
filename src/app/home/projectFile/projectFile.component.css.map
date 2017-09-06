@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAA,KAAK;EAAC,MAAM,EAAC,iBAAiB;EAAC,KAAK,EAAC,iBAAiB;EAAC,OAAO,EAAC,YAAY;EAAC,KAAK,EAAC,KAAK",
-"sources": ["projectFile.component.scss"],
-"names": [],
-"file": "projectFile.component.css"
-}

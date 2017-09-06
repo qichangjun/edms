@@ -26,9 +26,10 @@ export class ApiUrlService {
   getGroupsChildren = '/group/listAllSubObjects'
   getListTypes='/attribute/list_types'
   setMulPro = '/attribute/update_batch'
-  getGroupInfo = '/group/list'
+  getGroupInfo = '/group/listGroupInfo'
   reAssignGroup = '/group/reassign'
   checkGroupParent = '/group/list_groups'
+  getUserInfo = '/user/listUserInfo'
 
   move = '/resource/move';
   copy = '/resource/copy';
@@ -51,5 +52,16 @@ export class ApiUrlService {
   updateGroup = '/group/update';
   removeGroup = '/group/delete';
   checkUsersGroup = '/user/list_groups';
-  reAssignUser = '/user/reassign'
+  reAssignUser = '/user/reassign';
+  createRole = '/role/create';
+  removeRole = '/role/delete';
+  checkRoleParent = '/role/list_groups';
+  reAssignRole = '/role/reassign';
+  searchRoleChild = '/role/listAllSubObjects';
+  getRoleInfo = '/role/listRoleInfo';
+  updateRole = '/role/update';
+  removeRoleMember = '/role/remove_members';
+  addRoleMember = '/role/add_members';
+
+  getCommonSearchList = '/search/common';
 }

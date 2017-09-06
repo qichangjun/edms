@@ -36,15 +36,9 @@ export class removeFileConfirmDialog implements OnInit{
   ngOnInit(){
   }
   deleteCabinet(){
-    this.fileBaseService.deleteFile(this.data.params,this.data.docbase,this.data.parentId).subscribe(
+    this.fileBaseService.deleteFile(this.data.params,this.data.docbase,this.data.parentId).then(
       data => {
-        let info = data.json();
-        if (info.code == 1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);
       }
     )
   }

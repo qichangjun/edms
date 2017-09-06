@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response,URLSearchParams,RequestOptionsArgs } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { ConstantService } from '../../../services/constant.service'
-import { ApiUrlService } from '../../../services/apiUrl.service'
-import { AuthenticationService } from '../../../services/authentication.service'
+import { ConstantService } from '@commonService/constant.service'
+import { ApiUrlService } from '@commonService/apiUrl.service'
+import { AuthenticationService } from '@commonService/authentication.service'
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/toPromise';
 

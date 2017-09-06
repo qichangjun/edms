@@ -1,7 +1,7 @@
 import { Component,OnInit,Input,AfterViewInit,Output,EventEmitter,OnChanges,SimpleChange } from '@angular/core';
-import { ConstantService } from '../../../services/constant.service';
-import { ApiUrlService } from '../../../services/apiUrl.service';
-import { AuthenticationService } from '../../../services/authentication.service';
+import { ConstantService } from '@commonService/constant.service';
+import { ApiUrlService } from '@commonService/apiUrl.service';
+import { AuthenticationService } from '@commonService/authentication.service';
 import { ActivatedRoute, Router } from '@angular/router';
 declare var jQuery:any;
 declare var $ : any;

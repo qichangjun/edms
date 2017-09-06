@@ -8,7 +8,7 @@
       <h3 class="caption" translate="">登录</h3>
       <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !username.valid }">
         <label class="title" for="username">用户名</label>
-        <div class="value--input" [@isInputError]="(username.valid || showErrorMessage)">
+        <div class="value--input" >
           <span class="fa fa-user icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focuseUserName}"></span>
           <input
             type="text"
@@ -27,7 +27,7 @@
       </div>
       <div class="form-group input-content-box" [ngClass]="{ 'has-error': f.submitted && !password.valid }">
         <label class="title" for="password">密码</label>
-        <div class="value--input" [@isInputError]="showErrorMessage">
+        <div class="value--input" >
           <span class="fa fa-key icon-bar" [ngClass]="{error: showErrorMessage,focusInput:focusePssword}"></span>
           <input
             type="password"
@@ -63,8 +63,8 @@
       </div>
 
       <button id="goLogin" [disabled]="loading" class="btn btn-primary submit-btn">登录</button>
-      <div *ngIf="f.submitted && !username.valid" class="login--warning--prompt">用户名不能为空</div>
-      <div *ngIf="f.submitted && !password.valid" class="login--warning--prompt">密码不能为空</div>
+      <div *ngIf="f.submitted && !username.valid" class="login--warning--prompt">用户名{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+      <div *ngIf="f.submitted && !password.valid" class="login--warning--prompt">密码{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
       <div [hidden]="!showErrorMessage" class="login--warning--prompt">
         <span class="fa fa-exclamation-triangle"></span>
         {{errorMessage}}

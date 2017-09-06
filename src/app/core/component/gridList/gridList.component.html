@@ -3,6 +3,7 @@
   #datatable
   style="overflow-x: auto;height: 100%;width:auto;box-shadow: none;"
   class="material selection-cell"
+  (activate)="onActivate($event)"
   [externalSorting]="true"
   [rows]="rows"
   [limit]="50"

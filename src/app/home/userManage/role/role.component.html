@@ -1,1 +1,111 @@
-role
+<div style="height:100%">
+  <md-sidenav-container style="height: 100%">
+    <bread-crumb
+      [rootName]="rootName"
+      [breadCrumbLists]="breadCrumbLists" [idLists]="ids" (clickBreadCrumb)="clickTreeOrBreadCrumb($event)"></bread-crumb>
+    <div class="toolbar--option--btn--wrap">
+      <div class="toolbar--option--btn--box">
+        <button (click)="createRole()" class="btn btn-default"><span >新建角色</span></button>
+        <button *ngIf="ids.length > 0" (click)="addMember()" class="btn btn-default"><span >添加成员</span></button>
+        <button *ngIf="selected.length == 1 " (click)="reAssign()" class="btn btn-default"><span >重新指派</span></button>
+        <button *ngIf="selected.length == 1 " (click)="checkParent()" class="btn btn-default"><span >
+          查看当前
+          <span *ngIf="selected[0].objectType=='role'">角色</span>
+          <span *ngIf="selected[0].objectType=='user'">用户</span>
+          <span *ngIf="selected[0].objectType=='user'">组</span>
+          所在的组</span>
+        </button>
+        <button *ngIf="selected.length > 0 && ids.length > 0" (click)="removeMember()" class="btn btn-default "><span class="fa fa-trash-o"></span></button>
+      </div>
+      <span class="load--quantity">{{ 'HOME_FILEBASE_LOADED' | translate}}{{rows.length}}{{ 'HOME_FILEBASE_GE' | translate}}，{{ 'HOME_FILEBASE_TOTAL' | translate}}{{parameter.totalElements}}{{ 'HOME_FILEBASE_GE' | translate}}</span>
+    </div>
+
+    <div style="height: calc(100% - 98px)">
+      <grid-list
+        #gridList
+        [selected]="selected"
+        [rows]="rows"
+        [columns]="columns"
+        [localColumns]="localColumns"
+        [parameter]="parameter"
+        [isLoading]="isLoading"
+        [storageName]="storageName"
+        (uploadGrid)="uploadGrid($event)"
+        [enableSave]="true"
+      ></grid-list>
+    </div>
+
+    <md-sidenav #sidenav class="example-sidenav" align="end" style="width:400px;">
+      <group-info
+        *ngIf="currentGroup.objectType == 'group'"
+        [docbase]="parameter.docbase"
+        [currentGroup]="currentGroup"
+      ></group-info>
+      <user-info
+        *ngIf="currentGroup.objectType == 'user'"
+        [docbase]="parameter.docbase"
+        [currentUser]="currentGroup"
+      ></user-info>
+      <role-info
+        *ngIf="currentGroup.objectType == 'role'"
+        [docbase]="parameter.docbase"
+        [currentRole]="currentGroup">
+      </role-info>
+    </md-sidenav>
+  </md-sidenav-container>
+</div>
+
+<ng-template #checkboxHeadTmpl ngx-datatable-header-template let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+  <div class="checkbox">
+    <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"  id="checkbox_al" class="input_check">
+    <label for="checkbox_al"></label>
+  </div>
+  <!--<input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>-->
+</ng-template>
+<ng-template  #checkboxTmpl ngx-datatable-cell-template let-value="value" let-isSelected="isSelected" let-onCheckboxChangeFn="onCheckboxChangeFn">
+  <div class="checkbox">
+    <md-checkbox style="margin-left: -20px" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"></md-checkbox>
+  </div>
+  <!--<input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>-->
+</ng-template>
+<ng-template #objectNameTmpl ngx-datatable-cell-template let-row="row" let-value="value">
+  <div>
+    <a *ngIf="row.objectType == 'role'" (click)="enterRole(row)" class="object_name">{{value}}</a>
+    <a *ngIf="row.objectType == 'group'" (click)="enterGroup(row)" class="object_name">{{value}}</a>
+    <span *ngIf="row.objectType == 'user'" class="object_name">{{value}}</span>
+    <a class="hidd list--option--btn" (click)="sidenav.open();currentGroup=row;$event.stopPropagation()" title="{{ 'HOME_FILEBASE_VIEW_PROPERTIES' | translate}}"><span class="fa fa-info-circle"></span></a>
+    <a *ngIf="row.objectType == 'role'" class="hidd list--option--btn" (click)="removeRole(row);$event.stopPropagation()" title="{{ 'CORE_COMPONENT_MULJURISDICTION_DELETE' | translate}}"><span class="fa fa-times"></span></a>
+  </div>
+</ng-template>
+<ng-template #operaHeadTmpl ngx-datatable-header-template let-column="column" >
+  <span >{{column.name}}</span>
+</ng-template>
+<ng-template #configGridHeadTmpl let-value="value" let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
+  <button md-button  [mdMenuTriggerFor]="gridOperation" class="fa fa-bars"></button>
+  <md-menu #gridOperation="mdMenu">
+    <ul class="custom--column--configuration--box">
+      <li class="single--custom"  *ngFor='let col of allColumns; let i = index'>
+        <div class="checkbox">
+          <input
+            *ngIf="col.name"
+            type='checkbox'
+            class="input_check"
+            [id]="col.name"
+            (click)='toggle(col,i);$event.stopPropagation()'
+            [checked]='isChecked(col)'
+          />
+          <label for="{{col.name}}"></label>
+        </div>
+        <label  *ngIf="col.name" [attr.for]="col.name" (click)='$event.stopPropagation()'>{{col.name | translate}}</label>
+      </li>
+    </ul>
+  </md-menu>
+</ng-template>
+<ng-template #configGridTmpl  let-row="row" let-value="value"></ng-template>
+<template #translateHeaderTmpl let-sort="sortFn" let-column="column" ngx-datatable-header-template>
+    <span class="datatable-header-cell-wrapper">
+      <span *ngIf="ids.length == 0" class="datatable-header-cell-label draggable" (click)="sort()">{{column.name | translate}}</span>
+      <span *ngIf="ids.length != 0" class="datatable-header-cell-label draggable" >{{column.name | translate}}</span>
+    </span>
+</template>
+

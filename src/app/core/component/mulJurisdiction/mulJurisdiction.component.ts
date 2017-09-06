@@ -1,12 +1,12 @@
 import { Component,OnInit,Input,OnChanges,SimpleChange,Output,EventEmitter,ViewChild,ElementRef,AfterViewInit } from '@angular/core';
-import { GroupService } from '../../../home/userManage/group/group.service'
+import { GroupService } from '@groupModule/group.service'
 import { FormControl } from '@angular/forms';
 import {Observable}  from 'rxjs/Observable';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/throttleTime';
-import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/fromEvent'; 
 import 'rxjs/add/operator/distinctUntilChanged';
-import {UserService} from "../../../home/userManage/user/user.service";
+import {UserService} from "@userModule/user.service";
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
@@ -50,50 +50,40 @@ export class MultiJurisdictionComponent implements OnInit,OnChanges,AfterViewIni
   }
   searchList(keyword?){
     let params = {pageSize : 50,currentPage : this.currentPage,docbase : this.docbase,keywords : keyword,objectType:this.objectType}
-    this._groupService.getUserAndGroupList(params,this.docbase).subscribe(
+    this._groupService.getUserAndGroupList(params,this.docbase).then(
       data => {
-        let info = data.json();
-        if (info.code == 1) {
-          this.rows = info.data.userGroupList;
-          this.totalElement = info.data.pageInfo.totalCount;
-          this.selectedList.forEach((row)=>{
-            if (row.objectId) {
-              let selectedItem = this.rows.find((item)=>{
-                return item['objectId'] == row.objectId
-              });
-              if (selectedItem){
-                selectedItem['isChecked'] = true
-              }
+        this.rows = data.userGroupList;
+        this.totalElement = data.pageInfo.totalCount;
+        this.selectedList.forEach((row)=>{
+          if (row.objectId) {
+            let selectedItem = this.rows.find((item)=>{
+              return item['objectId'] == row.objectId
+            });
+            if (selectedItem){
+              selectedItem['isChecked'] = true
             }
-          })
-          this.ids = []
-          this.breadCrumbLists = []
-        }else{
-          this.toastr.error(info.message)
-        }
+          }
+        })
+        this.ids = []
+        this.breadCrumbLists = []
       }
     );
   }
   searchGroupChild(list){
-    this._groupService.searchGroupChild(this.docbase,list.objectId).subscribe(
+    this._groupService.searchGroupChild(this.docbase,list.objectId).then(
       data => {
-        let info = data.json();
-        if (info.code == 1) {
-          this.currentPage = 1;
-          this.rows = info.data.userList.concat(info.data.groupList);
-          this.selectedList.forEach((row)=>{
-            if (row.objectId) {
-              let selectedItem = this.rows.find((item)=>{
-                return item['objectId'] == row.objectId
-              });
-              if (selectedItem){
-                selectedItem['isChecked'] = true
-              }
+        this.currentPage = 1;
+        this.rows = data.userList.concat(data.groupList);
+        this.selectedList.forEach((row)=>{
+          if (row.objectId) {
+            let selectedItem = this.rows.find((item)=>{
+              return item['objectId'] == row.objectId
+            });
+            if (selectedItem){
+              selectedItem['isChecked'] = true
             }
-          })
-        }else{
-          this.toastr.error(info.message)
-        }
+          }
+        })
       }
     );
   }

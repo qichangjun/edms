@@ -1,104 +1,215 @@
-<form name="form" (ngSubmit)="f.form.valid && setMulPro()" #f="ngForm" novalidate class="new--folder--modal">
+<form name="form" (ngSubmit)="f.form.valid && setMulPro()" #f="ngForm" novalidate class="new--folder--modal sel--mul--property--modal--wrap">
   <h2 md-dialog-title>批量修改属性</h2>
   <md-dialog-content  class="new--folder--dialog--content">
     <md-tab-group [(selectedIndex)]="selectedIndex" (selectedIndexChange)="selectedIndexChange()" md-dynamic-height md-border-bottom class="sidebar--info--content--box">
       <md-tab  *ngFor="let type of typeLists" label="{{type.displayName}}">
-        <div class="new--folder--modal--attr--wrap">
+        <div class="new--folder--modal--attr--wrap ">
           <div  *ngFor="let attr of attrList[type.typeName];let i = index">
-            <div *ngIf="!attr.isMore" class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !attr.attrName.valid && attr.required }">
-              <div class="attr--checked--box">
+            <div *ngIf="!attr.isMore" class="form-group new--folder--modal--attr--box" >
+              <div class="attr--checked--box" >
                 <md-checkbox name="{{type.typeName}}{{attr.attrName}}checkbox" *ngIf="!attr.readOnly"  class="example-margin" [(ngModel)]="attr.isChecked"></md-checkbox>
               </div>
-              <label class="attr--name" for="{{type.typeName}}{{attr.attrName}}">{{attr.displayName}}：</label>
+              <label class="attr--name" for="{{type.typeName}}{{attr.attrName}}"><span class="title">{{attr.displayName}}</span>：</label>
               <div style="position: relative;display:inline-block;">
-                <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
-                  <input id="{{type.typeName}}{{attr.attrName}}" [disabled]="!attr.isChecked"  type="text" class="form-control attr--value" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required" />
+                <div *ngIf="attr.inputMode == 1 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                  <input id="{{type.typeName}}{{attr.attrName}}" [disabled]="!attr.isChecked" type="text" class="form-control attr--value"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked" />
                 </div>
                 <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
-                  <md-input-container  id="{{type.typeName}}{{attr.attrName}}"  class="attr--value date--input--box">
-                    <input [disabled]="!attr.isChecked" mdInput [mdDatepicker]="startPicker"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required">
-                    <button [disabled]="!attr.isChecked" mdSuffix [mdDatepickerToggle]="startPicker"></button>
+                  <md-input-container  id="{{type.typeName}}{{attr.attrName}}"  class="attr--value date--input--box" [ngClass]="{'input-required':attr.required}">
+                    <input [disabled]="!attr.isChecked" mdInput [mdDatepicker]="startPicker"  name="{{type.typeName}}{{attr.attrName}}"  [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <md-datepicker-toggle *ngIf="attr.isChecked" mdSuffix [for]="startPicker"></md-datepicker-toggle>
                   </md-input-container>
-                  <md-datepicker #startPicker></md-datepicker>
+                  <md-datepicker #startPicker ></md-datepicker>
                 </div>
                 <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
                   <md-radio-group id="{{type.typeName}}{{attr.attrName}}" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue">
-                    <md-radio-button [disabled]="!attr.isChecked" value="true">是</md-radio-button>
-                    <md-radio-button [disabled]="!attr.isChecked" value="false" >否</md-radio-button>
+                    <md-radio-button [disabled]="!attr.isChecked" value="true">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+                    <md-radio-button [disabled]="!attr.isChecked" value="false" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
                   </md-radio-group>
                 </div>
-                <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
-                  <md-select [disabled]="!attr.isChecked" id="{{type.typeName}}{{attr.attrName}}" class="attr--value select--input--box"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required" >
+                <div  *ngIf="attr.inputMode == 4 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                  <md-select [disabled]="!attr.isChecked" id="{{type.typeName}}{{attr.attrName}}" class="attr--value select--input--box"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked" >
                     <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
                       {{selectValue.name}}
                     </md-option>
                   </md-select>
                 </div>
-                <div *ngIf="attr.inputMode == 5 && !attr.readOnly" class="attr--value">
-                  <a *ngIf="attr.isChecked" (click)="editMultiple(attr)">编辑</a>
-                  <span>{{attr.attrValue}}</span>
+
+
+                <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                  <input  style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                  <a *ngIf="attr.isChecked" (click)="editMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                  <span *ngFor="let value of attr.attrValues">
+                    {{value}}
+                  </span>
                 </div>
-                <div  messageVerify [elementName]="type.typeName + attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                <div *ngIf="attr.inputMode == 6 && !attr.readOnly">
+                  <input style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="inputMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 7 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                  <a  *ngIf="attr.isChecked" (click)="selectUser(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                  <span >
+                    {{attr.attrValue}}
+                  </span>
+                </div>
+                <div *ngIf="attr.inputMode == 8 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="selectUsers(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 9 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a *ngIf="attr.isChecked" (click)="cascadeSelectSingle(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span>
+                        {{attr.attrValue}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 10 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="cascadeSelectMul(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+
+                <div  messageVerify [elementName]="type.typeName + attr.attrName" 
+                  *ngIf="
+                  f.submitted && !attr.readOnly  && !attr.attrValue && 
+                  attr.required && attr.isChecked &&
+                  (attr.inputMode == 1 || attr.inputMode == 2 || attr.inputMode == 3 || attr.inputMode == 4 || attr.inputMode == 7 || attr.inputMode == 9)" 
+                  class="FormMessage-container">
                   <div class="form-messages">
                     <div class="msg-tri-outside"></div>
                     <div class="msg-tri-inside"></div>
                     <div  class="form-messages__icon fa fa-exclamation-circle">
-                      <div >{{attr.displayName}}不能为空</div>
+                      <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
                     </div>
                   </div>
                 </div>
+                <div  messageVerify [elementName]="type.typeName + attr.attrName" 
+                  *ngIf="f.submitted && attr.isChecked && !attr.readOnly  && attr.attrValues.length == 0 && attr.required && (attr.inputMode == 5 || attr.inputMode == 6 || attr.inputMode == 8 || attr.inputMode == 10)" class="FormMessage-container">
+                  <div class="form-messages">
+                    <div class="msg-tri-outside"></div>
+                    <div class="msg-tri-inside"></div>
+                    <div  class="form-messages__icon fa fa-exclamation-circle">
+                      <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                    </div>
+                  </div>
+                </div>                
               </div>
             </div>
           </div>
           <div class="new--folder--modal--attr--box" *ngIf="showMoreAttr[type.typeName] == false "(click)="showMore(type.typeName)" >
-            <span class="more set--mul--property--more">显示更多</span>
+            <span class="more set--mul--property--more">{{ 'HOME_FILEBASE_FILEINFO_SHOW_MORE' | translate}}</span>
           </div>
           <div class="new--folder--modal--attr--box" *ngIf="showMoreAttr[type.typeName] == true" (click)="showMoreAttr[type.typeName] = false">
-            <span class="hide--content set--mul--property--more">隐藏更多</span>
+            <span class="hide--content set--mul--property--more">{{ 'HOME_FILEBASE_FILEINFO_HIDE_MORE' | translate}}</span>
           </div>
           <div [hidden]="!showMoreAttr[type.typeName]" *ngFor="let attr of attrList[type.typeName];let i = index">
-            <div *ngIf="attr.isMore" class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !attr.attrName.valid && attr.required }">
-              <div class="attr--checked--box">
-                <md-checkbox name="{{type.typeName}}{{attr.attrName}}checkbox" *ngIf="!attr.readOnly"  class="example-margin" [(ngModel)]="attr.isChecked"></md-checkbox>
+            <div *ngIf="attr.isMore" class="form-group new--folder--modal--attr--box">
+              <div class="attr--checked--box"  >
+                <md-checkbox name="isMore{{type.typeName}}{{attr.attrName}}checkbox" *ngIf="!attr.readOnly" class="example-margin" [(ngModel)]="attr.isChecked"></md-checkbox>
               </div>
-              <label class="attr--name" for="{{type.typeName}}{{attr.attrName}}">{{attr.displayName}}：</label>
+              <label class="attr--name" for="isMore{{type.typeName}}{{attr.attrName}}"><span class="title">{{attr.displayName}}</span>：</label>
               <div style="position: relative;display:inline-block;">
-                <div *ngIf="attr.inputMode == 1 && !attr.readOnly">
-                  <input id="{{type.typeName}}{{attr.attrName}}" [disabled]="!attr.isChecked"  type="text" class="form-control attr--value" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required" />
+                <div *ngIf="attr.inputMode == 1 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                  <input id="isMore{{type.typeName}}{{attr.attrName}}" [disabled]="!attr.isChecked"  type="text" class="form-control attr--value"  name="isMore{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #isMore{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked" />
                 </div>
                 <div *ngIf="attr.inputMode == 2 && !attr.readOnly">
-                  <md-input-container  id="{{type.typeName}}{{attr.attrName}}"  class="attr--value date--input--box">
-                    <input [disabled]="!attr.isChecked" mdInput [mdDatepicker]="startPicker"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required">
-                    <button [disabled]="!attr.isChecked" mdSuffix [mdDatepickerToggle]="startPicker"></button>
+                  <md-input-container  id="isMore{{type.typeName}}{{attr.attrName}}"  class="attr--value date--input--box" [ngClass]="{'input-required':attr.required}">
+                    <input [disabled]="!attr.isChecked" mdInput [mdDatepicker]="startPicker"  name="isMore{{type.typeName}}{{attr.attrName}}"  [(ngModel)]="attr.attrValue" #isMore{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <md-datepicker-toggle  *ngIf="attr.isChecked"  mdSuffix [for]="startPicker"></md-datepicker-toggle>
                   </md-input-container>
                   <md-datepicker #startPicker></md-datepicker>
                 </div>
                 <div *ngIf="attr.inputMode == 3 && !attr.readOnly">
-                  <md-radio-group id="{{type.typeName}}{{attr.attrName}}" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue">
-                    <md-radio-button [disabled]="!attr.isChecked" value="true">是</md-radio-button>
-                    <md-radio-button [disabled]="!attr.isChecked" value="false" >否</md-radio-button>
+                  <md-radio-group id="isMore{{type.typeName}}{{attr.attrName}}" name="isMore{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue">
+                    <md-radio-button [disabled]="!attr.isChecked" value="true">{{ 'HOME_FILEBASE_FILEINFO_YES' | translate}}</md-radio-button>
+                    <md-radio-button [disabled]="!attr.isChecked" value="false" >{{ 'HOME_FILEBASE_FILEINFO_NO' | translate}}</md-radio-button>
                   </md-radio-group>
                 </div>
-                <div  *ngIf="attr.inputMode == 4 && !attr.readOnly">
-                  <md-select [disabled]="!attr.isChecked" id="{{type.typeName}}{{attr.attrName}}" class="attr--value select--input--box"  name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required" >
+                <div  *ngIf="attr.inputMode == 4 && !attr.readOnly" [ngClass]="{'input-required':attr.required}">
+                  <md-select [disabled]="!attr.isChecked" id="isMore{{type.typeName}}{{attr.attrName}}" class="attr--value select--input--box"  name="isMore{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValue" #isMore{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked" >
                     <md-option *ngFor="let selectValue of attr.attrOptions" [value]="selectValue.name">
                       {{selectValue.name}}
                     </md-option>
                   </md-select>
                 </div>
-                <div *ngIf="attr.inputMode == 5 && !attr.readOnly" class="attr--value">
-                  <a *ngIf="attr.isChecked" (click)="editMultiple(attr)">编辑</a>
-                  <span>{{attr.attrValue}}</span>
+
+                <div *ngIf="attr.inputMode == 5 && !attr.readOnly">
+                  <input  style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                  <a *ngIf="attr.isChecked" (click)="editMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                  <span *ngFor="let value of attr.attrValues">
+                    {{value}}
+                  </span>
                 </div>
-                <div  messageVerify [elementName]="type.typeName + attr.attrName" *ngIf="f.submitted && !attr.attrValue && attr.required" class="FormMessage-container">
+                <div *ngIf="attr.inputMode == 6 && !attr.readOnly">
+                  <input  style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="inputMultiple(attr)">{{ 'HOME_FILEBASE_FILEINFO_EDIT' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 7 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                  <a  *ngIf="attr.isChecked" (click)="selectUser(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                  <span >
+                    {{attr.attrValue}}
+                  </span>
+                </div>
+                <div *ngIf="attr.inputMode == 8 && !attr.readOnly" class="attr--value">
+                  <input  style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="selectUsers(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 9 && !attr.readOnly" class="attr--value">
+                  <input style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a *ngIf="attr.isChecked" (click)="cascadeSelectSingle(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span>
+                        {{attr.attrValue}}
+                    </span>
+                </div>
+                <div *ngIf="attr.inputMode == 10 && !attr.readOnly" class="attr--value">
+                  <input style="display:none" id="isMore{{type.typeName}}{{attr.attrName}}" type="text" name="{{type.typeName}}{{attr.attrName}}" [(ngModel)]="attr.attrValues" #{{type.typeName}}{{attr.attrName}}="ngModel" [required]="attr.required&&attr.isChecked">
+                    <a  *ngIf="attr.isChecked" (click)="cascadeSelectMul(attr)">{{ 'HOME_FILEBASE_FILEINFO_CHOOSE' | translate}}</a>
+                    <span *ngFor="let value of attr.attrValues">
+                      {{value}}
+                    </span>
+                </div>
+
+                <div  messageVerify [elementName]="'isMore' + type.typeName + attr.attrName" 
+                  *ngIf="
+                  f.submitted && !attr.readOnly  && !attr.attrValue && 
+                  attr.required && attr.isChecked &&
+                  (attr.inputMode == 1 || attr.inputMode == 2 || attr.inputMode == 3 || attr.inputMode == 4 || attr.inputMode == 7 || attr.inputMode == 9)" 
+                  class="FormMessage-container">
                   <div class="form-messages">
                     <div class="msg-tri-outside"></div>
                     <div class="msg-tri-inside"></div>
                     <div  class="form-messages__icon fa fa-exclamation-circle">
-                      <div >{{attr.displayName}}不能为空</div>
+                      <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
                     </div>
                   </div>
                 </div>
+                <div  messageVerify [elementName]="'isMore' + type.typeName + attr.attrName" 
+                  *ngIf="f.submitted && attr.isChecked && !attr.readOnly  && attr.attrValues.length == 0 && attr.required && (attr.inputMode == 5 || attr.inputMode == 6 || attr.inputMode == 8 || attr.inputMode == 10)" class="FormMessage-container">
+                  <div class="form-messages">
+                    <div class="msg-tri-outside"></div>
+                    <div class="msg-tri-inside"></div>
+                    <div  class="form-messages__icon fa fa-exclamation-circle">
+                      <div >{{attr.displayName}}{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
+                    </div>
+                  </div>
+                </div>                   
               </div>
             </div>
           </div>
@@ -109,7 +220,7 @@
     <loading-message *ngIf="loading" ></loading-message>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </form>

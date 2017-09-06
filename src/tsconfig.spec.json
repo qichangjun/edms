@@ -8,7 +8,15 @@
     "types": [
       "jasmine",
       "node"
-    ]
+    ],
+    "paths": {
+      "@commonService/*":["app/services/*"],
+      "@coreModule/*" : ["app/core/*"],
+      "@fileBaseModule/*" : ["app/home/fileBase/*"],
+      "@userModule/*" : ["app/home/userManage/user/*"],
+      "@groupModule/*" : ["app/home/userManage/group/*"],
+      "@roleModule/*" : ["app/home/userManage/role/*"]
+    }
   },
   "files": [
     "test.ts"

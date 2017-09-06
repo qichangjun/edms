@@ -35,16 +35,13 @@ export class newFileCabinetDialog implements OnInit{
   }
   newFileCabinet(){
     this.loading = true;
-    this.fileBaseService.newFileCabinet(this.entity,this.attrLists).subscribe(
+    this.fileBaseService.newFileCabinet(this.entity,this.attrLists).then(
       data => {
         this.loading = false;
-        let info = data.json();
-        if (info.code==1) {
-          this.dialogRef.close(true);
-          this.toastr.success(info.message);
-        }else {
-          this.toastr.error(info.message);
-        }
+        this.dialogRef.close(true);        
+      },
+      error => {
+        this.loading = false;
       }
     );
   }
@@ -62,21 +59,16 @@ export class newFileCabinetDialog implements OnInit{
     }
   }
   checkAttrList(option){
-    this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).subscribe(
+    this.fileBaseService.checkAttrList(this.entity,this.data.docbase,option).then(
       data => {
-        let info = data.json();
-        if (info.code==1) {
-          if (option == 1){
-            this.attrLists = info.data
-          }else {
-            this.firstInitMoreInfo = true
-            info.data.forEach((c)=>{
-              c['isMore'] = true
-            })
-            this.attrLists = this.attrLists.concat(info.data)
-          }
+        if (option == 1){
+          this.attrLists = data
         }else {
-          this.toastr.error(info.message);
+          this.firstInitMoreInfo = true
+          data.forEach((c)=>{
+            c['isMore'] = true
+          })
+          this.attrLists = this.attrLists.concat(data)
         }
       }
     );

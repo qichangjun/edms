@@ -55,7 +55,7 @@
               </button>
               <button type="button" class="btn btn-warning btn-xs"
                       (click)="file.cancel()" [disabled]="!file.isUploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> 取消
+                <span class="glyphicon glyphicon-ban-circle"></span> {{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}
               </button>
               <button type="button" class="btn btn-danger btn-xs"
                       (click)="file.remove()">
@@ -85,7 +85,7 @@
               </button>
               <button type="button" class="btn btn-warning btn-xs"
                       (click)="file.cancel()" [disabled]="!file.isUploading">
-                <span class="glyphicon glyphicon-ban-circle"></span> 取消
+                <span class="glyphicon glyphicon-ban-circle"></span> {{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}
               </button>
               <button type="button" class="btn btn-danger btn-xs"
                       (click)="file.remove()">

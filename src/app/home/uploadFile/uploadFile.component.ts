@@ -1,8 +1,8 @@
 import { Component, HostBinding,AfterViewInit,OnInit } from '@angular/core';
 import { Router,ActivatedRoute }                 from '@angular/router';
-import { EventService } from '../../services/behavior.service'
-import { slidFromBottomAnimation } from '../../core/animations/animations';
-import { ConstantService } from '../../services/constant.service';
+import { EventService } from '@commonService/behavior.service'
+import { slidFromBottomAnimation } from '@coreModule/animations/animations';
+import { ConstantService } from '@commonService/constant.service';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({

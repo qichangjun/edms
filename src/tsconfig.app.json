@@ -4,7 +4,15 @@
     "outDir": "../out-tsc/app",
     "module": "es2015",
     "baseUrl": "",
-    "types": []
+    "types": [],
+    "paths": {
+      "@commonService/*":["app/services/*"],
+      "@coreModule/*" : ["app/core/*"],
+      "@fileBaseModule/*" : ["app/home/fileBase/*"],
+      "@userModule/*" : ["app/home/userManage/user/*"],
+      "@groupModule/*" : ["app/home/userManage/group/*"],
+      "@roleModule/*" : ["app/home/userManage/role/*"]
+    }
   },
   "exclude": [
     "test.ts",

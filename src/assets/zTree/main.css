@@ -538,7 +538,7 @@ ul.ztree.zTreeDragUL {
 .ztree li a.level2 {
   position: relative; }
   .ztree li a.level2 .node_name {
-    width: calc(100% - 50px); }
+    width: calc(100% - 70px); }
 
 .ztree li span.button.archives--management-add--icon-child {
   width: 13px;

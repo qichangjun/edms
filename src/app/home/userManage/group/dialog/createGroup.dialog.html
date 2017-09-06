@@ -6,13 +6,15 @@
       <div style="position: relative;display:inline-block;">
         <input id="groupName" type="text" class="form-control attr--value"
                name="groupName" [(ngModel)]="entity.groupName"
-               #groupName="ngModel" [required]="true" />
+               #groupName="ngModel" [required]="true"
+
+          />
         <div  messageVerify [elementName]="'groupName'" *ngIf="f.submitted && !groupName.value" class="FormMessage-container">
           <div class="form-messages">
             <div class="msg-tri-outside"></div>
             <div class="msg-tri-inside"></div>
             <div  class="form-messages__icon fa fa-exclamation-circle">
-              <div >组名不能为空</div>
+              <div >组名{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
             </div>
           </div>
         </div>
@@ -61,7 +63,7 @@
     </div>
   </md-dialog-content>
   <md-dialog-actions>
-    <button md-button [disabled]="loading" class="btn btn-sure">确定</button>
-    <button md-button md-dialog-close >取消</button>
+    <button md-button [disabled]="loading" class="btn btn-sure">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
+    <button md-button md-dialog-close >{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
   </md-dialog-actions>
 </form>

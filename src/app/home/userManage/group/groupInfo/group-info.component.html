@@ -37,10 +37,10 @@
   <div class="groupinfo--right--sidebar--info--content" *ngIf="editStatus">
     <form name="form" (ngSubmit)="f.form.valid && updateGroup()" #f="ngForm" novalidate>
       <div class="attr--type--box">
-        <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !groupName.valid && groupName.required }">
-          <label class="attr--name">组名：</label>
+        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !groupName.valid && groupName.required }">
+          <label class="title">组名：</label>
           <div style="position: relative;display:inline-block;">
-            <input id="groupName" type="text" class="form-control attr--value"
+            <input id="groupName" type="text" class="form-control input--value"
                    name="groupName" [(ngModel)]="entity.groupName"
                    #groupName="ngModel" [required]="true" />
             <div  messageVerify [elementName]="'groupName'" *ngIf="f.submitted && !groupName.value" class="FormMessage-container">
@@ -48,33 +48,33 @@
                 <div class="msg-tri-outside"></div>
                 <div class="msg-tri-inside"></div>
                 <div  class="form-messages__icon fa fa-exclamation-circle">
-                  <div >组名不能为空</div>
+                  <div >组名{{ 'HOME_FILEBASE_FILEINFO_CAN_NOT_BE_EMPTY' | translate}}</div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="form-group new--folder--modal--attr--box">
-          <label class="attr--name">邮箱：</label>
+        <div class="form-group single--attr--row">
+          <label class="title">邮箱：</label>
           <div style="position: relative;display:inline-block;">
-            <input id="email" type="email" class="form-control attr--value"
+            <input id="email" type="email" class="form-control input--value"
                    name="email" [(ngModel)]="entity.email"
                    #email="ngModel" />
           </div>
         </div>
-        <div class="form-group new--folder--modal--attr--box" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
-          <label class="attr--name vertical--align--top">描述：</label>
+        <div class="form-group single--attr--row" [ngClass]="{ 'has-error': f.submitted && !description.valid }">
+          <label class="title vertical--align--top">描述：</label>
           <div style="position: relative;display:inline-block;">
-        <textarea id="description" type="text" class="form-control attr--value"
+        <textarea id="description" type="text" class="form-control input--value"
                   name="description" [(ngModel)]="entity.description"
                   #description="ngModel" >
         </textarea>
           </div>
         </div>
-        <div class="form-group new--folder--modal--attr--box">
-          <label class="attr--name">拥有者：</label>
+        <div class="form-group single--attr--row">
+          <label class="title">拥有者：</label>
           <div style="position: relative;display:inline-block;">
-            <div class="attr--value">
+            <div class="input--value">
               <a  (click)="selectUser('owner')">选择</a>
           <span>
             {{entity.owner}}
@@ -82,10 +82,10 @@
             </div>
           </div>
         </div>
-        <div class="form-group new--folder--modal--attr--box">
-          <label class="attr--name">组管理员：</label>
+        <div class="form-group single--attr--row">
+          <label class="title">组管理员：</label>
           <div style="position: relative;display:inline-block;">
-            <div class="attr--value">
+            <div class="input--value">
               <a  (click)="selectUser('groupAdmin')">选择</a>
           <span>
             {{entity.groupAdmin}}
@@ -96,8 +96,8 @@
       </div>
 
       <div class="option--btn--box">
-        <button md-button (click)="editStatus = false" [disabled]="loading" class="btn btn-default two--btn">取消</button>
-        <button md-button  [disabled]="loading" class="btn btn-sure two--btn">确定</button>
+        <button md-button (click)="editStatus = false" [disabled]="loading" class="btn btn-default two--btn">{{ 'HOME_FILEBASE_FILEINFO_CANCEL' | translate}}</button>
+        <button md-button  [disabled]="loading" class="btn btn-sure two--btn">{{ 'HOME_FILEBASE_FILEINFO_OK' | translate}}</button>
       </div>
     </form>
   </div>
